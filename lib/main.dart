@@ -79,7 +79,6 @@ class _Lucky28State extends State<Lucky28> with SingleTickerProviderStateMixin {
             total;
         if (newSelected != selected) {
           _player.resume();
-
           setState(() {
             selected = newSelected;
             isRunning = true;
