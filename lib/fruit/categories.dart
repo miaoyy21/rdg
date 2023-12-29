@@ -2,36 +2,53 @@ enum Categories {
   invalid,
   apple,
   orange,
-  lemon,
-  bell,
+  blueberry,
+  grape,
   watermelon,
-  star,
-  seven,
+  salad,
+  hamburger,
   bar,
   lucky
 }
 
 extension FruitCategoryExtension on Categories {
   static final Map<Categories, String> _names = {
+    // 苹果
     Categories.apple: "🍎",
-    Categories.orange: "🍇",
-    Categories.lemon: "🍋",
-    Categories.bell: "🍑",
+
+    // 橘子
+    Categories.orange: "🍊",
+
+    // 橄榄 => 蓝莓
+    Categories.blueberry: "🫐",
+
+    // 铃铛 => 葡萄
+    Categories.grape: "🍇",
+
+    // 西瓜
     Categories.watermelon: "🍉",
-    Categories.star: "🌽",
-    Categories.seven: "🥒",
+
+    // 双星 => 沙拉
+    Categories.salad: "🥗",
+
+    // 双7 => 汉堡
+    Categories.hamburger: "🍔",
+
+    // BAR => 龙王
     Categories.bar: "🐲",
-    Categories.lucky: "🍭"
+
+    // Lucky => 糖果
+    Categories.lucky: "🍬"
   };
 
   static final Map<Categories, int> _rates = {
     Categories.apple: 5,
     Categories.orange: 10,
-    Categories.lemon: 15,
-    Categories.bell: 20,
+    Categories.blueberry: 15,
+    Categories.grape: 20,
     Categories.watermelon: 25,
-    Categories.star: 30,
-    Categories.seven: 40,
+    Categories.salad: 30,
+    Categories.hamburger: 40,
     Categories.bar: 120,
     Categories.lucky: 0
   };
