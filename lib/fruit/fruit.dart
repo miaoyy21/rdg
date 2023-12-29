@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:rdg/fruit/const.dart';
+import 'package:rdg/fruit/categories.dart';
 
 class FruitPage extends StatelessWidget {
   const FruitPage({super.key});
