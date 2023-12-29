@@ -76,6 +76,9 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   @override
   Widget build(BuildContext context) {
+    final double size = min(
+        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28")),
       body: Center(
@@ -83,8 +86,8 @@ class _Lucky28PageState extends State<Lucky28Page>
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(
-              width: 360,
-              height: 360,
+              width: size - 48,
+              height: size - 48,
               child: CustomPaint(
                 painter: CirclePainter(
                   total: total,

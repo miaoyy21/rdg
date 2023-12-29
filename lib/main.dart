@@ -49,7 +49,7 @@ class AppPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => FruitPage.FruitPage(),
+                    builder: (context) => const FruitPage(),
                   ),
                 );
               },

@@ -1,17 +1,34 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:rdg/fruit/const.dart';
 
 class FruitPage extends StatelessWidget {
-  const FruitPage.FruitPage({super.key});
+  const FruitPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final double size = min(
+        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('水果机'),
         ),
-        body: const Center(
-          child: FruitGrid(),
+        body: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                width: size,
+                height: size,
+                child: const FruitGrid(),
+              ),
+              const SizedBox(height: 32),
+              const SizedBox(height: 32),
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
     );
@@ -21,46 +38,60 @@ class FruitPage extends StatelessWidget {
 class FruitGrid extends StatelessWidget {
   const FruitGrid({super.key});
 
-  // final List<int,>
-  bool isSkip(int index) {
-    if ((index >= 8 && index <= 12) ||
-        (index >= 15 && index <= 19) ||
-        (index >= 22 && index <= 26) ||
-        (index >= 29 && index <= 33) ||
-        (index >= 36 && index <= 40)) {
-      return true;
-    }
-
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7,
-        mainAxisSpacing: 2.0,
-        crossAxisSpacing: 2.0,
+        mainAxisSpacing: 4.0,
+        crossAxisSpacing: 4.0,
       ),
       itemBuilder: (BuildContext context, int index) {
-        if (isSkip(index)) {
-          return Container(
-            color: Colors.transparent,
-          );
-        } else {
-          return Container(
-            color: Colors.blue,
-            child: Center(
-              child: Text(
-                '${index}',
-                style: TextStyle(color: Colors.white, fontSize: 20.0),
-              ),
-            ),
-          );
+        final fruit = fruits.firstWhere(
+          (ele) => ele.index == index,
+          orElse: () => Fruit.invalid(),
+        );
+
+        if (!fruit.isValid) {
+          return Container(color: Colors.transparent);
         }
+
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: Colors.black,
+            ),
+          ),
+          child: Center(
+            child: fruit.isLarge || fruit.rate <= 0
+                ? Text(
+                    fruit.name,
+                    style: TextStyle(fontSize: fruit.isLarge ? 36 : 24),
+                  )
+                : Column(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          fruit.name,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ),
+                      Text(
+                        "×${fruit.rate}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      )
+                    ],
+                  ),
+          ),
+        );
       },
       itemCount: 49,
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(8),
     );
   }
 }
