@@ -11,24 +11,22 @@ class FruitPage extends StatelessWidget {
     final double size = min(
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('水果机'),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                width: size,
-                height: size,
-                child: const FruitGrid(),
-              ),
-              const SizedBox(height: 32),
-              const SizedBox(height: 32),
-              const SizedBox(height: 32),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('水果机'),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              width: size,
+              height: size,
+              child: const FruitGrid(),
+            ),
+            const SizedBox(height: 32),
+            const SizedBox(height: 32),
+            const SizedBox(height: 32),
+          ],
         ),
       ),
     );

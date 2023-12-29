@@ -7,8 +7,8 @@ enum Categories {
   watermelon,
   salad,
   hamburger,
-  bar,
-  lucky
+  king,
+  candy
 }
 
 extension FruitCategoryExtension on Categories {
@@ -35,10 +35,10 @@ extension FruitCategoryExtension on Categories {
     Categories.hamburger: "🍔",
 
     // BAR => 龙王
-    Categories.bar: "🐲",
+    Categories.king: "🐲",
 
     // Lucky => 糖果
-    Categories.lucky: "🍬"
+    Categories.candy: "🍬"
   };
 
   static final Map<Categories, int> _rates = {
@@ -49,8 +49,8 @@ extension FruitCategoryExtension on Categories {
     Categories.watermelon: 25,
     Categories.salad: 30,
     Categories.hamburger: 40,
-    Categories.bar: 120,
-    Categories.lucky: 0
+    Categories.king: 120,
+    Categories.candy: 0
   };
 
   String get name => _names[this]!;

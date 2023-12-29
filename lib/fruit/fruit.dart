@@ -12,9 +12,9 @@ class Fruit {
       : name = category.name,
         rate = isLarge
             ? category.rate
-            : category == Categories.bar
+            : category == Categories.king
                 ? 50
-                : category != Categories.lucky
+                : category != Categories.candy
                     ? 3
                     : 0;
 
@@ -32,8 +32,8 @@ List<Fruit> fruits = [
   // 第1行
   Fruit(index: 0, category: Categories.orange, isLarge: true),
   Fruit(index: 1, category: Categories.grape, isLarge: true),
-  Fruit(index: 2, category: Categories.bar, isLarge: false),
-  Fruit(index: 3, category: Categories.bar, isLarge: true),
+  Fruit(index: 2, category: Categories.king, isLarge: false),
+  Fruit(index: 3, category: Categories.king, isLarge: true),
   Fruit(index: 4, category: Categories.apple, isLarge: true),
   Fruit(index: 5, category: Categories.apple, isLarge: false),
   Fruit(index: 6, category: Categories.blueberry, isLarge: true),
@@ -47,8 +47,8 @@ List<Fruit> fruits = [
   Fruit(index: 20, category: Categories.watermelon, isLarge: false),
 
   // 第4行
-  Fruit(index: 21, category: Categories.lucky, isLarge: true),
-  Fruit(index: 27, category: Categories.lucky, isLarge: false),
+  Fruit(index: 21, category: Categories.candy, isLarge: true),
+  Fruit(index: 27, category: Categories.candy, isLarge: false),
 
   // 第5行
   Fruit(index: 28, category: Categories.salad, isLarge: true),
