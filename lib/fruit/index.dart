@@ -59,6 +59,7 @@ class FruitGrid extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(
               color: Colors.black,
+              width: 2,
             ),
           ),
           child: Center(
