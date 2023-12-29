@@ -3,14 +3,15 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
-class Lucky28 extends StatefulWidget {
-  const Lucky28({super.key});
+class Lucky28Page extends StatefulWidget {
+  const Lucky28Page({super.key});
 
   @override
-  _Lucky28State createState() => _Lucky28State();
+  _Lucky28PageState createState() => _Lucky28PageState();
 }
 
-class _Lucky28State extends State<Lucky28> with SingleTickerProviderStateMixin {
+class _Lucky28PageState extends State<Lucky28Page>
+    with SingleTickerProviderStateMixin {
   int result = -1; // 目标随机数字
   int selected = -1; // 转轮选中数字
   bool isRunning = false; // 转轮正在转动中

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rdg/lucky28/lucky28.dart';
+
+import 'fruit/fruit.dart';
+import 'lucky28/lucky28.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,12 +35,26 @@ class AppPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const Lucky28(),
+                    builder: (context) => const Lucky28Page(),
                   ),
                 );
               },
               child: const Text(
                 "幸运28",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            MaterialButton(
+              color: Colors.purple,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FruitPage.FruitPage(),
+                  ),
+                );
+              },
+              child: const Text(
+                "水果机",
                 style: TextStyle(color: Colors.white),
               ),
             ),
