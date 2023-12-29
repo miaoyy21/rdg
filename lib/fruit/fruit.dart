@@ -1,97 +1,70 @@
-import 'dart:math';
+import 'categories.dart';
 
-import 'package:flutter/material.dart';
-import 'package:rdg/fruit/categories.dart';
+class Fruit {
+  final int index;
+  final Categories category;
+  final bool isLarge;
 
-class FruitPage extends StatelessWidget {
-  const FruitPage({super.key});
+  final String name;
+  final int rate;
 
-  @override
-  Widget build(BuildContext context) {
-    final double size = min(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+  Fruit({required this.index, required this.category, required this.isLarge})
+      : name = category.name,
+        rate = isLarge
+            ? category.rate
+            : category == Categories.bar
+                ? 50
+                : category != Categories.lucky
+                    ? 3
+                    : 0;
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('水果机'),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                width: size,
-                height: size,
-                child: const FruitGrid(),
-              ),
-              const SizedBox(height: 32),
-              const SizedBox(height: 32),
-              const SizedBox(height: 32),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  Fruit.invalid()
+      : index = -1,
+        category = Categories.invalid,
+        isLarge = false,
+        name = "🕳️",
+        rate = 0;
+
+  bool get isValid => category != Categories.invalid;
 }
 
-class FruitGrid extends StatelessWidget {
-  const FruitGrid({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 7,
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        final fruit = fruits.firstWhere(
-          (ele) => ele.index == index,
-          orElse: () => Fruit.invalid(),
-        );
+List<Fruit> fruits = [
+  // 第1行
+  Fruit(index: 0, category: Categories.orange, isLarge: true),
+  Fruit(index: 1, category: Categories.bell, isLarge: true),
+  Fruit(index: 2, category: Categories.bar, isLarge: false),
+  Fruit(index: 3, category: Categories.bar, isLarge: true),
+  Fruit(index: 4, category: Categories.apple, isLarge: true),
+  Fruit(index: 5, category: Categories.apple, isLarge: false),
+  Fruit(index: 6, category: Categories.lemon, isLarge: true),
 
-        if (!fruit.isValid) {
-          return Container(color: Colors.transparent);
-        }
+  // 第2行
+  Fruit(index: 7, category: Categories.bell, isLarge: false),
+  Fruit(index: 13, category: Categories.watermelon, isLarge: true),
 
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(
-              color: Colors.black,
-            ),
-          ),
-          child: Center(
-            child: fruit.isLarge || fruit.rate <= 0
-                ? Text(
-                    fruit.name,
-                    style: TextStyle(fontSize: fruit.isLarge ? 36 : 24),
-                  )
-                : Column(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          fruit.name,
-                          style: const TextStyle(fontSize: 24),
-                        ),
-                      ),
-                      Text(
-                        "×${fruit.rate}",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      )
-                    ],
-                  ),
-          ),
-        );
-      },
-      itemCount: 49,
-      padding: const EdgeInsets.all(8),
-    );
-  }
-}
+  // 第3行
+  Fruit(index: 14, category: Categories.apple, isLarge: true),
+  Fruit(index: 20, category: Categories.watermelon, isLarge: false),
+
+  // 第4行
+  Fruit(index: 21, category: Categories.lucky, isLarge: true),
+  Fruit(index: 27, category: Categories.lucky, isLarge: false),
+
+  // 第5行
+  Fruit(index: 28, category: Categories.star, isLarge: true),
+  Fruit(index: 34, category: Categories.apple, isLarge: true),
+
+  // 第6行
+  Fruit(index: 35, category: Categories.star, isLarge: false),
+  Fruit(index: 41, category: Categories.orange, isLarge: false),
+
+  // 第7行
+  Fruit(index: 42, category: Categories.lemon, isLarge: true),
+  Fruit(index: 43, category: Categories.lemon, isLarge: false),
+  Fruit(index: 44, category: Categories.apple, isLarge: true),
+  Fruit(index: 45, category: Categories.seven, isLarge: true),
+  Fruit(index: 46, category: Categories.seven, isLarge: false),
+  Fruit(index: 47, category: Categories.bell, isLarge: true),
+  Fruit(index: 48, category: Categories.orange, isLarge: true),
+];

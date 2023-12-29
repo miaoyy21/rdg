@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'fruit/fruit.dart';
-import 'lucky28/lucky28.dart';
+import 'fruit/index.dart';
+import 'lucky28/index.dart';
 
 void main() {
   runApp(const MyApp());
