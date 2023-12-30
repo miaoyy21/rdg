@@ -46,7 +46,7 @@ class FruitPage extends StatelessWidget {
                 children: [
                   FruitGridView(),
                   Center(
-                    child: Digital(12, fontSize: 24, width: 54, height: 36),
+                    child: Digital(12, fontSize: 36, width: 80, height: 54),
                   ),
                 ],
               ),
@@ -165,7 +165,7 @@ class FruitBetting extends StatelessWidget {
     );
 
     return Material(
-      elevation: 5, // 设置 Material 的阴影
+      elevation: 4, // 设置 Material 的阴影
       child: InkWell(
         overlayColor: MaterialStateProperty.all<Color>(secondary),
         child: Container(
