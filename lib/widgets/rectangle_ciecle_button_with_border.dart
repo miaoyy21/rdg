@@ -59,7 +59,11 @@ class RectangleCircleButtonWithBorder extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(fontSize: fontSize, color: textColor),
+        style: TextStyle(
+          // fontFamily: "WhizKid",
+          fontSize: fontSize,
+          color: textColor,
+        ),
       ),
     );
 

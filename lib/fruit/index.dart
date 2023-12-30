@@ -54,7 +54,7 @@ class FruitPage extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButtonWithBorder(
-                  text: "开始",
+                  text: "Start",
                   border: const CircleBorder(),
                   fontSize: 20,
                   width: 64,
