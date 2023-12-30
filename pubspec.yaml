@@ -94,7 +94,10 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
-#  fonts:
-#    - family: WhizKid
-#      fonts:
-#        - asset: assets/fonts/whizkid.ttf
+  fonts:
+    - family: HYXiaoLiShu
+      fonts:
+        - asset: assets/fonts/HYXiaoLiShu.ttf
+    - family: Digital
+      fonts:
+        - asset: assets/fonts/Digital.otf

@@ -16,7 +16,7 @@ class RectangleCircleButtonWithBorder extends StatelessWidget {
     required this.text,
     this.border = const RoundedRectangleBorder(),
     this.margin = const EdgeInsets.symmetric(horizontal: 4),
-    this.fontSize = 16,
+    this.fontSize = 18,
     this.width,
     this.height,
   });
@@ -60,9 +60,9 @@ class RectangleCircleButtonWithBorder extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          // fontFamily: "WhizKid",
           fontSize: fontSize,
           color: textColor,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

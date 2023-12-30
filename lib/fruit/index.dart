@@ -24,50 +24,66 @@ class FruitPage extends StatelessWidget {
               height: size,
               child: const FruitGrid(),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RectangleCircleButtonWithBorder(
-                  text: "⇦",
-                  onPressed: () {
-                    debugPrint('Button ⇦ Pressed');
-                  },
-                ),
-                RectangleCircleButtonWithBorder(
-                  text: "⇨",
-                  onPressed: () {
-                    debugPrint('Button ⇨ Pressed');
-                  },
-                ),
-                const SizedBox(width: 8),
-                RectangleCircleButtonWithBorder(
-                  text: "大",
-                  onPressed: () {
-                    debugPrint('Button 大 Pressed');
-                  },
-                ),
-                RectangleCircleButtonWithBorder(
-                  text: "小",
-                  onPressed: () {
-                    debugPrint('Button 小 Pressed');
-                  },
-                ),
-                const SizedBox(width: 8),
-                RectangleCircleButtonWithBorder(
-                  text: "Start",
-                  border: const CircleBorder(),
-                  fontSize: 20,
-                  width: 64,
-                  height: 64,
-                  onPressed: () {
-                    debugPrint('Button 开始 Pressed');
-                  },
-                ),
-                const SizedBox(height: 32),
-                const SizedBox(height: 32),
-                const SizedBox(height: 32),
-              ],
+            SizedBox(
+              height: 64,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  RectangleCircleButtonWithBorder(
+                    text: "⇦",
+                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                    onPressed: () {
+                      debugPrint('Button ⇦ Pressed');
+                    },
+                  ),
+                  RectangleCircleButtonWithBorder(
+                    text: "⇨",
+                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                    onPressed: () {
+                      debugPrint('Button ⇨ Pressed');
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  RectangleCircleButtonWithBorder(
+                    text: "大",
+                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                    onPressed: () {
+                      debugPrint('Button 大 Pressed');
+                    },
+                  ),
+                  RectangleCircleButtonWithBorder(
+                    text: "小",
+                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                    onPressed: () {
+                      debugPrint('Button 小 Pressed');
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  RectangleCircleButtonWithBorder(
+                    text: "开始",
+                    border: const CircleBorder(),
+                    fontSize: 24,
+                    width: 64,
+                    height: 64,
+                    onPressed: () {
+                      debugPrint('Button 开始 Pressed');
+                    },
+                  ),
+                ],
+              ),
             ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: List.generate(
+            //     8,
+            //     (index) => RectangleCircleButtonWithBorder(
+            //       text: "大",
+            //       onPressed: () {
+            //         debugPrint('Button 大 Pressed');
+            //       },
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
