@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class RoundedRectangleButtonWithBorder extends StatelessWidget {
+@immutable
+class RectangleCircleButtonWithBorder extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final OutlinedBorder border;
-  final double horizontal;
+  final EdgeInsetsGeometry margin;
   final double fontSize;
   double? width;
   double? height;
 
-  RoundedRectangleButtonWithBorder({
+  RectangleCircleButtonWithBorder({
     super.key,
     required this.onPressed,
     required this.text,
     this.border = const RoundedRectangleBorder(),
-    this.horizontal = 4,
+    this.margin = const EdgeInsets.symmetric(horizontal: 4),
     this.fontSize = 16,
     this.width,
     this.height,
@@ -58,7 +59,7 @@ class RoundedRectangleButtonWithBorder extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      margin: EdgeInsets.symmetric(horizontal: horizontal),
+      margin: margin,
       child: button,
     );
   }

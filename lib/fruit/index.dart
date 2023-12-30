@@ -27,65 +27,42 @@ class FruitPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RoundedRectangleButtonWithBorder(
+                RectangleCircleButtonWithBorder(
                   text: "⇦",
                   onPressed: () {
                     debugPrint('Button ⇦ Pressed');
                   },
                 ),
-                RoundedRectangleButtonWithBorder(
+                RectangleCircleButtonWithBorder(
                   text: "⇨",
                   onPressed: () {
                     debugPrint('Button ⇨ Pressed');
                   },
                 ),
                 const SizedBox(width: 8),
-                RoundedRectangleButtonWithBorder(
+                RectangleCircleButtonWithBorder(
                   text: "大",
                   onPressed: () {
                     debugPrint('Button 大 Pressed');
                   },
                 ),
-                RoundedRectangleButtonWithBorder(
+                RectangleCircleButtonWithBorder(
                   text: "小",
                   onPressed: () {
                     debugPrint('Button 小 Pressed');
                   },
                 ),
                 const SizedBox(width: 8),
-                RoundedRectangleButtonWithBorder(
+                RectangleCircleButtonWithBorder(
                   text: "开始",
                   border: const CircleBorder(),
-                  fontSize: 22,
+                  fontSize: 20,
                   width: 64,
                   height: 64,
                   onPressed: () {
                     debugPrint('Button 开始 Pressed');
                   },
                 ),
-                // InkWell(
-                //   onTap: () {
-                //     print('Button tapped');
-                //   },
-                //   child: Container(
-                //     width: 64,
-                //     height: 64,
-                //     decoration: const BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: Colors.red,
-                //     ),
-                //     child: const Center(
-                //       child: Text(
-                //         "开始",
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(height: 32),
                 const SizedBox(height: 32),
                 const SizedBox(height: 32),
