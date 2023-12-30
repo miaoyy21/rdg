@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rdg/fruit/categories.dart';
 import 'package:rdg/fruit/fruit.dart';
+import 'package:rdg/widgets/digital.dart';
 import 'package:rdg/widgets/index.dart';
 
 class FruitPage extends StatelessWidget {
@@ -14,6 +14,9 @@ class FruitPage extends StatelessWidget {
     final double size = min(
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
 
+    int win = 890;
+    int total = 12345678901234567;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('水果机'),
@@ -21,46 +24,63 @@ class FruitPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  children: [
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 96),
+                      child: Digital(win, fontSize: 24),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 96),
+                      child: Digital(total, fontSize: 24),
+                    ),
+                  ],
+                )),
             SizedBox(
               width: size,
               height: size,
-              child: Stack(
+              child: const Stack(
                 children: [
-                  const GridFruit(),
-                  Center(child: Text("sss")),
+                  FruitGridView(),
+                  Center(
+                    child: Digital(12, fontSize: 24, width: 54, height: 36),
+                  ),
                 ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RectangleCircleButtonWithBorder(
+                RectangleCircleButton(
                   text: "⇦",
                   onPressed: () {
                     debugPrint('Button ⇦ Pressed');
                   },
                 ),
-                RectangleCircleButtonWithBorder(
+                RectangleCircleButton(
                   text: "⇨",
                   onPressed: () {
                     debugPrint('Button ⇨ Pressed');
                   },
                 ),
                 const SizedBox(width: 8),
-                RectangleCircleButtonWithBorder(
+                RectangleCircleButton(
                   text: "大",
                   onPressed: () {
                     debugPrint('Button 大 Pressed');
                   },
                 ),
-                RectangleCircleButtonWithBorder(
+                RectangleCircleButton(
                   text: "小",
                   onPressed: () {
                     debugPrint('Button 小 Pressed');
                   },
                 ),
                 const SizedBox(width: 8),
-                RectangleCircleButtonWithBorder(
+                RectangleCircleButton(
                   text: "开始",
                   border: const CircleBorder(),
                   fontSize: 24,
@@ -80,9 +100,9 @@ class FruitPage extends StatelessWidget {
                   final width = (size - 10 * 4) / 8;
                   return Column(
                     children: [
-                      QtyFruit(width, 12),
+                      Digital(category.rate - 3, width: width),
                       const SizedBox(height: 4),
-                      ClickFruit(width, category),
+                      FruitBetting(category, width),
                     ],
                   );
                 },
@@ -95,8 +115,8 @@ class FruitPage extends StatelessWidget {
   }
 }
 
-class GridFruit extends StatelessWidget {
-  const GridFruit({super.key});
+class FruitGridView extends StatelessWidget {
+  const FruitGridView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +126,7 @@ class GridFruit extends StatelessWidget {
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
-      itemBuilder: (BuildContext context, int index) => FruitWidget(
+      itemBuilder: (BuildContext context, int index) => FruitGridViewItem(
         fruits.firstWhere(
           (ele) => ele.index == index,
           orElse: () => Fruit.invalid(),
@@ -118,43 +138,11 @@ class GridFruit extends StatelessWidget {
   }
 }
 
-class QtyFruit extends StatelessWidget {
-  final double width;
-  final int qty;
-
-  const QtyFruit(this.width, this.qty, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final secondary = Theme.of(context).secondaryHeaderColor;
-
-    return Container(
-      width: width,
-      decoration: BoxDecoration(
-        color: secondary,
-        borderRadius: BorderRadius.circular(4.0),
-        border: Border.all(
-          color: Colors.black,
-        ),
-      ),
-      child: Center(
-        child: Text(
-          "$qty",
-          style: const TextStyle(
-            fontFamily: "Digital",
-            fontSize: 20,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ClickFruit extends StatelessWidget {
-  final double width;
+class FruitBetting extends StatelessWidget {
   final Categories category;
+  final double width;
 
-  const ClickFruit(this.width, this.category, {super.key});
+  const FruitBetting(this.category, this.width, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -186,10 +174,7 @@ class ClickFruit extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 2),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4.0),
-            border: Border.all(
-              color: Colors.black,
-              width: 2,
-            ),
+            border: Border.all(color: Colors.black),
           ),
           child: Center(
             child: Column(

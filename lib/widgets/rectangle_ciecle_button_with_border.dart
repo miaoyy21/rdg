@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 @immutable
-class RectangleCircleButtonWithBorder extends StatelessWidget {
-  final VoidCallback onPressed;
-  final String text;
-  final OutlinedBorder border;
-  final EdgeInsetsGeometry margin;
-  final double fontSize;
-  double? width;
-  double? height;
+class RectangleCircleButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final String? text;
+  final OutlinedBorder? border;
+  final EdgeInsetsGeometry? margin;
+  final double? fontSize;
+  final double? width;
+  final double? height;
 
-  RectangleCircleButtonWithBorder({
+  const RectangleCircleButton({
     super.key,
     required this.onPressed,
     required this.text,
@@ -54,11 +54,11 @@ class RectangleCircleButtonWithBorder extends StatelessWidget {
         elevation: MaterialStateProperty.all(8),
         padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
         side: MaterialStateProperty.all<BorderSide>(
-          const BorderSide(color: textColor, width: 2),
+          const BorderSide(color: textColor),
         ),
       ),
       child: Text(
-        text,
+        text!,
         style: TextStyle(
           fontSize: fontSize,
           color: textColor,

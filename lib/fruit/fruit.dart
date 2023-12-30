@@ -70,10 +70,10 @@ List<Fruit> fruits = [
   Fruit(index: 48, category: Categories.orange, isLarge: true),
 ];
 
-class FruitWidget extends StatelessWidget {
+class FruitGridViewItem extends StatelessWidget {
   final Fruit fruit;
 
-  FruitWidget(this.fruit);
+  FruitGridViewItem(this.fruit);
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +83,8 @@ class FruitWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(
-          color: Colors.black,
-          width: 2,
-        ),
+        borderRadius: BorderRadius.circular(4.0),
+        border: Border.all(color: Colors.black),
       ),
       child: Center(
         child: fruit.isLarge || fruit.rate <= 0
