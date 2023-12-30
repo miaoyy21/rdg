@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'categories.dart';
 
 class Fruit {
@@ -67,3 +69,51 @@ List<Fruit> fruits = [
   Fruit(index: 47, category: Categories.grape, isLarge: true),
   Fruit(index: 48, category: Categories.orange, isLarge: true),
 ];
+
+class FruitWidget extends StatelessWidget {
+  final Fruit fruit;
+
+  FruitWidget(this.fruit);
+
+  @override
+  Widget build(BuildContext context) {
+    if (!fruit.isValid) {
+      return Container(color: Colors.transparent);
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(
+          color: Colors.black,
+          width: 2,
+        ),
+      ),
+      child: Center(
+        child: fruit.isLarge || fruit.rate <= 0
+            ? Text(
+                fruit.name,
+                style: TextStyle(fontSize: fruit.isLarge ? 40 : 30),
+              )
+            : Column(
+                children: [
+                  Expanded(
+                    child: Text(
+                      fruit.name,
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                  ),
+                  Text(
+                    "×${fruit.rate}",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  )
+                ],
+              ),
+      ),
+    );
+  }
+}

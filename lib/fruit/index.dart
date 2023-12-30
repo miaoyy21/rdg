@@ -86,51 +86,12 @@ class FruitGrid extends StatelessWidget {
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
-      itemBuilder: (BuildContext context, int index) {
-        final fruit = fruits.firstWhere(
+      itemBuilder: (BuildContext context, int index) => FruitWidget(
+        fruits.firstWhere(
           (ele) => ele.index == index,
           orElse: () => Fruit.invalid(),
-        );
-
-        if (!fruit.isValid) {
-          return Container(color: Colors.transparent);
-        }
-
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(
-              color: Colors.black,
-              width: 2,
-            ),
-          ),
-          child: Center(
-            child: fruit.isLarge || fruit.rate <= 0
-                ? Text(
-                    fruit.name,
-                    style: TextStyle(fontSize: fruit.isLarge ? 40 : 30),
-                  )
-                : Column(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          fruit.name,
-                          style: const TextStyle(fontSize: 30),
-                        ),
-                      ),
-                      Text(
-                        "×${fruit.rate}",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      )
-                    ],
-                  ),
-          ),
-        );
-      },
+        ),
+      ),
       itemCount: 49,
       padding: const EdgeInsets.all(8),
     );
