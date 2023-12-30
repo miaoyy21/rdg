@@ -11,6 +11,17 @@ enum Categories {
   candy
 }
 
+List<Categories> categories = [
+  Categories.king,
+  Categories.hamburger,
+  Categories.salad,
+  Categories.watermelon,
+  Categories.grape,
+  Categories.blueberry,
+  Categories.orange,
+  Categories.apple
+];
+
 extension FruitCategoryExtension on Categories {
   static final Map<Categories, String> _names = {
     // 苹果
@@ -46,7 +57,7 @@ extension FruitCategoryExtension on Categories {
     Categories.orange: 10,
     Categories.blueberry: 15,
     Categories.grape: 20,
-    Categories.watermelon: 25,
+    Categories.watermelon: 20,
     Categories.salad: 30,
     Categories.hamburger: 40,
     Categories.king: 120,

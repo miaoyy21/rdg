@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rdg/fruit/categories.dart';
 import 'package:rdg/fruit/fruit.dart';
 import 'package:rdg/widgets/index.dart';
 
@@ -22,68 +24,115 @@ class FruitPage extends StatelessWidget {
             SizedBox(
               width: size,
               height: size,
-              child: const FruitGrid(),
+              child: const GridFruit(),
             ),
-            SizedBox(
-              height: 64,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  RectangleCircleButtonWithBorder(
-                    text: "⇦",
-                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-                    onPressed: () {
-                      debugPrint('Button ⇦ Pressed');
-                    },
-                  ),
-                  RectangleCircleButtonWithBorder(
-                    text: "⇨",
-                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-                    onPressed: () {
-                      debugPrint('Button ⇨ Pressed');
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  RectangleCircleButtonWithBorder(
-                    text: "大",
-                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-                    onPressed: () {
-                      debugPrint('Button 大 Pressed');
-                    },
-                  ),
-                  RectangleCircleButtonWithBorder(
-                    text: "小",
-                    margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-                    onPressed: () {
-                      debugPrint('Button 小 Pressed');
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  RectangleCircleButtonWithBorder(
-                    text: "开始",
-                    border: const CircleBorder(),
-                    fontSize: 24,
-                    width: 64,
-                    height: 64,
-                    onPressed: () {
-                      debugPrint('Button 开始 Pressed');
-                    },
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RectangleCircleButtonWithBorder(
+                  text: "⇦",
+                  onPressed: () {
+                    debugPrint('Button ⇦ Pressed');
+                  },
+                ),
+                RectangleCircleButtonWithBorder(
+                  text: "⇨",
+                  onPressed: () {
+                    debugPrint('Button ⇨ Pressed');
+                  },
+                ),
+                const SizedBox(width: 8),
+                RectangleCircleButtonWithBorder(
+                  text: "大",
+                  onPressed: () {
+                    debugPrint('Button 大 Pressed');
+                  },
+                ),
+                RectangleCircleButtonWithBorder(
+                  text: "小",
+                  onPressed: () {
+                    debugPrint('Button 小 Pressed');
+                  },
+                ),
+                const SizedBox(width: 8),
+                RectangleCircleButtonWithBorder(
+                  text: "开始",
+                  border: const CircleBorder(),
+                  fontSize: 24,
+                  width: 64,
+                  height: 64,
+                  onPressed: () {
+                    debugPrint('Button 开始 Pressed');
+                  },
+                ),
+              ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: List.generate(
-            //     8,
-            //     (index) => RectangleCircleButtonWithBorder(
-            //       text: "大",
-            //       onPressed: () {
-            //         debugPrint('Button 大 Pressed');
-            //       },
-            //     ),
-            //   ),
-            // ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: categories
+                  .map(
+                    (ele) => Column(
+                      children: [
+                        Container(
+                          width: (size - 10 * 4) / 8,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "0",
+                              style: TextStyle(
+                                fontFamily: "Digital",
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Container(
+                          width: (size - 10 * 4) / 8,
+                          height: (size - 10 * 4) / 8 + 24,
+                          margin: EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    ele.name,
+                                    style: const TextStyle(
+                                      fontSize: 40,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "${ele.rate}",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Digital",
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                  .toList(),
+            ),
           ],
         ),
       ),
@@ -91,8 +140,8 @@ class FruitPage extends StatelessWidget {
   }
 }
 
-class FruitGrid extends StatelessWidget {
-  const FruitGrid({super.key});
+class GridFruit extends StatelessWidget {
+  const GridFruit({super.key});
 
   @override
   Widget build(BuildContext context) {
