@@ -13,12 +13,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // theme: ThemeData(
+      //   primaryColor: Colors.purple,
+      // ),
       home: AppPage(),
     );
   }
 }
 
 class AppPage extends StatelessWidget {
+  const AppPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

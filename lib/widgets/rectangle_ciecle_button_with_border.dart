@@ -23,11 +23,15 @@ class RectangleCircleButtonWithBorder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final secondaryColor = Theme.of(context).secondaryHeaderColor;
+    final textColor = Colors.black;
+
     final MaterialStateProperty<OutlinedBorder?> shape;
     if (border is RoundedRectangleBorder) {
       shape = MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(4.0),
         ),
       );
     } else if (border is CircleBorder) {
@@ -42,17 +46,20 @@ class RectangleCircleButtonWithBorder extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         shape: shape,
-        backgroundColor: MaterialStateProperty.all(Colors.white),
-        elevation: MaterialStateProperty.all(4),
+        backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+        foregroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+        overlayColor: MaterialStateProperty.all<Color>(secondaryColor),
+        shadowColor: MaterialStateProperty.all<Color>(backgroundColor),
+        surfaceTintColor: MaterialStateProperty.all<Color>(backgroundColor),
+        elevation: MaterialStateProperty.all(8),
         padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
         side: MaterialStateProperty.all<BorderSide>(
-          const BorderSide(color: Colors.black, width: 2),
+          BorderSide(color: textColor, width: 2),
         ),
       ),
       child: Text(
         text,
-        softWrap: false,
-        style: TextStyle(fontSize: fontSize, color: Colors.black),
+        style: TextStyle(fontSize: fontSize, color: textColor),
       ),
     );
 
