@@ -26,14 +26,29 @@ class _FruitPageState extends State<FruitPage>
   @override
   Widget build(BuildContext context) {
     final double size = min(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+      MediaQuery.of(context).size.width,
+      MediaQuery.of(context).size.height,
+    );
+    final secondary = MaterialStateProperty.all<Color>(
+        Theme.of(context).secondaryHeaderColor);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('水果机'),
+        centerTitle: true,
+        actions: [
+          IconButton.outlined(
+            icon: const Icon(Icons.history),
+            style: ButtonStyle(overlayColor: secondary),
+            onPressed: () {
+              debugPrint("TODO ......");
+            },
+          ),
+        ],
       ),
       body: Center(
-        child: Column(
+        child: ListView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             const SizedBox(height: 8),
             Padding(
@@ -220,6 +235,7 @@ class FruitGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7,
         mainAxisSpacing: 4.0,
