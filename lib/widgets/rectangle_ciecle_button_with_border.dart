@@ -23,9 +23,15 @@ class RectangleCircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
-    final secondaryColor = Theme.of(context).secondaryHeaderColor;
-    const textColor = Colors.black;
+    final Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    late Color secondaryColor = Theme.of(context).secondaryHeaderColor;
+    late Color textColor = Colors.black;
+
+    // 是否禁用
+    if (onPressed == null) {
+      secondaryColor = Theme.of(context).scaffoldBackgroundColor;
+      textColor = Colors.black54;
+    }
 
     final MaterialStateProperty<OutlinedBorder?> shape;
     if (border is RoundedRectangleBorder) {
@@ -54,7 +60,7 @@ class RectangleCircleButton extends StatelessWidget {
         elevation: MaterialStateProperty.all(4),
         padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
         side: MaterialStateProperty.all<BorderSide>(
-          const BorderSide(color: textColor),
+          BorderSide(color: textColor),
         ),
       ),
       child: Text(

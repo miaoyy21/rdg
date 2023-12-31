@@ -16,9 +16,10 @@ class FruitPage extends StatefulWidget {
 
 class _FruitPageState extends State<FruitPage>
     with SingleTickerProviderStateMixin {
-  late int bonus;
+  late int bonus = 0;
   late int total;
-  late int digital;
+  late int digital = 0;
+  late bool enable = true;
 
   final Map<Categories, int> betting = {};
 
@@ -28,9 +29,7 @@ class _FruitPageState extends State<FruitPage>
 
     // TODO HTTP
     {
-      bonus = 6;
       total = 10;
-      digital = 0;
     }
   }
 
@@ -80,20 +79,20 @@ class _FruitPageState extends State<FruitPage>
               children: [
                 RectangleCircleButton(
                   text: "⇦",
-                  onPressed: () => onBonus(1),
+                  onPressed: enable ? () => onBonus(1) : null,
                 ),
                 RectangleCircleButton(
                   text: "⇨",
-                  onPressed: () => onBonus(-1),
+                  onPressed: enable ? () => onBonus(-1) : null,
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
                   text: "大",
-                  onPressed: () => onGuess(true),
+                  onPressed: enable ? () => onGuess(true) : null,
                 ),
                 RectangleCircleButton(
                   text: "小",
-                  onPressed: () => onGuess(false),
+                  onPressed: enable ? () => onGuess(false) : null,
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
@@ -102,9 +101,7 @@ class _FruitPageState extends State<FruitPage>
                   fontSize: 24,
                   width: 64,
                   height: 64,
-                  onPressed: () {
-                    debugPrint('Button 开始 Pressed');
-                  },
+                  onPressed: enable ? onStart : null,
                 ),
               ],
             ),
@@ -173,6 +170,7 @@ class _FruitPageState extends State<FruitPage>
     final result = Random().nextBool();
     debugPrint("随机结果是：${result ? "大" : "小"}");
 
+    enable = false;
     await onGuessEffect();
     setState(() {
       if (result) {
@@ -180,6 +178,8 @@ class _FruitPageState extends State<FruitPage>
       } else {
         digital = 1 + Random().nextInt(7);
       }
+
+      enable = true;
     });
 
     if (result == large) {
@@ -189,6 +189,7 @@ class _FruitPageState extends State<FruitPage>
     }
   }
 
+  // 猜测特效
   Future onGuessEffect() {
     final timer = Timer.periodic(
       const Duration(milliseconds: 250),
@@ -200,6 +201,11 @@ class _FruitPageState extends State<FruitPage>
     );
 
     return Future.delayed(const Duration(seconds: 3), () => timer.cancel());
+  }
+
+  // 开始押注
+  void onStart() {
+    debugPrint('Button 开始 Pressed');
   }
 }
 
