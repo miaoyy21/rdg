@@ -79,20 +79,20 @@ class _FruitPageState extends State<FruitPage>
               children: [
                 RectangleCircleButton(
                   text: "⇦",
-                  onPressed: enable ? () => onBonus(1) : null,
+                  onPressed: enable && total > 0 ? () => onBonus(1) : null,
                 ),
                 RectangleCircleButton(
                   text: "⇨",
-                  onPressed: enable ? () => onBonus(-1) : null,
+                  onPressed: enable && bonus > 0 ? () => onBonus(-1) : null,
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
                   text: "大",
-                  onPressed: enable ? () => onGuess(true) : null,
+                  onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
                 ),
                 RectangleCircleButton(
                   text: "小",
-                  onPressed: enable ? () => onGuess(false) : null,
+                  onPressed: enable && bonus > 0 ? () => onGuess(false) : null,
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
@@ -101,7 +101,7 @@ class _FruitPageState extends State<FruitPage>
                   fontSize: 24,
                   width: 64,
                   height: 64,
-                  onPressed: enable ? onStart : null,
+                  onPressed: enable && betting.isNotEmpty ? onStart : null,
                 ),
               ],
             ),
@@ -119,7 +119,11 @@ class _FruitPageState extends State<FruitPage>
                         width: width,
                       ),
                       const SizedBox(height: 4),
-                      FruitBetting(category, width, onBetting),
+                      FruitBetting(
+                        category,
+                        width,
+                        enable ? onBetting : null,
+                      ),
                     ],
                   );
                 },
@@ -157,13 +161,17 @@ class _FruitPageState extends State<FruitPage>
     }
 
     setState(() {
-      betting.update(category, (value) => value + 1);
       total = newTotal;
+      betting.update(category, (value) => value + 1);
     });
   }
 
   // 猜测大小
   void onGuess(bool large) async {
+    if (bonus <= 0) {
+      return;
+    }
+
     debugPrint("你猜测的是：${large ? "大" : "小"}");
 
     // TODO HTTP
@@ -192,7 +200,7 @@ class _FruitPageState extends State<FruitPage>
   // 猜测特效
   Future onGuessEffect() {
     final timer = Timer.periodic(
-      const Duration(milliseconds: 250),
+      const Duration(milliseconds: 255),
       (Timer timer) {
         setState(() {
           digital = Random().nextInt(14) + 1;
@@ -205,6 +213,13 @@ class _FruitPageState extends State<FruitPage>
 
   // 开始押注
   void onStart() {
+    if (bonus > 0) {
+      setState(() {
+        total = total + bonus;
+        bonus = 0;
+      });
+    }
+
     debugPrint('Button 开始 Pressed');
   }
 }
@@ -235,13 +250,18 @@ class FruitGridView extends StatelessWidget {
 class FruitBetting extends StatelessWidget {
   final Categories category;
   final double width;
-  final Function(Categories) onBetting;
+  final Function(Categories)? onBetting;
 
-  const FruitBetting(this.category, this.width, this.onBetting, {super.key});
+  FruitBetting(this.category, this.width, this.onBetting, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final secondary = Theme.of(context).secondaryHeaderColor;
+    late Color secondary = Theme.of(context).secondaryHeaderColor;
+    late Color color = Colors.black;
+    if (onBetting == null) {
+      secondary = Theme.of(context).scaffoldBackgroundColor;
+      color = Colors.black54;
+    }
 
     final fruit = Expanded(
       child: Text(
@@ -252,8 +272,9 @@ class FruitBetting extends StatelessWidget {
 
     final rate = Text(
       "${category.rate}",
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 16,
+        color: color,
         fontFamily: "Digital",
         fontStyle: FontStyle.italic,
       ),
@@ -263,13 +284,14 @@ class FruitBetting extends StatelessWidget {
       elevation: 4, // 设置 Material 的阴影
       child: InkWell(
         overlayColor: MaterialStateProperty.all<Color>(secondary),
+        onTap: () => onBetting!(category),
         child: Container(
           width: width,
           height: width + 32,
           margin: const EdgeInsets.symmetric(horizontal: 2),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4.0),
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: color),
           ),
           child: Center(
             child: Column(
@@ -277,7 +299,6 @@ class FruitBetting extends StatelessWidget {
             ),
           ),
         ),
-        onTap: () => onBetting(category),
       ),
     );
   }

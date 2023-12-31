@@ -23,14 +23,14 @@ class RectangleCircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
-    late Color secondaryColor = Theme.of(context).secondaryHeaderColor;
-    late Color textColor = Colors.black;
+    final Color background = Theme.of(context).scaffoldBackgroundColor;
+    late Color secondary = Theme.of(context).secondaryHeaderColor;
+    late Color color = Colors.black;
 
     // 是否禁用
     if (onPressed == null) {
-      secondaryColor = Theme.of(context).scaffoldBackgroundColor;
-      textColor = Colors.black54;
+      secondary = Theme.of(context).scaffoldBackgroundColor;
+      color = Colors.black54;
     }
 
     final MaterialStateProperty<OutlinedBorder?> shape;
@@ -52,22 +52,22 @@ class RectangleCircleButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         shape: shape,
-        backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
-        foregroundColor: MaterialStateProperty.all<Color>(backgroundColor),
-        overlayColor: MaterialStateProperty.all<Color>(secondaryColor),
-        shadowColor: MaterialStateProperty.all<Color>(backgroundColor),
-        surfaceTintColor: MaterialStateProperty.all<Color>(backgroundColor),
+        backgroundColor: MaterialStateProperty.all<Color>(background),
+        foregroundColor: MaterialStateProperty.all<Color>(background),
+        overlayColor: MaterialStateProperty.all<Color>(secondary),
+        shadowColor: MaterialStateProperty.all<Color>(background),
+        surfaceTintColor: MaterialStateProperty.all<Color>(background),
         elevation: MaterialStateProperty.all(4),
         padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
         side: MaterialStateProperty.all<BorderSide>(
-          BorderSide(color: textColor),
+          BorderSide(color: color),
         ),
       ),
       child: Text(
         text!,
         style: TextStyle(
           fontSize: fontSize,
-          color: textColor,
+          color: color,
           fontWeight: FontWeight.bold,
         ),
       ),
