@@ -84,8 +84,9 @@ class _Lucky28PageState extends State<Lucky28Page>
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28")),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: ListView(
+          padding: const EdgeInsets.all(24),
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             SizedBox(
               width: size - 48,
@@ -98,6 +99,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                 ),
               ),
             ),
+            const SizedBox(height: 32),
             ElevatedButton(
               onPressed: onStart,
               child: const Text('开始'),
