@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 @immutable
 class RectangleCircleButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final String? text;
+  final String? label;
   final OutlinedBorder? border;
   final EdgeInsetsGeometry? margin;
   final double? fontSize;
@@ -13,7 +13,7 @@ class RectangleCircleButton extends StatelessWidget {
   const RectangleCircleButton({
     super.key,
     required this.onPressed,
-    required this.text,
+    required this.label,
     this.border = const RoundedRectangleBorder(),
     this.margin = const EdgeInsets.symmetric(horizontal: 4),
     this.fontSize = 18,
@@ -34,16 +34,17 @@ class RectangleCircleButton extends StatelessWidget {
     }
 
     final MaterialStateProperty<OutlinedBorder?> shape;
+    final EdgeInsetsGeometry? padding;
     if (border is RoundedRectangleBorder) {
       shape = MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4.0),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
       );
+      padding = const EdgeInsets.symmetric(horizontal: 8);
     } else if (border is CircleBorder) {
       shape = MaterialStateProperty.all<CircleBorder>(
         const CircleBorder(),
       );
+      padding = EdgeInsets.zero;
     } else {
       throw Exception("unexpected type of ${border.runtimeType}");
     }
@@ -63,12 +64,15 @@ class RectangleCircleButton extends StatelessWidget {
           BorderSide(color: color),
         ),
       ),
-      child: Text(
-        text!,
-        style: TextStyle(
-          fontSize: fontSize,
-          color: color,
-          fontWeight: FontWeight.bold,
+      child: Container(
+        margin: padding,
+        child: Text(
+          label!,
+          style: TextStyle(
+            fontSize: fontSize,
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

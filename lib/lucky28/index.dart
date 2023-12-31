@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/rectangle_circle_button.dart';
 import 'circle_painter.dart';
 
 class Lucky28Page extends StatefulWidget {
@@ -18,7 +19,9 @@ class _Lucky28PageState extends State<Lucky28Page>
   int selected = -1; // 转轮选中数字
   bool isRunning = false; // 转轮正在转动中
 
-  static const int total = 28;
+  late int total = 1234567; // 总金额
+  late double radixPercent = 0; // 投注百分比
+  late int radix = 0; // 投注金额
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -26,13 +29,24 @@ class _Lucky28PageState extends State<Lucky28Page>
   late AudioPlayer _player;
   late AnimationController _controller;
 
+  void onRadix(double value) {
+    setState(() {
+      radixPercent = value;
+      radix = ((radixPercent * total) ~/ 1000) * 1000;
+    });
+  }
+
+  // 开始
   void onStart() async {
-    result = Random().nextInt(total);
+    result = Random().nextInt(28);
     debugPrint("Random Target Value is $result");
 
     _player.setVolume(1.0);
     _controller.reset();
-    _controller.forward();
+    await _controller.forward();
+
+    total -= 67890;
+    onRadix(radixPercent);
   }
 
   @override
@@ -55,9 +69,9 @@ class _Lucky28PageState extends State<Lucky28Page>
             0.5 * acceleration * _controller.value * _controller.value;
 
         final newSelected = distance *
-            (total * 3 + result.toDouble()) ~/
+            (28 * 3 + result.toDouble()) ~/
             (initial + 0.5 * acceleration) %
-            total;
+            28;
         if (newSelected != selected) {
           _player.resume();
           setState(() {
@@ -80,32 +94,113 @@ class _Lucky28PageState extends State<Lucky28Page>
   Widget build(BuildContext context) {
     final double size = min(
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+    final secondary = MaterialStateProperty.all<Color>(
+        Theme.of(context).secondaryHeaderColor);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("幸运28")),
+      appBar: AppBar(
+        title: const Text("幸运28"),
+        centerTitle: true,
+        actions: [
+          IconButton.outlined(
+            icon: const Icon(Icons.history),
+            style: ButtonStyle(overlayColor: secondary),
+            onPressed: () {
+              debugPrint("TODO ......");
+            },
+          ),
+        ],
+      ),
       body: Center(
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           children: [
             SizedBox(
-              width: size - 48,
-              height: size - 48,
+              height: size,
               child: CustomPaint(
                 painter: CirclePainter(
-                  total: total,
                   selected: selected,
                   isRunning: isRunning,
                 ),
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: 110,
+                  child: Text(
+                    "投注百分比",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                Expanded(
+                  child: Slider(
+                    value: radixPercent,
+                    activeColor: Colors.black,
+                    inactiveColor: Colors.black38,
+                    onChanged: onRadix,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: 110,
+                  child: Text(
+                    "投注金额",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(radix <= 0
+                      ? "0"
+                      : "${(radixPercent * 100).toStringAsFixed(2)}% ⇰ $radix"),
+                )
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RectangleCircleButton(
+                  label: "  刷新  ",
+                  onPressed: () {
+                    debugPrint("刷新");
+                  },
+                ),
+                RectangleCircleButton(
+                  label: "自动投注",
+                  onPressed: () {
+                    debugPrint("自动投注");
+                  },
+                ),
+                RectangleCircleButton(
+                  label: "投注模式",
+                  onPressed: () {
+                    debugPrint("投注模式");
+                  },
+                ),
+                RectangleCircleButton(
+                  label: "我的投注",
+                  onPressed: () {
+                    debugPrint("我的投注");
+                  },
+                ),
+              ],
+            ),
             ElevatedButton(
               onPressed: onStart,
               child: const Text('开始'),
             ),
-            const SizedBox(height: 32),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
             const SizedBox(height: 32),
           ],
         ),

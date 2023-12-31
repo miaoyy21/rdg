@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rdg/widgets/index.dart';
+import 'widgets/index.dart';
 
 import 'fruit/index.dart';
 import 'lucky28/index.dart';
@@ -37,7 +37,7 @@ class AppPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RectangleCircleButton(
-              text: "幸运28",
+              label: "幸运28",
               width: 128,
               onPressed: () {
                 Navigator.of(context).push(
@@ -49,7 +49,7 @@ class AppPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             RectangleCircleButton(
-              text: "水果机",
+              label: "水果机",
               width: 128,
               onPressed: () {
                 Navigator.of(context).push(

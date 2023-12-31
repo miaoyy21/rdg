@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:rdg/fruit/categories.dart';
-import 'package:rdg/fruit/fruit.dart';
-import 'package:rdg/widgets/digital.dart';
-import 'package:rdg/widgets/index.dart';
+import '../fruit/categories.dart';
+import '../widgets/index.dart';
 
 import 'fruit_betting.dart';
 import 'fruit_grid_view.dart';
@@ -88,25 +86,25 @@ class _FruitPageState extends State<FruitPage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RectangleCircleButton(
-                  text: "⇦",
+                  label: "⇦",
                   onPressed: enable && total > 0 ? () => onBonus(1) : null,
                 ),
                 RectangleCircleButton(
-                  text: "⇨",
+                  label: "⇨",
                   onPressed: enable && bonus > 0 ? () => onBonus(-1) : null,
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
-                  text: "大",
+                  label: "大",
                   onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
                 ),
                 RectangleCircleButton(
-                  text: "小",
+                  label: "小",
                   onPressed: enable && bonus > 0 ? () => onGuess(false) : null,
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
-                  text: "开始",
+                  label: "开始",
                   border: const CircleBorder(),
                   fontSize: 24,
                   width: 64,

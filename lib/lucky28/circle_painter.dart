@@ -3,18 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class CirclePainter extends CustomPainter {
-  final int total;
+  final int total = 28;
   final bool isRunning;
   final int selected;
 
-  CirclePainter(
-      {required this.total, required this.selected, required this.isRunning});
+  CirclePainter({required this.selected, required this.isRunning});
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint linePaint = Paint()..strokeWidth = 2.0;
 
-    double maxRadius = size.width / 2;
+    double maxRadius = size.width / 2 - 24;
     double angleStep = 2 * pi / total;
 
     for (int i = 0; i < total; i++) {
