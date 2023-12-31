@@ -29,7 +29,7 @@ class _FruitPageState extends State<FruitPage>
 
     // TODO HTTP
     {
-      total = 10;
+      total = 10000;
     }
   }
 
@@ -47,20 +47,21 @@ class _FruitPageState extends State<FruitPage>
           children: [
             const SizedBox(height: 8),
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  children: [
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(minWidth: 96),
-                      child: Digital(bonus, fontSize: 24),
-                    ),
-                    const Expanded(child: SizedBox()),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(minWidth: 96),
-                      child: Digital(total, fontSize: 24),
-                    ),
-                  ],
-                )),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minWidth: 88),
+                    child: Digital(bonus, fontSize: 24),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minWidth: 88),
+                    child: Digital(total, fontSize: 24),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               width: size,
               height: size,
@@ -74,6 +75,7 @@ class _FruitPageState extends State<FruitPage>
                 ],
               ),
             ),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
