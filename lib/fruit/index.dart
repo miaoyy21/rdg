@@ -24,6 +24,7 @@ class FruitPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            const SizedBox(height: 8),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
