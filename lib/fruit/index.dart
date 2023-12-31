@@ -17,21 +17,11 @@ class FruitPage extends StatefulWidget {
 class _FruitPageState extends State<FruitPage>
     with SingleTickerProviderStateMixin {
   late int bonus = 0;
-  late int total;
+  late int total = 10000;
   late int digital = 0;
   late bool enable = true;
 
   final Map<Categories, int> betting = {};
-
-  @override
-  void initState() {
-    super.initState();
-
-    // TODO HTTP
-    {
-      total = 10000;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,11 +127,6 @@ class _FruitPageState extends State<FruitPage>
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   // 调整奖金
@@ -289,7 +274,7 @@ class FruitBetting extends StatelessWidget {
       elevation: 4, // 设置 Material 的阴影
       child: InkWell(
         overlayColor: MaterialStateProperty.all<Color>(secondary),
-        onTap: () => onBetting!(category),
+        onTap: onBetting != null ? () => onBetting!(category) : null,
         child: Container(
           width: width,
           height: width + 32,
