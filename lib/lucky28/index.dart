@@ -26,7 +26,7 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   void onStart() async {
     result = Random().nextInt(total);
-    print("Random Target Value is $result");
+    debugPrint("Random Target Value is $result");
 
     _player.setVolume(1.0);
     _controller.reset();
