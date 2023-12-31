@@ -18,10 +18,11 @@ class _Lucky28PageState extends State<Lucky28Page>
   int result = -1; // 目标随机数字
   int selected = -1; // 转轮选中数字
   bool isRunning = false; // 转轮正在转动中
+  int autoIssue = 0; // 自动投注中
 
   late int total = 1234567; // 总金额
-  late double radixPercent = 0; // 投注百分比
-  late int radix = 0; // 投注金额
+  double radixPercent = 0; // 投注百分比
+  int radix = 0; // 投注金额
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -112,11 +113,10 @@ class _Lucky28PageState extends State<Lucky28Page>
         ],
       ),
       body: Center(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          physics: const NeverScrollableScrollPhysics(),
+        child: Column(
           children: [
             SizedBox(
+              width: size,
               height: size,
               child: CustomPaint(
                 painter: CirclePainter(
@@ -125,7 +125,18 @@ class _Lucky28PageState extends State<Lucky28Page>
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            autoIssue > 0
+                ? Container(
+                    margin: EdgeInsets.only(top: 16, bottom: 8),
+                    child: RectangleCircleButton(
+                      label: "自动投注中，剩余$autoIssue期...【取消】",
+                      onPressed: () {
+                        debugPrint("自动投注中 ...【取消】");
+                      },
+                    ),
+                  )
+                : const SizedBox(),
+            // const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
