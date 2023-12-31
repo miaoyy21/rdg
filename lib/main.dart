@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rdg/widgets/index.dart';
 
 import 'fruit/index.dart';
 import 'lucky28/index.dart';
@@ -35,9 +36,9 @@ class AppPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(),
-            MaterialButton(
-              color: Colors.purple,
+            RectangleCircleButton(
+              text: "幸运28",
+              width: 128,
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -45,13 +46,11 @@ class AppPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text(
-                "幸运28",
-                style: TextStyle(color: Colors.white),
-              ),
             ),
-            MaterialButton(
-              color: Colors.purple,
+            const SizedBox(height: 24),
+            RectangleCircleButton(
+              text: "水果机",
+              width: 128,
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -59,12 +58,7 @@ class AppPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text(
-                "水果机",
-                style: TextStyle(color: Colors.white),
-              ),
             ),
-            const SizedBox(),
           ],
         ),
       ),
