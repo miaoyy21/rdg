@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,16 +7,37 @@ import 'package:rdg/fruit/fruit.dart';
 import 'package:rdg/widgets/digital.dart';
 import 'package:rdg/widgets/index.dart';
 
-class FruitPage extends StatelessWidget {
+class FruitPage extends StatefulWidget {
   const FruitPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _FruitPageState();
+}
+
+class _FruitPageState extends State<FruitPage>
+    with SingleTickerProviderStateMixin {
+  late int bonus;
+  late int total;
+  late int digital;
+
+  final Map<Categories, int> betting = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    // TODO HTTP
+    {
+      bonus = 6;
+      total = 10;
+      digital = 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final double size = min(
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
-
-    int win = 890;
-    int total = 12345678901234567;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +53,7 @@ class FruitPage extends StatelessWidget {
                   children: [
                     ConstrainedBox(
                       constraints: const BoxConstraints(minWidth: 96),
-                      child: Digital(win, fontSize: 24),
+                      child: Digital(bonus, fontSize: 24),
                     ),
                     const Expanded(child: SizedBox()),
                     ConstrainedBox(
@@ -43,11 +65,12 @@ class FruitPage extends StatelessWidget {
             SizedBox(
               width: size,
               height: size,
-              child: const Stack(
+              child: Stack(
                 children: [
-                  FruitGridView(),
+                  const FruitGridView(),
                   Center(
-                    child: Digital(12, fontSize: 36, width: 80, height: 54),
+                    child:
+                        Digital(digital, fontSize: 48, width: 80, height: 72),
                   ),
                 ],
               ),
@@ -57,28 +80,20 @@ class FruitPage extends StatelessWidget {
               children: [
                 RectangleCircleButton(
                   text: "⇦",
-                  onPressed: () {
-                    debugPrint('Button ⇦ Pressed');
-                  },
+                  onPressed: () => onBonus(1),
                 ),
                 RectangleCircleButton(
                   text: "⇨",
-                  onPressed: () {
-                    debugPrint('Button ⇨ Pressed');
-                  },
+                  onPressed: () => onBonus(-1),
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
                   text: "大",
-                  onPressed: () {
-                    debugPrint('Button 大 Pressed');
-                  },
+                  onPressed: () => onGuess(true),
                 ),
                 RectangleCircleButton(
                   text: "小",
-                  onPressed: () {
-                    debugPrint('Button 小 Pressed');
-                  },
+                  onPressed: () => onGuess(false),
                 ),
                 const SizedBox(width: 8),
                 RectangleCircleButton(
@@ -99,11 +114,15 @@ class FruitPage extends StatelessWidget {
               children: categories.map(
                 (category) {
                   final width = (size - 10 * 4) / 8;
+
                   return Column(
                     children: [
-                      Digital(category.rate - 3, width: width),
+                      Digital(
+                        betting.putIfAbsent(category, () => 0),
+                        width: width,
+                      ),
                       const SizedBox(height: 4),
-                      FruitBetting(category, width),
+                      FruitBetting(category, width, onBetting),
                     ],
                   );
                 },
@@ -113,6 +132,74 @@ class FruitPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  // 调整奖金
+  void onBonus(int step) {
+    final newBonus = bonus + step, newTotal = total - step;
+    if (newBonus < 0 || newTotal < 0) {
+      return;
+    }
+
+    setState(() {
+      bonus = newBonus;
+      total = newTotal;
+    });
+  }
+
+  // 水果押注
+  void onBetting(Categories category) {
+    final newTotal = total - 1;
+    if (newTotal < 0) {
+      return;
+    }
+
+    setState(() {
+      betting.update(category, (value) => value + 1);
+      total = newTotal;
+    });
+  }
+
+  // 猜测大小
+  void onGuess(bool large) async {
+    debugPrint("你猜测的是：${large ? "大" : "小"}");
+
+    // TODO HTTP
+    final result = Random().nextBool();
+    debugPrint("随机结果是：${result ? "大" : "小"}");
+
+    await onGuessEffect();
+    setState(() {
+      if (result) {
+        digital = 8 + Random().nextInt(7);
+      } else {
+        digital = 1 + Random().nextInt(7);
+      }
+    });
+
+    if (result == large) {
+      debugPrint("猜测正确 >>>");
+    } else {
+      debugPrint("猜测错误 <<<");
+    }
+  }
+
+  Future onGuessEffect() {
+    final timer = Timer.periodic(
+      const Duration(milliseconds: 250),
+      (Timer timer) {
+        setState(() {
+          digital = Random().nextInt(14) + 1;
+        });
+      },
+    );
+
+    return Future.delayed(const Duration(seconds: 3), () => timer.cancel());
   }
 }
 
@@ -142,8 +229,9 @@ class FruitGridView extends StatelessWidget {
 class FruitBetting extends StatelessWidget {
   final Categories category;
   final double width;
+  final Function(Categories) onBetting;
 
-  const FruitBetting(this.category, this.width, {super.key});
+  const FruitBetting(this.category, this.width, this.onBetting, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +271,7 @@ class FruitBetting extends StatelessWidget {
             ),
           ),
         ),
-        onTap: () {
-          debugPrint("Pressed ${category.name}");
-        },
+        onTap: () => onBetting(category),
       ),
     );
   }

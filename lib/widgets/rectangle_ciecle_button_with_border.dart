@@ -51,7 +51,7 @@ class RectangleCircleButton extends StatelessWidget {
         overlayColor: MaterialStateProperty.all<Color>(secondaryColor),
         shadowColor: MaterialStateProperty.all<Color>(backgroundColor),
         surfaceTintColor: MaterialStateProperty.all<Color>(backgroundColor),
-        elevation: MaterialStateProperty.all(8),
+        elevation: MaterialStateProperty.all(4),
         padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
         side: MaterialStateProperty.all<BorderSide>(
           const BorderSide(color: textColor),

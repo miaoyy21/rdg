@@ -7,7 +7,7 @@ class Lucky28Page extends StatefulWidget {
   const Lucky28Page({super.key});
 
   @override
-  _Lucky28PageState createState() => _Lucky28PageState();
+  State<Lucky28Page> createState() => _Lucky28PageState();
 }
 
 class _Lucky28PageState extends State<Lucky28Page>
