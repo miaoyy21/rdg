@@ -103,7 +103,9 @@ class _FruitPageState extends State<FruitPage>
                   fontSize: 24,
                   width: 64,
                   height: 64,
-                  onPressed: enable && betting.isNotEmpty ? onStart : null,
+                  onPressed: enable && betting.values.any((v) => v > 0)
+                      ? onStart
+                      : null,
                 ),
               ],
             ),
