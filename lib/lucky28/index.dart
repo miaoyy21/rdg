@@ -136,14 +136,13 @@ class _Lucky28PageState extends State<Lucky28Page>
                     ),
                   )
                 : const SizedBox(),
-            // const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  width: 110,
+                  width: 88,
                   child: Text(
-                    "投注百分比",
+                    "投注占比",
                     textAlign: TextAlign.right,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -162,14 +161,14 @@ class _Lucky28PageState extends State<Lucky28Page>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  width: 110,
+                  width: 88,
                   child: Text(
                     "投注金额",
                     textAlign: TextAlign.right,
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Text(radix <= 0
                       ? "0"
@@ -181,12 +180,14 @@ class _Lucky28PageState extends State<Lucky28Page>
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(width: 8),
                 RectangleCircleButton(
                   label: "  刷新  ",
                   onPressed: () {
                     debugPrint("刷新");
                   },
                 ),
+                const Expanded(child: SizedBox()),
                 RectangleCircleButton(
                   label: "自动投注",
                   onPressed: () {
@@ -205,6 +206,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                     debugPrint("我的投注");
                   },
                 ),
+                const SizedBox(width: 8),
               ],
             ),
             ElevatedButton(
