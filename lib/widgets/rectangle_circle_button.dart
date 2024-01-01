@@ -5,6 +5,7 @@ class RectangleCircleButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String? label;
   final OutlinedBorder? border;
+
   final EdgeInsetsGeometry? margin;
   final double? fontSize;
   final double? width;
@@ -37,10 +38,8 @@ class RectangleCircleButton extends StatelessWidget {
     final EdgeInsetsGeometry? padding;
     if (border is RoundedRectangleBorder) {
       shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0));
-      padding = const EdgeInsets.symmetric(horizontal: 8);
     } else if (border is CircleBorder) {
       shape = const CircleBorder();
-      padding = EdgeInsets.zero;
     } else {
       throw Exception("unexpected type of ${border.runtimeType}");
     }
@@ -60,15 +59,12 @@ class RectangleCircleButton extends StatelessWidget {
         padding: MaterialStateProperty.all(EdgeInsets.zero),
         side: MaterialStateProperty.all(side),
       ),
-      child: Container(
-        margin: padding,
-        child: Text(
-          label!,
-          style: TextStyle(
-            fontSize: fontSize,
-            color: primary,
-            fontWeight: FontWeight.bold,
-          ),
+      child: Text(
+        label!,
+        style: TextStyle(
+          fontSize: fontSize,
+          color: primary,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

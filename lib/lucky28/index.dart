@@ -54,121 +54,131 @@ class _Lucky28PageState extends State<Lucky28Page>
 
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
-      body: Center(
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Expanded(flex: 2, child: SizedBox()),
-                ...opened
-                    .take(8)
-                    .map((i) => Expanded(flex: 2, child: CircleNumber(i)))
-                    .toList(),
-                const Expanded(child: SizedBox()),
-                IconCircleButton(
-                  Icons.keyboard_double_arrow_right,
-                  onPressed: () {
-                    debugPrint("查看开奖历史");
-                  },
-                ),
-              ],
-            ),
-            SizedBox(
-              width: size,
-              height: size,
-              child: CustomPaint(
-                painter: CirclePainter(
-                  selected: selected,
-                  isRunning: isRunning,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        child: Center(
+          child: ListView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Expanded(flex: 2, child: SizedBox()),
+                  ...opened
+                      .take(8)
+                      .map((i) => Expanded(flex: 2, child: CircleNumber(i)))
+                      .toList(),
+                  const Expanded(child: SizedBox()),
+                  IconCircleButton(
+                    Icons.keyboard_double_arrow_right,
+                    onPressed: () {
+                      debugPrint("查看开奖历史");
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: size,
+                height: size,
+                child: CustomPaint(
+                  painter: CirclePainter(
+                    selected: selected,
+                    isRunning: isRunning,
+                  ),
                 ),
               ),
-            ),
-            autoIssue > 0
-                ? Container(
-                    margin: const EdgeInsets.only(top: 16, bottom: 8),
-                    child: RectangleCircleButton(
-                      label: "自动投注中，剩余$autoIssue期...【取消】",
-                      onPressed: onCancelAutoIssue,
+              autoIssue > 0
+                  ? Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      child: RectangleCircleButton(
+                        label: "自动投注中，剩余$autoIssue期...【取消】",
+                        onPressed: onCancelAutoIssue,
+                      ),
+                    )
+                  : const SizedBox(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 88,
+                    child: Text(
+                      "投注占比",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  Expanded(
+                    child: Slider(
+                      value: radixPercent,
+                      activeColor: Colors.black,
+                      inactiveColor: Colors.black38,
+                      onChanged: onRadixPercentChange,
                     ),
                   )
-                : const SizedBox(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 88,
-                  child: Text(
-                    "投注占比",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 18),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 88,
+                    child: Text(
+                      "投注金额",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Slider(
-                    value: radixPercent,
-                    activeColor: Colors.black,
-                    inactiveColor: Colors.black38,
-                    onChanged: onRadixPercentChange,
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Text(radix <= 0
+                        ? "0"
+                        : "${(radixPercent * 100).toStringAsFixed(2)}% ⇰ $radix"),
+                  )
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: RectangleCircleButton(
+                      label: "刷新",
+                      onPressed: () {
+                        debugPrint("刷新");
+                      },
+                    ),
                   ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 88,
-                  child: Text(
-                    "投注金额",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 18),
+                  Expanded(
+                    child: RectangleCircleButton(
+                      label: "自动投注",
+                      onPressed: () {
+                        debugPrint("自动投注");
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Text(radix <= 0
-                      ? "0"
-                      : "${(radixPercent * 100).toStringAsFixed(2)}% ⇰ $radix"),
-                )
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RectangleCircleButton(
-                  label: "刷新",
-                  onPressed: () {
-                    debugPrint("刷新");
-                  },
-                ),
-                const Expanded(child: SizedBox()),
-                RectangleCircleButton(
-                  label: "自动投注",
-                  onPressed: () {
-                    debugPrint("自动投注");
-                  },
-                ),
-                RectangleCircleButton(
-                  label: "投注模式",
-                  onPressed: () {
-                    debugPrint("投注模式");
-                  },
-                ),
-                RectangleCircleButton(
-                  label: "我的投注",
-                  onPressed: () {
-                    debugPrint("我的投注");
-                  },
-                ),
-              ],
-            ),
-            RectangleCircleButton(
-              label: "开始",
-              onPressed: onStart,
-            ),
-          ],
+                  Expanded(
+                    child: RectangleCircleButton(
+                      label: "投注模式",
+                      onPressed: () {
+                        debugPrint("投注模式");
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RectangleCircleButton(
+                      label: "我的投注",
+                      onPressed: () {
+                        debugPrint("我的投注");
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              RectangleCircleButton(
+                label: "开始",
+                onPressed: onStart,
+              ),
+            ],
+          ),
         ),
       ),
     );
