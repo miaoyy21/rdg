@@ -31,18 +31,6 @@ class _Lucky28PageState extends State<Lucky28Page>
   late AudioPlayer _player;
   late AnimationController _controller;
 
-  // 开始
-  void onStart() async {
-    result = Random().nextInt(28);
-    debugPrint("Random Target Value is $result");
-
-    _controller.reset();
-    await _controller.forward();
-
-    total -= 67890;
-    onRadixChange(radixPercent);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -116,7 +104,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                     value: radixPercent,
                     activeColor: Colors.black,
                     inactiveColor: Colors.black38,
-                    onChanged: onRadixChange,
+                    onChanged: onRadixPercentChange,
                   ),
                 )
               ],
@@ -193,7 +181,20 @@ class _Lucky28PageState extends State<Lucky28Page>
     super.dispose();
   }
 
-  void onRadixChange(double value) {
+  // 虚拟开始开奖
+  void onStart() async {
+    result = Random().nextInt(28);
+    debugPrint("Random Target Value is $result");
+
+    _controller.reset();
+    await _controller.forward();
+
+    total -= 67890;
+    onRadixPercentChange(radixPercent);
+  }
+
+  // 修改投注占比
+  void onRadixPercentChange(double value) {
     setState(() {
       radixPercent = value;
       radix = ((radixPercent * total) ~/ 1000) * 1000;
