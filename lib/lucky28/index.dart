@@ -73,9 +73,9 @@ class _Lucky28PageState extends State<Lucky28Page>
                 ...opened.take(8).map((num) => CircleNumber(num)).toList(),
                 const Expanded(child: SizedBox()),
                 IconCircleButton(
-                  Icons.history,
+                  Icons.keyboard_double_arrow_right,
                   onPressed: () {
-                    debugPrint("History Pressed");
+                    debugPrint("查看开奖历史");
                   },
                 ),
                 const SizedBox(width: 8),

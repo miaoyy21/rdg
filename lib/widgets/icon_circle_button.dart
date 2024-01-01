@@ -10,6 +10,7 @@ class IconCircleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     late Color primary = Theme.of(context).primaryColor;
     late Color secondary = Theme.of(context).secondaryHeaderColor;
+    final Color background = Theme.of(context).scaffoldBackgroundColor;
 
     // 是否禁用
     if (onPressed == null) {
@@ -21,12 +22,14 @@ class IconCircleButton extends StatelessWidget {
 
     return IconButton.outlined(
       icon: Icon(icon),
-      color: primary,
       style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(background),
+        foregroundColor: MaterialStateProperty.all(primary),
         overlayColor: MaterialStateProperty.all<Color>(secondary),
-        // shadowColor: MaterialStateProperty.all<Color>(primary),
+        shadowColor: MaterialStateProperty.all<Color>(primary),
+        surfaceTintColor: MaterialStateProperty.all(background),
+        elevation: MaterialStateProperty.all(4),
         side: MaterialStateProperty.all<BorderSide>(side),
-        elevation: MaterialStateProperty.all(1),
       ),
       onPressed: onPressed,
     );
