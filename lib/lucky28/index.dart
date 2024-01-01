@@ -27,8 +27,8 @@ class _Lucky28PageState extends State<Lucky28Page>
   static const double initial = 8;
   static const double acceleration = -7.75;
 
-  late AudioPlayer _player;
   late AssetSource _source;
+  late AudioPlayer _player;
   late AnimationController _controller;
 
   // 开始
@@ -51,6 +51,7 @@ class _Lucky28PageState extends State<Lucky28Page>
     _source = AssetSource("dong.wav");
 
     const duration = Duration(seconds: 6);
+
     _controller = AnimationController(vsync: this, duration: duration);
     _controller.addListener(onOpen);
     _controller.addStatusListener(onOpenFinish);
