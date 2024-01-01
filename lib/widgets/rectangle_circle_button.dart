@@ -35,7 +35,6 @@ class RectangleCircleButton extends StatelessWidget {
     }
 
     final OutlinedBorder? shape;
-    final EdgeInsetsGeometry? padding;
     if (border is RoundedRectangleBorder) {
       shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0));
     } else if (border is CircleBorder) {

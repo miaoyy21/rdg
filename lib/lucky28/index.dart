@@ -43,8 +43,8 @@ class _Lucky28PageState extends State<Lucky28Page>
     const duration = Duration(seconds: 6);
 
     _controller = AnimationController(vsync: this, duration: duration);
-    _controller.addListener(onOpen);
-    _controller.addStatusListener(onOpenFinish);
+    _controller.addListener(onOpenListener);
+    _controller.addStatusListener(onOpenStatusListener);
   }
 
   @override
@@ -158,9 +158,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                   Expanded(
                     child: RectangleCircleButton(
                       label: "投注模式",
-                      onPressed: () {
-                        debugPrint("投注模式");
-                      },
+                      onPressed: onMode,
                     ),
                   ),
                   Expanded(
@@ -220,7 +218,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   }
 
   // 开奖
-  void onOpen() {
+  void onOpenListener() {
     final distance = initial * _controller.value +
         0.5 * acceleration * _controller.value * _controller.value;
 
@@ -238,12 +236,62 @@ class _Lucky28PageState extends State<Lucky28Page>
   }
 
   // 开奖结束
-  void onOpenFinish(AnimationStatus status) {
+  void onOpenStatusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
       setState(() {
         selected = result;
         isRunning = false;
       });
     }
+  }
+
+  // 投注模式
+  void onMode() {
+    final List<String> items =
+        List.generate(10, (index) => "Item ${index + 1}");
+
+    showModalBottomSheet(
+      context: context,
+      constraints: const BoxConstraints(maxHeight: 360),
+      builder: (BuildContext context) {
+        return Stack(
+          children: [
+            const SizedBox(
+              height: 64,
+              child: Center(
+                child: Text("投注模式", style: TextStyle(fontSize: 36)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 64, 16, 32),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: ListView.separated(
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      title: Text("${index + 1}. ${items[index]}"),
+                      splashColor: Theme.of(context).primaryColor,
+                      onTap: () {
+                        debugPrint('Selected: ${items[index]}');
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) =>
+                      const Divider(height: 0),
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 }
