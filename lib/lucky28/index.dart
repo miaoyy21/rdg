@@ -60,8 +60,11 @@ class _Lucky28PageState extends State<Lucky28Page>
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(width: 4),
-                ...opened.take(8).map((i) => CircleNumber(i)).toList(),
+                const Expanded(flex: 2, child: SizedBox()),
+                ...opened
+                    .take(8)
+                    .map((i) => Expanded(flex: 2, child: CircleNumber(i)))
+                    .toList(),
                 const Expanded(child: SizedBox()),
                 IconCircleButton(
                   Icons.keyboard_double_arrow_right,
@@ -69,7 +72,6 @@ class _Lucky28PageState extends State<Lucky28Page>
                     debugPrint("查看开奖历史");
                   },
                 ),
-                const SizedBox(width: 4),
               ],
             ),
             SizedBox(
