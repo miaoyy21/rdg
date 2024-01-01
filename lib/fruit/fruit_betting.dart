@@ -7,7 +7,7 @@ class FruitBetting extends StatelessWidget {
   final double width;
   final Function(Categories)? onBetting;
 
-  FruitBetting(this.category, this.width, this.onBetting, {super.key});
+  const FruitBetting(this.category, this.width, this.onBetting, {super.key});
 
   @override
   Widget build(BuildContext context) {

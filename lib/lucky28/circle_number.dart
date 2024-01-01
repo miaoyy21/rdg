@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CircleNumber extends StatelessWidget {
@@ -19,7 +18,7 @@ class CircleNumber extends StatelessWidget {
       child: Center(
         child: Text(
           "$num",
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 18.0,

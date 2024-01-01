@@ -32,11 +32,7 @@ class _FruitPageState extends State<FruitPage>
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('水果机'),
-        centerTitle: true,
-        actions: [],
-      ),
+      appBar: AppBar(title: const Text('水果机'), centerTitle: true),
       body: Center(
         child: ListView(
           children: [

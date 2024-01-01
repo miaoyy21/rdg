@@ -55,7 +55,7 @@ class _Lucky28PageState extends State<Lucky28Page>
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Center(
           child: ListView(
             children: [

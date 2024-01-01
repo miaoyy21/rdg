@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'fruit.dart';
@@ -6,7 +5,7 @@ import 'fruit.dart';
 class FruitGridViewItem extends StatelessWidget {
   final Fruit fruit;
 
-  FruitGridViewItem(this.fruit);
+  const FruitGridViewItem(this.fruit, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,27 +21,27 @@ class FruitGridViewItem extends StatelessWidget {
       child: Center(
         child: fruit.isLarge || fruit.rate <= 0
             ? Text(
-          fruit.name,
-          style: TextStyle(fontSize: fruit.isLarge ? 40 : 30),
-        )
-            : Column(
-          children: [
-            Expanded(
-              child: Text(
                 fruit.name,
-                style: const TextStyle(fontSize: 30),
+                style: TextStyle(fontSize: fruit.isLarge ? 40 : 30),
+              )
+            : Column(
+                children: [
+                  Expanded(
+                    child: Text(
+                      fruit.name,
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                  ),
+                  Text(
+                    "×${fruit.rate}",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  )
+                ],
               ),
-            ),
-            Text(
-              "×${fruit.rate}",
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
