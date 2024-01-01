@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:rdg/lucky28/circleNumber.dart';
+import 'package:rdg/lucky28/circle_number.dart';
 
 import '../widgets/index.dart';
 import 'circle_painter.dart';
