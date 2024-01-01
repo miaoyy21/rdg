@@ -51,18 +51,9 @@ class _Lucky28PageState extends State<Lucky28Page>
   Widget build(BuildContext context) {
     final double size = min(
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
-    final secondary = MaterialStateProperty.all<Color>(
-        Theme.of(context).secondaryHeaderColor);
-    final side = MaterialStateProperty.all<BorderSide>(
-      BorderSide(width: 2),
-    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("幸运28"),
-        centerTitle: true,
-        actions: [],
-      ),
+      appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
       body: Center(
         child: Column(
           children: [
@@ -70,7 +61,7 @@ class _Lucky28PageState extends State<Lucky28Page>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 8),
-                ...opened.take(8).map((num) => CircleNumber(num)).toList(),
+                ...opened.take(8).map((i) => CircleNumber(i)).toList(),
                 const Expanded(child: SizedBox()),
                 IconCircleButton(
                   Icons.keyboard_double_arrow_right,
@@ -93,7 +84,7 @@ class _Lucky28PageState extends State<Lucky28Page>
             ),
             autoIssue > 0
                 ? Container(
-                    margin: EdgeInsets.only(top: 16, bottom: 8),
+                    margin: const EdgeInsets.only(top: 16, bottom: 8),
                     child: RectangleCircleButton(
                       label: "自动投注中，剩余$autoIssue期...【取消】",
                       onPressed: onCancelAutoIssue,
