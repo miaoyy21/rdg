@@ -11,7 +11,7 @@ class CircleNumber extends StatelessWidget {
     return Container(
       width: 36,
       height: 36,
-      margin: const EdgeInsets.all(4),
+      margin: const EdgeInsets.all(1),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(width: 2),

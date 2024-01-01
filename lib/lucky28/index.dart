@@ -55,12 +55,12 @@ class _Lucky28PageState extends State<Lucky28Page>
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
       body: Center(
-        child: Column(
+        child: ListView(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
                 ...opened.take(8).map((i) => CircleNumber(i)).toList(),
                 const Expanded(child: SizedBox()),
                 IconCircleButton(
@@ -69,7 +69,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                     debugPrint("查看开奖历史");
                   },
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
               ],
             ),
             SizedBox(
@@ -135,9 +135,8 @@ class _Lucky28PageState extends State<Lucky28Page>
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(width: 8),
                 RectangleCircleButton(
-                  label: "  刷新  ",
+                  label: "刷新",
                   onPressed: () {
                     debugPrint("刷新");
                   },
@@ -161,15 +160,12 @@ class _Lucky28PageState extends State<Lucky28Page>
                     debugPrint("我的投注");
                   },
                 ),
-                const SizedBox(width: 8),
               ],
             ),
-            ElevatedButton(
+            RectangleCircleButton(
+              label: "开始",
               onPressed: onStart,
-              child: const Text('开始'),
             ),
-            const SizedBox(height: 16),
-            const SizedBox(height: 32),
           ],
         ),
       ),

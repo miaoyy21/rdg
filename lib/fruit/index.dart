@@ -39,7 +39,6 @@ class _FruitPageState extends State<FruitPage>
       ),
       body: Center(
         child: ListView(
-          physics: const NeverScrollableScrollPhysics(),
           children: [
             const SizedBox(height: 8),
             Padding(
@@ -75,6 +74,7 @@ class _FruitPageState extends State<FruitPage>
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(width: 4),
                 RectangleCircleButton(
                   label: "⇦",
                   onPressed: enable && total > 0 ? () => onBonus(1) : null,
@@ -83,7 +83,7 @@ class _FruitPageState extends State<FruitPage>
                   label: "⇨",
                   onPressed: enable && bonus > 0 ? () => onBonus(-1) : null,
                 ),
-                const SizedBox(width: 8),
+                const Expanded(child: SizedBox()),
                 RectangleCircleButton(
                   label: "大",
                   onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
@@ -92,7 +92,7 @@ class _FruitPageState extends State<FruitPage>
                   label: "小",
                   onPressed: enable && bonus > 0 ? () => onGuess(false) : null,
                 ),
-                const SizedBox(width: 8),
+                const Expanded(child: SizedBox()),
                 RectangleCircleButton(
                   label: "开始",
                   border: const CircleBorder(),
@@ -103,6 +103,7 @@ class _FruitPageState extends State<FruitPage>
                       ? onStart
                       : null,
                 ),
+                const SizedBox(width: 4),
               ],
             ),
             const SizedBox(height: 16),
