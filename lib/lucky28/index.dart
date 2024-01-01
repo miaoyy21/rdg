@@ -18,7 +18,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   int result = -1; // 目标随机数字
   int selected = -1; // 转轮选中数字
   bool isRunning = false; // 转轮正在转动中
-  int autoIssue = 0; // 自动投注中
+  int autoIssue = 1; // 自动投注中
 
   late int total = 1234567; // 总金额
   double radixPercent = 0; // 投注百分比
@@ -28,67 +28,32 @@ class _Lucky28PageState extends State<Lucky28Page>
   static const double acceleration = -7.75;
 
   late AudioPlayer _player;
+  late AssetSource _source;
   late AnimationController _controller;
-
-  void onRadix(double value) {
-    setState(() {
-      radixPercent = value;
-      radix = ((radixPercent * total) ~/ 1000) * 1000;
-    });
-  }
 
   // 开始
   void onStart() async {
     result = Random().nextInt(28);
     debugPrint("Random Target Value is $result");
 
-    _player.setVolume(1.0);
     _controller.reset();
     await _controller.forward();
 
     total -= 67890;
-    onRadix(radixPercent);
+    onRadixChange(radixPercent);
   }
 
   @override
   void initState() {
     super.initState();
 
-    _player = AudioPlayer()
-      ..setVolume(0)
-      ..setPlaybackRate(2.0)
-      ..play(AssetSource("dong.wav"));
+    _player = AudioPlayer()..setPlaybackRate(2.0);
+    _source = AssetSource("dong.wav");
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 6),
-    );
-
-    _controller
-      ..addListener(() {
-        final distance = initial * _controller.value +
-            0.5 * acceleration * _controller.value * _controller.value;
-
-        final newSelected = distance *
-            (28 * 3 + result.toDouble()) ~/
-            (initial + 0.5 * acceleration) %
-            28;
-        if (newSelected != selected) {
-          _player.resume();
-          setState(() {
-            selected = newSelected;
-            isRunning = true;
-          });
-        }
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          setState(() {
-            selected = result;
-            isRunning = false;
-          });
-        }
-      });
+    const duration = Duration(seconds: 6);
+    _controller = AnimationController(vsync: this, duration: duration);
+    _controller.addListener(onOpen);
+    _controller.addStatusListener(onOpenFinish);
   }
 
   @override
@@ -130,9 +95,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                     margin: EdgeInsets.only(top: 16, bottom: 8),
                     child: RectangleCircleButton(
                       label: "自动投注中，剩余$autoIssue期...【取消】",
-                      onPressed: () {
-                        debugPrint("自动投注中 ...【取消】");
-                      },
+                      onPressed: onCancelAutoIssue,
                     ),
                   )
                 : const SizedBox(),
@@ -152,7 +115,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                     value: radixPercent,
                     activeColor: Colors.black,
                     inactiveColor: Colors.black38,
-                    onChanged: onRadix,
+                    onChanged: onRadixChange,
                   ),
                 )
               ],
@@ -227,5 +190,47 @@ class _Lucky28PageState extends State<Lucky28Page>
     _controller.dispose();
 
     super.dispose();
+  }
+
+  void onRadixChange(double value) {
+    setState(() {
+      radixPercent = value;
+      radix = ((radixPercent * total) ~/ 1000) * 1000;
+    });
+  }
+
+  // 取消自动投注
+  void onCancelAutoIssue() {
+    setState(() {
+      autoIssue = 0;
+    });
+  }
+
+  // 开奖
+  void onOpen() {
+    final distance = initial * _controller.value +
+        0.5 * acceleration * _controller.value * _controller.value;
+
+    final newSelected = distance *
+        (28 * 3 + result.toDouble()) ~/
+        (initial + 0.5 * acceleration) %
+        28;
+    if (newSelected != selected) {
+      _player.play(_source);
+      setState(() {
+        selected = newSelected;
+        isRunning = true;
+      });
+    }
+  }
+
+  // 开奖结束
+  void onOpenFinish(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      setState(() {
+        selected = result;
+        isRunning = false;
+      });
+    }
   }
 }
