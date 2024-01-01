@@ -30,22 +30,12 @@ class _FruitPageState extends State<FruitPage>
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
     );
-    final secondary = MaterialStateProperty.all<Color>(
-        Theme.of(context).secondaryHeaderColor);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('水果机'),
         centerTitle: true,
-        actions: [
-          IconButton.outlined(
-            icon: const Icon(Icons.history),
-            style: ButtonStyle(overlayColor: secondary),
-            onPressed: () {
-              debugPrint("TODO ......");
-            },
-          ),
-        ],
+        actions: [],
       ),
       body: Center(
         child: ListView(

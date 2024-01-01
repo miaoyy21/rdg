@@ -23,46 +23,42 @@ class RectangleCircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color background = Theme.of(context).scaffoldBackgroundColor;
+    late Color primary = Theme.of(context).primaryColor;
     late Color secondary = Theme.of(context).secondaryHeaderColor;
-    late Color color = Colors.black;
+    final Color background = Theme.of(context).scaffoldBackgroundColor;
 
     // 是否禁用
     if (onPressed == null) {
+      primary = Colors.black54;
       secondary = Theme.of(context).scaffoldBackgroundColor;
-      color = Colors.black54;
     }
 
-    final MaterialStateProperty<OutlinedBorder?> shape;
+    final OutlinedBorder? shape;
     final EdgeInsetsGeometry? padding;
     if (border is RoundedRectangleBorder) {
-      shape = MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
-      );
+      shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0));
       padding = const EdgeInsets.symmetric(horizontal: 8);
     } else if (border is CircleBorder) {
-      shape = MaterialStateProperty.all<CircleBorder>(
-        const CircleBorder(),
-      );
+      shape = const CircleBorder();
       padding = EdgeInsets.zero;
     } else {
       throw Exception("unexpected type of ${border.runtimeType}");
     }
 
+    final side = BorderSide(color: primary, width: 2);
+
     final button = ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        shape: shape,
-        backgroundColor: MaterialStateProperty.all<Color>(background),
-        foregroundColor: MaterialStateProperty.all<Color>(background),
-        overlayColor: MaterialStateProperty.all<Color>(secondary),
-        shadowColor: MaterialStateProperty.all<Color>(background),
-        surfaceTintColor: MaterialStateProperty.all<Color>(background),
+        shape: MaterialStateProperty.all(shape),
+        backgroundColor: MaterialStateProperty.all(background),
+        foregroundColor: MaterialStateProperty.all(background),
+        overlayColor: MaterialStateProperty.all(secondary),
+        shadowColor: MaterialStateProperty.all(primary),
+        surfaceTintColor: MaterialStateProperty.all(background),
         elevation: MaterialStateProperty.all(4),
-        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
-        side: MaterialStateProperty.all<BorderSide>(
-          BorderSide(color: color),
-        ),
+        padding: MaterialStateProperty.all(EdgeInsets.zero),
+        side: MaterialStateProperty.all(side),
       ),
       child: Container(
         margin: padding,
@@ -70,7 +66,7 @@ class RectangleCircleButton extends StatelessWidget {
           label!,
           style: TextStyle(
             fontSize: fontSize,
-            color: color,
+            color: primary,
             fontWeight: FontWeight.bold,
           ),
         ),

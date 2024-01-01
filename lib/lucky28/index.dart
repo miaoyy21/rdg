@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:rdg/lucky28/circleNumber.dart';
 
-import '../widgets/rectangle_circle_button.dart';
+import '../widgets/index.dart';
 import 'circle_painter.dart';
 
 class Lucky28Page extends StatefulWidget {
@@ -18,7 +19,8 @@ class _Lucky28PageState extends State<Lucky28Page>
   int result = -1; // 目标随机数字
   int selected = -1; // 转轮选中数字
   bool isRunning = false; // 转轮正在转动中
-  int autoIssue = 1; // 自动投注中
+  int autoIssue = 1; // 自动投注剩余期数
+  List<int> opened = [0, 2, 3, 4, 4, 2, 12, 26, 25, 1, 3]; // 最新8期开奖结果
 
   late int total = 1234567; // 总金额
   double radixPercent = 0; // 投注百分比
@@ -51,24 +53,34 @@ class _Lucky28PageState extends State<Lucky28Page>
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
     final secondary = MaterialStateProperty.all<Color>(
         Theme.of(context).secondaryHeaderColor);
+    final side = MaterialStateProperty.all<BorderSide>(
+      BorderSide(width: 2),
+    );
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("幸运28"),
         centerTitle: true,
-        actions: [
-          IconButton.outlined(
-            icon: const Icon(Icons.history),
-            style: ButtonStyle(overlayColor: secondary),
-            onPressed: () {
-              debugPrint("TODO ......");
-            },
-          ),
-        ],
+        actions: [],
       ),
       body: Center(
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 8),
+                ...opened.take(8).map((num) => CircleNumber(num)).toList(),
+                const Expanded(child: SizedBox()),
+                IconCircleButton(
+                  Icons.history,
+                  onPressed: () {
+                    debugPrint("History Pressed");
+                  },
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
             SizedBox(
               width: size,
               height: size,
