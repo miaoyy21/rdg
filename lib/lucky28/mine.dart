@@ -24,17 +24,14 @@ class _StateMinePage extends State<MinePage> {
   void initState() {
     super.initState();
 
+    colorFn(row) => row.win.startsWith("-") ? Colors.green : Colors.red;
+
     cells = [
       MineCell("期号", TextAlign.center, (row) => "${row.issue}"),
       MineCell("开奖", TextAlign.center, (row) => "${row.result}"),
-      MineCell(
-        "盈亏",
-        TextAlign.right,
-        (row) => NumberFormat("#,###").format(row.win),
-        colorFn: (row) => row.win >= 0 ? Colors.red : Colors.green,
-      ),
-      MineCell("花费", TextAlign.right, (row) => format(row.cost)),
-      MineCell("获得", TextAlign.right, (row) => format(row.total)),
+      MineCell("盈亏", TextAlign.right, (row) => row.win, colorFn: colorFn),
+      MineCell("获得", TextAlign.right, (row) => row.total, colorFn: colorFn),
+      MineCell("花费", TextAlign.right, (row) => row.cost),
     ];
 
     rows = List.generate(
@@ -42,9 +39,9 @@ class _StateMinePage extends State<MinePage> {
       (index) => MineRow(
         300000000 - index,
         Random().nextInt(10) + Random().nextInt(10) + Random().nextInt(10),
-        Random().nextInt(100000000) - 50000000,
-        Random().nextInt(100000000) + 50000000,
-        Random().nextInt(100000000) + 100000000,
+        format(Random().nextInt(100000000) - 50000000),
+        format(Random().nextInt(100000000) + 50000000),
+        format(Random().nextInt(100000000) + 100000000),
       ),
     );
 
@@ -125,9 +122,9 @@ class _StateMinePage extends State<MinePage> {
                       columnWidths: const {
                         0: FixedColumnWidth(96),
                         1: FixedColumnWidth(56),
-                        2: FixedColumnWidth(116),
-                        3: FixedColumnWidth(116),
-                        4: FixedColumnWidth(116)
+                        2: FixedColumnWidth(112),
+                        3: FixedColumnWidth(112),
+                        4: FixedColumnWidth(112)
                       },
                       children: [
                         TableRow(
@@ -151,7 +148,9 @@ class _StateMinePage extends State<MinePage> {
                                   child: Container(
                                     height: 26,
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
                                     child: Text(
                                       cell.textFn(row),
                                       textAlign: cell.textAlign,
@@ -181,9 +180,9 @@ class _StateMinePage extends State<MinePage> {
 class MineRow {
   final int issue;
   final int result;
-  final int win;
-  final int total;
-  final int cost;
+  final String win;
+  final String total;
+  final String cost;
 
   MineRow(this.issue, this.result, this.win, this.total, this.cost);
 }

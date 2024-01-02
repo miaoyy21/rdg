@@ -14,6 +14,8 @@ class _StateHistoriesPage extends State<HistoriesPage> {
   late List<HistoriesCell> cells;
   late List<HistoriesRow> rows;
 
+  final format = NumberFormat("#,###").format;
+
   @override
   void initState() {
     super.initState();
@@ -34,8 +36,8 @@ class _StateHistoriesPage extends State<HistoriesPage> {
       (index) => HistoriesRow(
         300000000 - index,
         Random().nextInt(10) + Random().nextInt(10) + Random().nextInt(10),
-        Random().nextInt(100000000) + 100000000,
-        Random().nextInt(100) + 100,
+        format(Random().nextInt(100000000) + 100000000),
+        format(Random().nextInt(100) + 100),
       ),
     );
   }
@@ -44,6 +46,7 @@ class _StateHistoriesPage extends State<HistoriesPage> {
   Widget build(BuildContext context) {
     const style0 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
     const style1 = TextStyle(fontSize: 13);
+    const padding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
 
     return Scaffold(
       appBar: AppBar(title: const Text("历史分析"), centerTitle: true),
@@ -111,7 +114,7 @@ class _StateHistoriesPage extends State<HistoriesPage> {
                     columnWidths: {
                       ...cells.asMap().map(
                           (k, v) => MapEntry(k, const FixedColumnWidth(64))),
-                      cells.length: const FixedColumnWidth(116),
+                      cells.length: const FixedColumnWidth(112),
                       cells.length + 1: const FixedColumnWidth(88)
                     },
                     children: [
@@ -160,10 +163,9 @@ class _StateHistoriesPage extends State<HistoriesPage> {
                             TableCell(
                               child: Container(
                                 height: 26,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
+                                padding: padding,
                                 child: Text(
-                                  NumberFormat("#,###").format(row.total),
+                                  row.total,
                                   textAlign: TextAlign.right,
                                   style: style1,
                                 ),
@@ -172,10 +174,9 @@ class _StateHistoriesPage extends State<HistoriesPage> {
                             TableCell(
                               child: Container(
                                 height: 26,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
+                                padding: padding,
                                 child: Text(
-                                  NumberFormat("#,###").format(row.wins),
+                                  row.wins,
                                   textAlign: TextAlign.right,
                                   style: style1,
                                 ),
@@ -199,8 +200,8 @@ class _StateHistoriesPage extends State<HistoriesPage> {
 class HistoriesRow {
   final int issue;
   final int result;
-  final int total;
-  final int wins;
+  final String total;
+  final String wins;
 
   HistoriesRow(this.issue, this.result, this.total, this.wins);
 }
