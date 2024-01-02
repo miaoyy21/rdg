@@ -22,7 +22,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   int selected = -1; // 转轮选中数字
   bool isRunning = false; // 转轮正在转动中
   int autoIssue = 1; // 自动投注剩余期数
-  List<int> opened = [0, 2, 3, 4, 4, 2, 12, 26, 25, 1, 3]; // 最新8期开奖结果
+  List<int> opened = List.generate(10, (i) => Random().nextInt(28)); // 最新8期开奖结果
 
   late int total = 1234567; // 总金额
   double radixPercent = 0; // 投注百分比
