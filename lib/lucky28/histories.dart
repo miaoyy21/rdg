@@ -20,7 +20,7 @@ class _HistoriesPageState extends State<HistoriesPage> {
     histories = List.generate(
       200,
       (index) => HisToriesData(
-        30000000 - index,
+        300000000 - index,
         Random().nextInt(10) + Random().nextInt(10) + Random().nextInt(10),
         Random().nextInt(100000000) + 100000000,
         Random().nextInt(100) + 100,
@@ -96,16 +96,16 @@ class _HistoriesPageState extends State<HistoriesPage> {
                 child: Table(
                   border: TableBorder.all(width: 2, color: Colors.black12),
                   columnWidths: {
-                    ...elements
+                    ...cells
                         .asMap()
                         .map((k, v) => MapEntry(k, const FixedColumnWidth(64))),
-                    elements.length: const FixedColumnWidth(116),
-                    elements.length + 1: const FixedColumnWidth(88)
+                    cells.length: const FixedColumnWidth(116),
+                    cells.length + 1: const FixedColumnWidth(88)
                   },
                   children: [
                     TableRow(
                       children: [
-                        ...elements.map(
+                        ...cells.map(
                           (e) => TableCell(
                             child: SizedBox(
                               height: 36,
@@ -130,7 +130,7 @@ class _HistoriesPageState extends State<HistoriesPage> {
                     ...histories.map(
                       (v) => TableRow(
                         children: [
-                          ...elements.map(
+                          ...cells.map(
                             (e) => TableCell(
                               child: Container(
                                 height: 26,
@@ -189,21 +189,21 @@ class HisToriesData {
   HisToriesData(this.issue, this.result, this.total, this.wins);
 }
 
-class HistoriesElement {
+class HistoriesCell {
   final String name;
   final Color background;
   final bool Function(int) fn;
 
-  HistoriesElement(this.name, this.background, this.fn);
+  HistoriesCell(this.name, this.background, this.fn);
 }
 
-final List<HistoriesElement> elements = [
-  HistoriesElement("大", Colors.red.shade50, (v) => v >= 14),
-  HistoriesElement("小", Colors.red.shade50, (v) => v <= 13),
-  HistoriesElement("单", Colors.green.shade50, (v) => v.isOdd),
-  HistoriesElement("双", Colors.green.shade50, (v) => v.isEven),
-  HistoriesElement("中", Colors.blue.shade50, (v) => v >= 10 && v <= 17),
-  HistoriesElement("边", Colors.blue.shade50, (v) => v <= 9 || v >= 18),
-  HistoriesElement("大尾", Colors.purple.shade50, (v) => v % 10 >= 5),
-  HistoriesElement("小尾", Colors.purple.shade50, (v) => v % 10 <= 4),
+final List<HistoriesCell> cells = [
+  HistoriesCell("大", Colors.red.shade50, (v) => v >= 14),
+  HistoriesCell("小", Colors.red.shade50, (v) => v <= 13),
+  HistoriesCell("单", Colors.green.shade50, (v) => v.isOdd),
+  HistoriesCell("双", Colors.green.shade50, (v) => v.isEven),
+  HistoriesCell("中", Colors.blue.shade50, (v) => v >= 10 && v <= 17),
+  HistoriesCell("边", Colors.blue.shade50, (v) => v <= 9 || v >= 18),
+  HistoriesCell("大尾", Colors.purple.shade50, (v) => v % 10 >= 5),
+  HistoriesCell("小尾", Colors.purple.shade50, (v) => v % 10 <= 4),
 ];
