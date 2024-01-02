@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:rdg/lucky28/circle_number.dart';
+import 'package:rdg/lucky28/opened.dart';
 
 import '../widgets/index.dart';
 import 'circle_painter.dart';
@@ -71,7 +72,9 @@ class _Lucky28PageState extends State<Lucky28Page>
                   IconCircleButton(
                     Icons.keyboard_double_arrow_right,
                     onPressed: () {
-                      debugPrint("查看开奖历史");
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => OpenedPage()),
+                      );
                     },
                   ),
                 ],
