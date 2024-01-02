@@ -51,57 +51,59 @@ class _StateMinePage extends State<MinePage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text("我的投注"), centerTitle: true),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 32),
-        scrollDirection: Axis.vertical,
+      body: Container(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
         child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Table(
-            border: TableBorder.all(width: 2, color: Colors.black12),
-            columnWidths: const {
-              0: FixedColumnWidth(88),
-              1: FixedColumnWidth(48),
-              2: FixedColumnWidth(116),
-              3: FixedColumnWidth(116),
-              4: FixedColumnWidth(116)
-            },
-            children: [
-              TableRow(
-                children: [
-                  ...cells.map(
-                    (cell) => TableCell(
-                      child: SizedBox(
-                        height: 36,
-                        child: Center(child: Text(cell.name, style: style0)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              ...rows.map(
-                (row) => TableRow(
+          scrollDirection: Axis.vertical,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Table(
+              border: TableBorder.all(width: 2, color: Colors.black12),
+              columnWidths: const {
+                0: FixedColumnWidth(88),
+                1: FixedColumnWidth(48),
+                2: FixedColumnWidth(116),
+                3: FixedColumnWidth(116),
+                4: FixedColumnWidth(116)
+              },
+              children: [
+                TableRow(
                   children: [
                     ...cells.map(
                       (cell) => TableCell(
-                        child: Container(
-                          height: 26,
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            cell.textFn(row),
-                            textAlign: cell.textAlign,
-                            style: style1.copyWith(
-                              color: cell.colorFn != null
-                                  ? cell.colorFn!(row)
-                                  : null,
-                            ),
-                          ),
+                        child: SizedBox(
+                          height: 36,
+                          child: Center(child: Text(cell.name, style: style0)),
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                ...rows.map(
+                  (row) => TableRow(
+                    children: [
+                      ...cells.map(
+                        (cell) => TableCell(
+                          child: Container(
+                            height: 26,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              cell.textFn(row),
+                              textAlign: cell.textAlign,
+                              style: style1.copyWith(
+                                color: cell.colorFn != null
+                                    ? cell.colorFn!(row)
+                                    : null,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

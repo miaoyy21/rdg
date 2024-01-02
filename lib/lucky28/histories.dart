@@ -46,148 +46,149 @@ class _StateHistoriesPage extends State<HistoriesPage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text("历史分析"), centerTitle: true),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 32),
-        scrollDirection: Axis.vertical,
-        child: Row(
-          children: [
-            // 左侧表格
-            Table(
-              border: TableBorder.all(width: 2, color: Colors.black12),
-              columnWidths: const {
-                0: FixedColumnWidth(88),
-                1: FixedColumnWidth(48)
-              },
-              children: [
-                const TableRow(
-                  children: [
-                    TableCell(
-                      child: SizedBox(
-                        height: 36,
-                        child: Center(child: Text("期号", style: style0)),
-                      ),
-                    ),
-                    TableCell(
-                      child: SizedBox(
-                        height: 36,
-                        child: Center(child: Text("开奖", style: style0)),
-                      ),
-                    )
-                  ],
-                ),
-                ...rows.map(
-                  (row) => TableRow(
+      body: Container(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Row(
+            children: [
+              // 左侧表格
+              Table(
+                border: TableBorder.all(width: 2, color: Colors.black12),
+                columnWidths: const {
+                  0: FixedColumnWidth(88),
+                  1: FixedColumnWidth(48)
+                },
+                children: [
+                  const TableRow(
                     children: [
                       TableCell(
                         child: SizedBox(
-                          height: 26,
-                          child: Center(
-                            child: Text("${row.issue}", style: style1),
-                          ),
+                          height: 36,
+                          child: Center(child: Text("期号", style: style0)),
                         ),
                       ),
                       TableCell(
                         child: SizedBox(
-                          height: 26,
-                          child: Center(
-                            child: Text("${row.result}", style: style1),
+                          height: 36,
+                          child: Center(child: Text("开奖", style: style0)),
+                        ),
+                      )
+                    ],
+                  ),
+                  ...rows.map(
+                    (row) => TableRow(
+                      children: [
+                        TableCell(
+                          child: SizedBox(
+                            height: 26,
+                            child: Center(
+                              child: Text("${row.issue}", style: style1),
+                            ),
                           ),
+                        ),
+                        TableCell(
+                          child: SizedBox(
+                            height: 26,
+                            child: Center(
+                              child: Text("${row.result}", style: style1),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              // 右侧表格
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Table(
+                    border: TableBorder.all(width: 2, color: Colors.black12),
+                    columnWidths: {
+                      ...cells.asMap().map(
+                          (k, v) => MapEntry(k, const FixedColumnWidth(64))),
+                      cells.length: const FixedColumnWidth(116),
+                      cells.length + 1: const FixedColumnWidth(88)
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          ...cells.map(
+                            (cell) => TableCell(
+                              child: SizedBox(
+                                height: 36,
+                                child: Center(
+                                    child: Text(cell.name, style: style0)),
+                              ),
+                            ),
+                          ),
+                          const TableCell(
+                            child: SizedBox(
+                              height: 36,
+                              child: Center(child: Text("投注总额", style: style0)),
+                            ),
+                          ),
+                          const TableCell(
+                            child: SizedBox(
+                              height: 36,
+                              child: Center(child: Text("中奖人数", style: style0)),
+                            ),
+                          )
+                        ],
+                      ),
+                      ...rows.map(
+                        (row) => TableRow(
+                          children: [
+                            ...cells.map(
+                              (cell) => TableCell(
+                                child: Container(
+                                  height: 26,
+                                  color: cell.background,
+                                  child: Center(
+                                    child: Text(
+                                      cell.fn(row.result) ? cell.name : "",
+                                      style: style1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                height: 26,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  NumberFormat("#,###").format(row.total),
+                                  textAlign: TextAlign.right,
+                                  style: style1,
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                height: 26,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  NumberFormat("#,###").format(row.wins),
+                                  textAlign: TextAlign.right,
+                                  style: style1,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-
-            // 右侧表格
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Table(
-                  border: TableBorder.all(width: 2, color: Colors.black12),
-                  columnWidths: {
-                    ...cells
-                        .asMap()
-                        .map((k, v) => MapEntry(k, const FixedColumnWidth(64))),
-                    cells.length: const FixedColumnWidth(116),
-                    cells.length + 1: const FixedColumnWidth(88)
-                  },
-                  children: [
-                    TableRow(
-                      children: [
-                        ...cells.map(
-                          (cell) => TableCell(
-                            child: SizedBox(
-                              height: 36,
-                              child:
-                                  Center(child: Text(cell.name, style: style0)),
-                            ),
-                          ),
-                        ),
-                        const TableCell(
-                          child: SizedBox(
-                            height: 36,
-                            child: Center(child: Text("投注总额", style: style0)),
-                          ),
-                        ),
-                        const TableCell(
-                          child: SizedBox(
-                            height: 36,
-                            child: Center(child: Text("中奖人数", style: style0)),
-                          ),
-                        )
-                      ],
-                    ),
-                    ...rows.map(
-                      (row) => TableRow(
-                        children: [
-                          ...cells.map(
-                            (cell) => TableCell(
-                              child: Container(
-                                height: 26,
-                                color: cell.background,
-                                child: Center(
-                                  child: Text(
-                                    cell.fn(row.result) ? cell.name : "",
-                                    style: style1,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          TableCell(
-                            child: Container(
-                              height: 26,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                NumberFormat("#,###").format(row.total),
-                                textAlign: TextAlign.right,
-                                style: style1,
-                              ),
-                            ),
-                          ),
-                          TableCell(
-                            child: Container(
-                              height: 26,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                NumberFormat("#,###").format(row.wins),
-                                textAlign: TextAlign.right,
-                                style: style1,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
