@@ -99,7 +99,7 @@ class _HistoriesPageState extends State<HistoriesPage> {
                     ...elements
                         .asMap()
                         .map((k, v) => MapEntry(k, const FixedColumnWidth(64))),
-                    elements.length: const FixedColumnWidth(128),
+                    elements.length: const FixedColumnWidth(116),
                     elements.length + 1: const FixedColumnWidth(88)
                   },
                   children: [
@@ -132,8 +132,9 @@ class _HistoriesPageState extends State<HistoriesPage> {
                         children: [
                           ...elements.map(
                             (e) => TableCell(
-                              child: SizedBox(
+                              child: Container(
                                 height: 26,
+                                color: e.background,
                                 child: Center(
                                   child: Text(
                                     e.fn(v.result) ? e.name : "",
@@ -190,18 +191,19 @@ class HisToriesData {
 
 class HistoriesElement {
   final String name;
+  final Color background;
   final bool Function(int) fn;
 
-  HistoriesElement(this.name, this.fn);
+  HistoriesElement(this.name, this.background, this.fn);
 }
 
 final List<HistoriesElement> elements = [
-  HistoriesElement("大", (v) => v >= 14),
-  HistoriesElement("小", (v) => v <= 13),
-  HistoriesElement("单", (v) => v.isOdd),
-  HistoriesElement("双", (v) => v.isEven),
-  HistoriesElement("中", (v) => v >= 10 && v <= 17),
-  HistoriesElement("边", (v) => v <= 9 || v >= 18),
-  HistoriesElement("大尾", (v) => v % 10 >= 5),
-  HistoriesElement("小尾", (v) => v % 10 <= 4),
+  HistoriesElement("大", Colors.red.shade50, (v) => v >= 14),
+  HistoriesElement("小", Colors.red.shade50, (v) => v <= 13),
+  HistoriesElement("单", Colors.green.shade50, (v) => v.isOdd),
+  HistoriesElement("双", Colors.green.shade50, (v) => v.isEven),
+  HistoriesElement("中", Colors.blue.shade50, (v) => v >= 10 && v <= 17),
+  HistoriesElement("边", Colors.blue.shade50, (v) => v <= 9 || v >= 18),
+  HistoriesElement("大尾", Colors.purple.shade50, (v) => v % 10 >= 5),
+  HistoriesElement("小尾", Colors.purple.shade50, (v) => v % 10 <= 4),
 ];
