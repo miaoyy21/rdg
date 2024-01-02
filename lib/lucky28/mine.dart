@@ -27,11 +27,12 @@ class _StateMinePage extends State<MinePage> {
     colorFn(row) => row.win.startsWith("-") ? Colors.green : Colors.red;
 
     cells = [
-      MineCell("期号", TextAlign.center, (row) => "${row.issue}"),
-      MineCell("开奖", TextAlign.center, (row) => "${row.result}"),
-      MineCell("盈亏", TextAlign.right, (row) => row.win, colorFn: colorFn),
-      MineCell("获得", TextAlign.right, (row) => row.total, colorFn: colorFn),
-      MineCell("花费", TextAlign.right, (row) => row.cost),
+      MineCell("期号", 96, TextAlign.center, (row) => "${row.issue}"),
+      MineCell("开奖", 56, TextAlign.center, (row) => "${row.result}"),
+      MineCell("盈亏", 112, TextAlign.right, (row) => row.win, colorFn: colorFn),
+      MineCell("获得", 112, TextAlign.right, (row) => row.total,
+          colorFn: colorFn),
+      MineCell("花费", 112, TextAlign.right, (row) => row.cost),
     ];
 
     rows = List.generate(
@@ -119,12 +120,9 @@ class _StateMinePage extends State<MinePage> {
                     scrollDirection: Axis.horizontal,
                     child: Table(
                       border: TableBorder.all(width: 2, color: Colors.black12),
-                      columnWidths: const {
-                        0: FixedColumnWidth(96),
-                        1: FixedColumnWidth(56),
-                        2: FixedColumnWidth(112),
-                        3: FixedColumnWidth(112),
-                        4: FixedColumnWidth(112)
+                      columnWidths: {
+                        ...cells.asMap().map((k, cell) =>
+                            MapEntry(k, FixedColumnWidth(cell.width))),
                       },
                       children: [
                         TableRow(
@@ -134,7 +132,8 @@ class _StateMinePage extends State<MinePage> {
                                 child: SizedBox(
                                   height: 36,
                                   child: Center(
-                                      child: Text(cell.name, style: style0)),
+                                    child: Text(cell.name, style: style0),
+                                  ),
                                 ),
                               ),
                             ),
@@ -189,9 +188,10 @@ class MineRow {
 
 class MineCell {
   final String name;
+  final double width;
   final TextAlign textAlign;
   final String Function(MineRow) textFn;
   final Color Function(MineRow)? colorFn;
 
-  MineCell(this.name, this.textAlign, this.textFn, {this.colorFn});
+  MineCell(this.name, this.width, this.textAlign, this.textFn, {this.colorFn});
 }
