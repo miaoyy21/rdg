@@ -11,26 +11,26 @@ class MinePage extends StatefulWidget {
 }
 
 class _StateMinePage extends State<MinePage> {
+  late List<MineCell> cells;
   late List<MineRow> rows;
-
-  final List<MineCell> cells = [
-    MineCell("期号", TextAlign.center, (row) => "${row.issue}"),
-    MineCell("开奖", TextAlign.center, (row) => "${row.result}"),
-    MineCell(
-      "盈亏",
-      TextAlign.right,
-      (row) => NumberFormat("#,###").format(row.win),
-      colorFn: (row) => row.win >= 0 ? Colors.red : Colors.green,
-    ),
-    MineCell(
-        "花费", TextAlign.right, (row) => NumberFormat("#,###").format(row.cost)),
-    MineCell("获得", TextAlign.right,
-        (row) => NumberFormat("#,###").format(row.total)),
-  ];
 
   @override
   void initState() {
     super.initState();
+
+    final format = NumberFormat("#,###").format;
+    cells = [
+      MineCell("期号", TextAlign.center, (row) => "${row.issue}"),
+      MineCell("开奖", TextAlign.center, (row) => "${row.result}"),
+      MineCell(
+        "盈亏",
+        TextAlign.right,
+        (row) => NumberFormat("#,###").format(row.win),
+        colorFn: (row) => row.win >= 0 ? Colors.red : Colors.green,
+      ),
+      MineCell("花费", TextAlign.right, (row) => format(row.cost)),
+      MineCell("获得", TextAlign.right, (row) => format(row.total)),
+    ];
 
     rows = List.generate(
       100,
@@ -60,8 +60,8 @@ class _StateMinePage extends State<MinePage> {
             child: Table(
               border: TableBorder.all(width: 2, color: Colors.black12),
               columnWidths: const {
-                0: FixedColumnWidth(88),
-                1: FixedColumnWidth(48),
+                0: FixedColumnWidth(96),
+                1: FixedColumnWidth(56),
                 2: FixedColumnWidth(116),
                 3: FixedColumnWidth(116),
                 4: FixedColumnWidth(116)

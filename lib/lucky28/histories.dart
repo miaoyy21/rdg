@@ -11,22 +11,23 @@ class HistoriesPage extends StatefulWidget {
 }
 
 class _StateHistoriesPage extends State<HistoriesPage> {
+  late List<HistoriesCell> cells;
   late List<HistoriesRow> rows;
-
-  final List<HistoriesCell> cells = [
-    HistoriesCell("大", Colors.red.shade50, (v) => v >= 14),
-    HistoriesCell("小", Colors.red.shade50, (v) => v <= 13),
-    HistoriesCell("单", Colors.green.shade50, (v) => v.isOdd),
-    HistoriesCell("双", Colors.green.shade50, (v) => v.isEven),
-    HistoriesCell("中", Colors.blue.shade50, (v) => v >= 10 && v <= 17),
-    HistoriesCell("边", Colors.blue.shade50, (v) => v <= 9 || v >= 18),
-    HistoriesCell("大尾", Colors.purple.shade50, (v) => v % 10 >= 5),
-    HistoriesCell("小尾", Colors.purple.shade50, (v) => v % 10 <= 4),
-  ];
 
   @override
   void initState() {
     super.initState();
+
+    cells = [
+      HistoriesCell("大", Colors.red.shade50, (v) => v >= 14),
+      HistoriesCell("小", Colors.red.shade50, (v) => v <= 13),
+      HistoriesCell("单", Colors.green.shade50, (v) => v.isOdd),
+      HistoriesCell("双", Colors.green.shade50, (v) => v.isEven),
+      HistoriesCell("中", Colors.blue.shade50, (v) => v >= 10 && v <= 17),
+      HistoriesCell("边", Colors.blue.shade50, (v) => v <= 9 || v >= 18),
+      HistoriesCell("大尾", Colors.purple.shade50, (v) => v % 10 >= 5),
+      HistoriesCell("小尾", Colors.purple.shade50, (v) => v % 10 <= 4),
+    ];
 
     rows = List.generate(
       200,
