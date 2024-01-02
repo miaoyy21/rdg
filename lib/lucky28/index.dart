@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:rdg/lucky28/circle_number.dart';
 import 'package:rdg/lucky28/histories.dart';
+import 'package:rdg/lucky28/mine.dart';
 
 import '../widgets/index.dart';
 import 'circle_painter.dart';
@@ -71,12 +72,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                   const Expanded(child: SizedBox()),
                   IconCircleButton(
                     Icons.keyboard_double_arrow_right,
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const HistoriesPage()),
-                      );
-                    },
+                    onPressed: onHistories,
                   ),
                 ],
               ),
@@ -168,9 +164,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                   Expanded(
                     child: RectangleCircleButton(
                       label: "我的投注",
-                      onPressed: () {
-                        debugPrint("我的投注");
-                      },
+                      onPressed: onMine,
                     ),
                   ),
                 ],
@@ -299,5 +293,19 @@ class _Lucky28PageState extends State<Lucky28Page>
     );
 
     debugPrint("Selected response is $result");
+  }
+
+  // 历史分析
+  void onHistories() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const HistoriesPage()),
+    );
+  }
+
+  // 我的投注
+  void onMine() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const MinePage()),
+    );
   }
 }

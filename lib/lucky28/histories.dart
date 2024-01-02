@@ -7,19 +7,30 @@ class HistoriesPage extends StatefulWidget {
   const HistoriesPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _HistoriesPageState();
+  State<StatefulWidget> createState() => _StateHistoriesPage();
 }
 
-class _HistoriesPageState extends State<HistoriesPage> {
-  late List<HisToriesData> histories;
+class _StateHistoriesPage extends State<HistoriesPage> {
+  late List<HistoriesRow> rows;
+
+  final List<HistoriesCell> cells = [
+    HistoriesCell("大", Colors.red.shade50, (v) => v >= 14),
+    HistoriesCell("小", Colors.red.shade50, (v) => v <= 13),
+    HistoriesCell("单", Colors.green.shade50, (v) => v.isOdd),
+    HistoriesCell("双", Colors.green.shade50, (v) => v.isEven),
+    HistoriesCell("中", Colors.blue.shade50, (v) => v >= 10 && v <= 17),
+    HistoriesCell("边", Colors.blue.shade50, (v) => v <= 9 || v >= 18),
+    HistoriesCell("大尾", Colors.purple.shade50, (v) => v % 10 >= 5),
+    HistoriesCell("小尾", Colors.purple.shade50, (v) => v % 10 <= 4),
+  ];
 
   @override
   void initState() {
     super.initState();
 
-    histories = List.generate(
+    rows = List.generate(
       200,
-      (index) => HisToriesData(
+      (index) => HistoriesRow(
         300000000 - index,
         Random().nextInt(10) + Random().nextInt(10) + Random().nextInt(10),
         Random().nextInt(100000000) + 100000000,
@@ -44,7 +55,7 @@ class _HistoriesPageState extends State<HistoriesPage> {
             Table(
               border: TableBorder.all(width: 2, color: Colors.black12),
               columnWidths: const {
-                0: FixedColumnWidth(72),
+                0: FixedColumnWidth(88),
                 1: FixedColumnWidth(48)
               },
               children: [
@@ -64,14 +75,14 @@ class _HistoriesPageState extends State<HistoriesPage> {
                     )
                   ],
                 ),
-                ...histories.map(
-                  (v) => TableRow(
+                ...rows.map(
+                  (row) => TableRow(
                     children: [
                       TableCell(
                         child: SizedBox(
                           height: 26,
                           child: Center(
-                            child: Text("${v.issue}", style: style1),
+                            child: Text("${row.issue}", style: style1),
                           ),
                         ),
                       ),
@@ -79,7 +90,7 @@ class _HistoriesPageState extends State<HistoriesPage> {
                         child: SizedBox(
                           height: 26,
                           child: Center(
-                            child: Text("${v.result}", style: style1),
+                            child: Text("${row.result}", style: style1),
                           ),
                         ),
                       ),
@@ -106,10 +117,11 @@ class _HistoriesPageState extends State<HistoriesPage> {
                     TableRow(
                       children: [
                         ...cells.map(
-                          (e) => TableCell(
+                          (cell) => TableCell(
                             child: SizedBox(
                               height: 36,
-                              child: Center(child: Text(e.name, style: style0)),
+                              child:
+                                  Center(child: Text(cell.name, style: style0)),
                             ),
                           ),
                         ),
@@ -127,17 +139,17 @@ class _HistoriesPageState extends State<HistoriesPage> {
                         )
                       ],
                     ),
-                    ...histories.map(
-                      (v) => TableRow(
+                    ...rows.map(
+                      (row) => TableRow(
                         children: [
                           ...cells.map(
-                            (e) => TableCell(
+                            (cell) => TableCell(
                               child: Container(
                                 height: 26,
-                                color: e.background,
+                                color: cell.background,
                                 child: Center(
                                   child: Text(
-                                    e.fn(v.result) ? e.name : "",
+                                    cell.fn(row.result) ? cell.name : "",
                                     style: style1,
                                   ),
                                 ),
@@ -145,24 +157,26 @@ class _HistoriesPageState extends State<HistoriesPage> {
                             ),
                           ),
                           TableCell(
-                            child: SizedBox(
+                            child: Container(
                               height: 26,
-                              child: Center(
-                                child: Text(
-                                  NumberFormat("#,###").format(v.total),
-                                  style: style1,
-                                ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                NumberFormat("#,###").format(row.total),
+                                textAlign: TextAlign.right,
+                                style: style1,
                               ),
                             ),
                           ),
                           TableCell(
-                            child: SizedBox(
+                            child: Container(
                               height: 26,
-                              child: Center(
-                                child: Text(
-                                  NumberFormat("#,###").format(v.wins),
-                                  style: style1,
-                                ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                NumberFormat("#,###").format(row.wins),
+                                textAlign: TextAlign.right,
+                                style: style1,
                               ),
                             ),
                           ),
@@ -180,13 +194,13 @@ class _HistoriesPageState extends State<HistoriesPage> {
   }
 }
 
-class HisToriesData {
+class HistoriesRow {
   final int issue;
   final int result;
   final int total;
   final int wins;
 
-  HisToriesData(this.issue, this.result, this.total, this.wins);
+  HistoriesRow(this.issue, this.result, this.total, this.wins);
 }
 
 class HistoriesCell {
@@ -196,14 +210,3 @@ class HistoriesCell {
 
   HistoriesCell(this.name, this.background, this.fn);
 }
-
-final List<HistoriesCell> cells = [
-  HistoriesCell("大", Colors.red.shade50, (v) => v >= 14),
-  HistoriesCell("小", Colors.red.shade50, (v) => v <= 13),
-  HistoriesCell("单", Colors.green.shade50, (v) => v.isOdd),
-  HistoriesCell("双", Colors.green.shade50, (v) => v.isEven),
-  HistoriesCell("中", Colors.blue.shade50, (v) => v >= 10 && v <= 17),
-  HistoriesCell("边", Colors.blue.shade50, (v) => v <= 9 || v >= 18),
-  HistoriesCell("大尾", Colors.purple.shade50, (v) => v % 10 >= 5),
-  HistoriesCell("小尾", Colors.purple.shade50, (v) => v % 10 <= 4),
-];
