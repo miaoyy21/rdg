@@ -246,11 +246,11 @@ class _Lucky28PageState extends State<Lucky28Page>
   }
 
   // 投注模式
-  void onMode() {
+  void onMode() async {
     final List<String> items =
         List.generate(10, (index) => "Item ${index + 1}");
 
-    showModalBottomSheet(
+    final String? result = await showModalBottomSheet(
       context: context,
       constraints: const BoxConstraints(maxHeight: 360),
       builder: (BuildContext context) {
@@ -280,7 +280,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                       splashColor: Theme.of(context).primaryColor,
                       onTap: () {
                         debugPrint('Selected: ${items[index]}');
-                        Navigator.pop(context);
+                        Navigator.pop(context, items[index]);
                       },
                     );
                   },
@@ -293,5 +293,7 @@ class _Lucky28PageState extends State<Lucky28Page>
         );
       },
     );
+
+    debugPrint("Selected response is $result");
   }
 }
