@@ -2,9 +2,10 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:rdg/lucky28/circle_number.dart';
-import 'package:rdg/lucky28/histories.dart';
-import 'package:rdg/lucky28/mine.dart';
+import 'circle_number.dart';
+import 'histories.dart';
+import 'mine.dart';
+import 'edit.dart';
 
 import '../widgets/index.dart';
 import 'circle_painter.dart';
@@ -141,10 +142,8 @@ class _Lucky28PageState extends State<Lucky28Page>
                 children: [
                   Expanded(
                     child: RectangleCircleButton(
-                      label: "刷新",
-                      onPressed: () {
-                        debugPrint("刷新");
-                      },
+                      label: "编辑模式",
+                      onPressed: onEdit,
                     ),
                   ),
                   Expanded(
@@ -299,6 +298,13 @@ class _Lucky28PageState extends State<Lucky28Page>
   void onHistories() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const HistoriesPage()),
+    );
+  }
+
+  // 编辑模式
+  void onEdit() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const EditPage()),
     );
   }
 
