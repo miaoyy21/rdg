@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'circle_number.dart';
 import 'histories.dart';
 import 'mine.dart';
-import 'edit.dart';
+import '01_edit_mode.dart';
 
 import '../widgets/index.dart';
 import 'circle_painter.dart';
@@ -304,7 +304,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   // 编辑模式
   void onEdit() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const EditPage()),
+      MaterialPageRoute(builder: (context) => const EditModePage()),
     );
   }
 
