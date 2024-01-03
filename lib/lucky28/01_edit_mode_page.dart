@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '01_edit_mode_row_page.dart';
 
 import '../widgets/index.dart';
 
@@ -13,11 +14,21 @@ class EditModePage extends StatefulWidget {
 }
 
 class _StateEditPage extends State<EditModePage> {
+  late Map<int, int> stds = {}; // 1000次 对应数字出现的次数
   late List<ModeRow> rows;
 
   @override
   void initState() {
     super.initState();
+
+    // 计算每个数字在1000次的标准次数
+    for (var i in List.generate(10, (i) => i)) {
+      for (var j in List.generate(10, (j) => j)) {
+        for (var k in List.generate(10, (k) => k)) {
+          stds.update(i + j + k, (v) => v + 1, ifAbsent: () => 1);
+        }
+      }
+    }
 
     // 生成测试数据
     rows = List.generate(
@@ -55,12 +66,7 @@ class _StateEditPage extends State<EditModePage> {
         title: const Text("编辑模式"),
         centerTitle: true,
         actions: [
-          IconCircleButton(
-            Icons.add,
-            onPressed: () {
-              debugPrint("添加模式");
-            },
-          ),
+          IconCircleButton(Icons.add, onPressed: onAdd),
         ],
       ),
       body: rows.isNotEmpty
@@ -83,15 +89,13 @@ class _StateEditPage extends State<EditModePage> {
                         SizedBox(width: 36, child: Text("${index + 1}")),
                         Expanded(child: Text(row.name)),
                         Expanded(
-                            child: Text(row.total, textAlign: TextAlign.right)),
+                          child: Text(row.total, textAlign: TextAlign.right),
+                        ),
                       ],
                     ),
                     trailing: const Icon(Icons.keyboard_arrow_right),
                     splashColor: Theme.of(context).primaryColor,
-                    onTap: () {
-                      debugPrint('Selected: ${rows[index]}');
-                      Navigator.pop(context, rows[index]);
-                    },
+                    onTap: () => onEdit(row),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(height: 0),
@@ -101,6 +105,38 @@ class _StateEditPage extends State<EditModePage> {
               child: Icon(Icons.search, size: 128, color: Colors.black12),
             ),
     );
+  }
+
+  // 新增模式
+  void onAdd() async {
+    final bool? ok = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const EditModeRowPage(EditModeRowAction.add),
+      ),
+    );
+
+    if (ok != null && ok) {
+      debugPrint("保存成功");
+    }
+  }
+
+  // 编辑模式
+  void onEdit(ModeRow row) async {
+    final bool? ok = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditModeRowPage(
+          EditModeRowAction.edit,
+          id: row.id,
+          name: row.name,
+          total: row.total,
+          bets: row.bets,
+        ),
+      ),
+    );
+
+    if (ok != null && ok) {
+      debugPrint("保存成功");
+    }
   }
 }
 
@@ -112,60 +148,3 @@ class ModeRow {
 
   ModeRow(this.id, this.name, this.total, this.bets);
 }
-
-// 1000次 对应数字出现的次数
-final Map<int, int> stds = {
-  0: 1,
-  1: 3,
-  2: 6,
-  3: 10,
-  4: 15,
-  5: 21,
-  6: 28,
-  7: 36,
-  8: 45,
-  9: 55,
-  10: 63,
-  11: 69,
-  12: 73,
-  13: 75,
-  14: 75,
-  15: 73,
-  16: 69,
-  17: 63,
-  18: 55,
-  19: 45,
-  20: 36,
-  21: 28,
-  22: 21,
-  23: 15,
-  24: 10,
-  25: 6,
-  26: 3,
-  27: 1
-};
-
-// Container(
-//   padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
-//   child: SingleChildScrollView(
-//     scrollDirection: Axis.vertical,
-//     child: Flex(
-//       direction: Axis.vertical,
-//       mainAxisSize: MainAxisSize.min,
-//       children: [
-//         Flexible(
-//           fit: FlexFit.loose,
-//           child: Container(color: Colors.red, height: 200),
-//         ),
-//         Flexible(
-//           fit: FlexFit.loose,
-//           child: Container(color: Colors.green, height: 400),
-//         ),
-//         Flexible(
-//           fit: FlexFit.loose,
-//           child: Container(color: Colors.yellow, height: 800),
-//         ),
-//       ],
-//     ),
-//   ),
-// ),

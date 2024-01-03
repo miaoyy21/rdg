@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '01_edit_mode.dart';
+import '01_edit_mode_page.dart';
 import '03_select_mode_sheet.dart';
 import 'circle_number.dart';
 import 'histories.dart';
