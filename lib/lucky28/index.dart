@@ -7,7 +7,7 @@ import '01_edit_mode_page.dart';
 import '03_select_mode_sheet.dart';
 import 'circle_number.dart';
 import 'histories.dart';
-import 'mine.dart';
+import '04_mine_page.dart';
 
 import '../widgets/index.dart';
 import 'circle_painter.dart';

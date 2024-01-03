@@ -41,9 +41,13 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
 
   @override
   Widget build(BuildContext context) {
-    late String title = "编辑模式";
-    if (widget.action == EditModeRowAction.add) {
-      title = "新增模式";
+    const TextStyle style16 =
+        TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
+    final primary = Theme.of(context).primaryColor;
+
+    late String title = "新增模式";
+    if (widget.action == EditModeRowAction.edit) {
+      title = name;
     }
 
     return Scaffold(
@@ -62,18 +66,33 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
             direction: Axis.vertical,
             mainAxisSize: MainAxisSize.min,
             children: [
+              Row(
+                children: [
+                  const SizedBox(width: 8),
+                  const Text(
+                    "投注总额",
+                    textAlign: TextAlign.right,
+                    style: style16,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      total,
+                      style: style16.copyWith(color: primary),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
               Flexible(
                 fit: FlexFit.loose,
                 child: Container(color: Colors.red, height: 200),
               ),
               Flexible(
                 fit: FlexFit.loose,
-                child: Container(color: Colors.green, height: 400),
+                child: Container(color: Colors.green, height: 900),
               ),
-              Flexible(
-                fit: FlexFit.loose,
-                child: Container(color: Colors.yellow, height: 800),
-              ),
+              Text("111111"),
             ],
           ),
         ),
