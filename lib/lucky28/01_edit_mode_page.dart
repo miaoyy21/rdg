@@ -42,7 +42,7 @@ class _StateEditPage extends State<EditModePage> {
           10 + Random().nextInt(5),
           (index) {
             final result = Random().nextInt(28);
-            final std = stds[result]! * 10;
+            final std = stds[result]! * 10000;
 
             total += std;
             bets.update(result, (value) => value + std, ifAbsent: () => std);
@@ -111,7 +111,7 @@ class _StateEditPage extends State<EditModePage> {
   void onAdd() async {
     final bool? ok = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const EditModeRowPage(EditModeRowAction.add),
+        builder: (context) => EditModeRowPage(EditModeRowAction.add, stds),
       ),
     );
 
@@ -126,6 +126,7 @@ class _StateEditPage extends State<EditModePage> {
       MaterialPageRoute(
         builder: (context) => EditModeRowPage(
           EditModeRowAction.edit,
+          stds,
           id: row.id,
           name: row.name,
           total: row.total,
