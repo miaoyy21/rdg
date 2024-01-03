@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -32,6 +34,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
   late String total = "0";
   late Map<int, int> bets = {};
 
+  final TextEditingController _controller = TextEditingController();
   late List<EditModeDefinedMode> modes;
   final List<double> rates = [0.1, 0.5, 0.8, 2, 10, 100];
   final format = NumberFormat("#,###").format;
@@ -56,14 +59,17 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
       total = widget.total!;
       bets = widget.bets!;
     }
+
+    _controller.text = name;
   }
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle style16 =
-        TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    final width = MediaQuery.of(context).size.width;
+    const style16 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
     const style24 = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
     final primary = Theme.of(context).primaryColor;
+    final secondary = Theme.of(context).secondaryHeaderColor;
 
     late String title = "新增模式";
     if (widget.action == EditModeRowAction.edit) {
@@ -103,7 +109,35 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const SizedBox(width: 8),
+                  const Text(
+                    "模式名称",
+                    style: style16,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: SizedBox(
+                      height: 36,
+                      child: TextField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(left: 8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: BorderSide(color: primary),
+                          ),
+                          filled: true,
+                          fillColor: secondary,
+                          hintText: '请输入模式名称',
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const Row(
                 children: [
                   SizedBox(width: 8),
@@ -168,7 +202,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
               Flexible(
                 fit: FlexFit.loose,
                 child: SizedBox(
-                  height: 500,
+                  height: width + 64,
                   child: GridView(
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
@@ -224,6 +258,23 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: RectangleCircleButton(
+                      label: "清空",
+                      onPressed: onClean,
+                    ),
+                  ),
+                  Expanded(
+                    child: RectangleCircleButton(
+                      label: "删除",
+                      onPressed: onDelete,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -232,7 +283,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
   }
 
   // 模式
-  onMode(EditModeDefinedMode mode) {
+  void onMode(EditModeDefinedMode mode) {
     var summary = int.parse(total.replaceAll(",", ""));
     if ((summary + 1000) > 1 << 52) {
       debugPrint("$summary + 1000 超过设定上限，不进行处理");
@@ -253,7 +304,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
   }
 
   // 倍率
-  onRate(double rate) {
+  void onRate(double rate) {
     var summary = int.parse(total.replaceAll(",", ""));
     if ((summary * rate) > 1 << 52) {
       debugPrint("$summary * $rate 超过设定上限，不进行处理");
@@ -268,7 +319,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
   }
 
   // 选择数字或取消数字选择
-  onCheck(int i) {
+  void onCheck(int i) {
     if (bets.containsKey(i)) {
       // 取消选择
       bets.remove(i);
@@ -288,8 +339,32 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
     setState(() {});
   }
 
+  // 清空
+  void onClean() {
+    bets.clear();
+    total = "0";
+    setState(() {});
+  }
+
+  // 删除
+  void onDelete() {
+    if (widget.action == EditModeRowAction.add) {
+      Navigator.of(context).pop(); // 注意：不返回任何值
+      return;
+    }
+
+    debugPrint("删除模式ID ${widget.id}");
+    Navigator.of(context).pop(true);
+  }
+
   // 保存
   void onSave() {
+    final action = widget.action;
+    final id = widget.id;
+    final name = _controller.text;
+
+    debugPrint("{action:${action.name}, id:$id, "
+        "name:$name, total:$total, bets:$bets}");
     Navigator.of(context).pop(true);
   }
 }

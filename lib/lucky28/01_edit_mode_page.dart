@@ -116,7 +116,7 @@ class _StateEditPage extends State<EditModePage> {
     );
 
     if (ok != null && ok) {
-      debugPrint("保存成功");
+      debugPrint("操作成功");
     }
   }
 
@@ -136,7 +136,7 @@ class _StateEditPage extends State<EditModePage> {
     );
 
     if (ok != null && ok) {
-      debugPrint("保存成功");
+      debugPrint("操作成功");
     }
   }
 }

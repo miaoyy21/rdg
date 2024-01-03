@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 @immutable
 class RectangleCircleButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final String? label;
+  final String label;
   final OutlinedBorder? border;
 
   final EdgeInsetsGeometry? margin;
@@ -32,6 +32,8 @@ class RectangleCircleButton extends StatelessWidget {
     if (onPressed == null) {
       primary = Colors.black54;
       secondary = Theme.of(context).scaffoldBackgroundColor;
+    } else if (label.contains("删除")) {
+      primary = Colors.red;
     }
 
     final OutlinedBorder? shape;
@@ -59,7 +61,7 @@ class RectangleCircleButton extends StatelessWidget {
         side: MaterialStateProperty.all(side),
       ),
       child: Text(
-        label!,
+        label,
         style: TextStyle(
           fontSize: fontSize,
           color: primary,
