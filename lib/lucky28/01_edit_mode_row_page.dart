@@ -181,40 +181,43 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                     children: [
                       ...List.generate(
                         28,
-                        (i) => Container(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: bets.containsKey(i)
-                                ? primary.withOpacity(0.3)
-                                : Colors.transparent,
-                            border: Border.all(
-                                color: bets.containsKey(i)
-                                    ? primary.withOpacity(0.3)
-                                    : Colors.black12,
-                                width: 2),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                format(bets.containsKey(i) ? bets[i] : 0),
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Text("$i", style: style24),
+                        (i) => InkWell(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: bets.containsKey(i)
+                                  ? primary.withOpacity(0.3)
+                                  : Colors.transparent,
+                              border: Border.all(
+                                  color: bets.containsKey(i)
+                                      ? primary.withOpacity(0.3)
+                                      : Colors.black12,
+                                  width: 2),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  format(bets.containsKey(i) ? bets[i] : 0),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 12),
                                 ),
-                              ),
-                              Text(
-                                "${widget.stds[i]}",
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  fontStyle: FontStyle.italic,
+                                Expanded(
+                                  child: Center(
+                                    child: Text("$i", style: style24),
+                                  ),
                                 ),
-                              )
-                            ],
+                                Text(
+                                  "${widget.stds[i]}",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
+                          onTap: () => onCheck(i),
                         ),
                       )
                     ],
@@ -241,13 +244,11 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
         return;
       }
 
-      final std = widget.stds[i];
-
-      summary = summary + std!;
+      final std = widget.stds[i]!;
       bets.update(i, (v) => v + std, ifAbsent: () => std);
     });
-    total = format(summary);
 
+    total = format(bets.values.reduce((v, e) => v + e));
     setState(() {});
   }
 
@@ -259,16 +260,30 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
       return;
     }
 
-    summary = 0;
-    bets.updateAll((k, v) {
-      final x = (v * rate).floor();
+    bets.updateAll((k, v) => (v * rate).floor());
+    bets.removeWhere((k, v) => v == 0); // 倍数小于1时，可能产生0
 
-      summary = summary + x;
-      return x;
-    });
+    total = format(bets.values.reduce((v, e) => v + e));
+    setState(() {});
+  }
 
-    bets.removeWhere((k, v) => v == 0);
-    total = format(summary);
+  // 选择数字或取消数字选择
+  onCheck(int i) {
+    if (bets.containsKey(i)) {
+      // 取消选择
+      bets.remove(i);
+      total = format(bets.values.reduce((v, e) => v + e));
+    } else {
+      // 选中数字
+      var summary = int.parse(total.replaceAll(",", ""));
+      if ((summary + 1000) > 1 << 52) {
+        debugPrint("$summary + 1000 超过设定上限，不进行处理");
+        return;
+      }
+
+      bets[i] = widget.stds[i]!;
+      total = format(bets.values.reduce((v, e) => v + e));
+    }
 
     setState(() {});
   }
