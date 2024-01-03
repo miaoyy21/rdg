@@ -57,7 +57,7 @@ class _StateMinePage extends State<MinePage> {
     const style0 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
     const style1 = TextStyle(fontSize: 13);
     const TextStyle style16 =
-        TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
+        TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
 
     labelFn(String label) {
       return Text(
