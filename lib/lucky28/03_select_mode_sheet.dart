@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Future onBetMode(BuildContext context, List<String> modes) {
+Future onSelectModeSheet(BuildContext context, List<Mode> modes) {
   return showModalBottomSheet(
     context: context,
     constraints: const BoxConstraints(maxHeight: 360),
@@ -28,12 +28,17 @@ Future onBetMode(BuildContext context, List<String> modes) {
 
                   return ListTile(
                     dense: true,
-                    contentPadding: EdgeInsets.zero,
-                    title: Text("${index + 1}. $mode"),
+                    title: Row(
+                      children: [
+                        SizedBox(width: 36, child: Text("${index + 1}")),
+                        Expanded(child: Text(mode.name)),
+                        Expanded(
+                            child:
+                                Text(mode.total, textAlign: TextAlign.right)),
+                      ],
+                    ),
                     splashColor: Theme.of(context).primaryColor,
-                    onTap: () {
-                      Navigator.pop(context, mode);
-                    },
+                    onTap: () => Navigator.pop(context, mode.id),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(height: 0),
@@ -44,4 +49,12 @@ Future onBetMode(BuildContext context, List<String> modes) {
       );
     },
   );
+}
+
+class Mode {
+  final String id;
+  final String name;
+  final String total;
+
+  Mode(this.id, this.name, this.total);
 }

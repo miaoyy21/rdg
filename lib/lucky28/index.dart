@@ -2,11 +2,12 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:rdg/lucky28/03_bet_mode.dart';
+import 'package:intl/intl.dart';
+import '01_edit_mode.dart';
+import '03_select_mode_sheet.dart';
 import 'circle_number.dart';
 import 'histories.dart';
 import 'mine.dart';
-import '01_edit_mode.dart';
 
 import '../widgets/index.dart';
 import 'circle_painter.dart';
@@ -25,6 +26,14 @@ class _Lucky28PageState extends State<Lucky28Page>
   bool isRunning = false; // 转轮正在转动中
   int autoIssue = 1; // 自动投注剩余期数
   List<int> opened = List.generate(10, (i) => Random().nextInt(28)); // 最新8期开奖结果
+  List<Mode> modes = List.generate(
+    30,
+    (i) => Mode(
+      "$i-${Random().nextInt(10000)}",
+      "模式 $i",
+      NumberFormat("#,###").format(Random().nextInt(10000)),
+    ),
+  ); // 投注模式
 
   late int total = 1234567; // 总金额
   double radixPercent = 0; // 投注百分比
@@ -144,7 +153,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                   Expanded(
                     child: RectangleCircleButton(
                       label: "编辑模式",
-                      onPressed: onEdit,
+                      onPressed: onEditMode,
                     ),
                   ),
                   Expanded(
@@ -243,15 +252,6 @@ class _Lucky28PageState extends State<Lucky28Page>
     }
   }
 
-  // 投注模式
-  void onSelectMode() async {
-    final List<String> modes =
-        List.generate(10, (index) => "Item ${index + 1}");
-
-    final String? result = await onBetMode(context, modes);
-    debugPrint("Selected response is $result");
-  }
-
   // 历史分析
   void onHistories() {
     Navigator.of(context).push(
@@ -260,10 +260,16 @@ class _Lucky28PageState extends State<Lucky28Page>
   }
 
   // 编辑模式
-  void onEdit() {
+  void onEditMode() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const EditModePage()),
     );
+  }
+
+  // 投注模式
+  void onSelectMode() async {
+    final String? id = await onSelectModeSheet(context, modes);
+    debugPrint("选择的模式ID $id");
   }
 
   // 我的投注
