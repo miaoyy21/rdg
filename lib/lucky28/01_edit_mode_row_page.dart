@@ -32,18 +32,9 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
   void initState() {
     super.initState();
 
-    // 投注名称
-    if (widget.name != null) {
+    if (widget.action == EditModeRowAction.edit) {
       name = widget.name!;
-    }
-
-    // 累计投注
-    if (widget.total != null) {
       total = widget.total!;
-    }
-
-    // 数字及其对应的投注额
-    if (widget.bets != null) {
       bets = widget.bets!;
     }
   }
