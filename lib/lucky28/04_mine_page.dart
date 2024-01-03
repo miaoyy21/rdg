@@ -119,7 +119,7 @@ class _StateMinePage extends State<MinePage> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Table(
-                      border: TableBorder.all(width: 2, color: Colors.black12),
+                      border: TableBorder.all(width: 2, color: Colors.black26),
                       columnWidths: {
                         ...cells.asMap().map((k, cell) =>
                             MapEntry(k, FixedColumnWidth(cell.width))),

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -109,7 +107,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   const SizedBox(width: 8),
@@ -138,6 +136,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 4),
               const Row(
                 children: [
                   SizedBox(width: 8),
@@ -164,7 +163,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               const Row(
                 children: [
                   SizedBox(width: 8),
@@ -202,7 +201,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
               Flexible(
                 fit: FlexFit.loose,
                 child: SizedBox(
-                  height: width + 64,
+                  height: width,
                   child: GridView(
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
@@ -210,23 +209,21 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                       crossAxisCount: 6,
                       crossAxisSpacing: 4,
                       mainAxisSpacing: 4,
-                      childAspectRatio: 0.75,
                     ),
                     children: [
                       ...List.generate(
                         28,
                         (i) => InkWell(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(4),
                               color: bets.containsKey(i)
                                   ? primary.withOpacity(0.3)
                                   : Colors.transparent,
                               border: Border.all(
                                   color: bets.containsKey(i)
                                       ? primary.withOpacity(0.3)
-                                      : Colors.black12,
+                                      : Colors.black26,
                                   width: 2),
                             ),
                             child: Column(
@@ -244,7 +241,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                                 Text(
                                   "${widget.stds[i]}",
                                   style: const TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 9,
                                     fontStyle: FontStyle.italic,
                                   ),
                                 )
@@ -314,7 +311,12 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
     bets.updateAll((k, v) => (v * rate).floor());
     bets.removeWhere((k, v) => v == 0); // 倍数小于1时，可能产生0
 
-    total = format(bets.values.reduce((v, e) => v + e));
+    summary = 0;
+    if (bets.values.isNotEmpty) {
+      summary = bets.values.reduce((v, e) => v + e);
+    }
+
+    total = format(summary);
     setState(() {});
   }
 
@@ -323,7 +325,13 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
     if (bets.containsKey(i)) {
       // 取消选择
       bets.remove(i);
-      total = format(bets.values.reduce((v, e) => v + e));
+
+      var summary = 0;
+      if (bets.values.isNotEmpty) {
+        summary = bets.values.reduce((v, e) => v + e);
+      }
+
+      total = format(summary);
     } else {
       // 选中数字
       var summary = int.parse(total.replaceAll(",", ""));

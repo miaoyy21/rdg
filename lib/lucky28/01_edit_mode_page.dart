@@ -74,7 +74,7 @@ class _StateEditPage extends State<EditModePage> {
               margin: const EdgeInsets.fromLTRB(8, 0, 8, 24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black12, width: 2),
+                border: Border.all(color: Colors.black26, width: 2),
               ),
               child: ListView.separated(
                 itemCount: rows.length,
@@ -102,7 +102,7 @@ class _StateEditPage extends State<EditModePage> {
               ),
             )
           : const Center(
-              child: Icon(Icons.search, size: 128, color: Colors.black12),
+              child: Icon(Icons.search, size: 128, color: Colors.black26),
             ),
     );
   }

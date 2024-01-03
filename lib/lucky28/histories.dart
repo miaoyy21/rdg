@@ -58,7 +58,7 @@ class _StateHistoriesPage extends State<HistoriesPage> {
             children: [
               // 左侧表格
               Table(
-                border: TableBorder.all(width: 2, color: Colors.black12),
+                border: TableBorder.all(width: 2, color: Colors.black26),
                 columnWidths: const {
                   0: FixedColumnWidth(88),
                   1: FixedColumnWidth(48)
@@ -110,7 +110,7 @@ class _StateHistoriesPage extends State<HistoriesPage> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Table(
-                    border: TableBorder.all(width: 2, color: Colors.black12),
+                    border: TableBorder.all(width: 2, color: Colors.black26),
                     columnWidths: {
                       ...cells.asMap().map(
                           (k, v) => MapEntry(k, const FixedColumnWidth(64))),
