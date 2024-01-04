@@ -73,12 +73,11 @@ class RectangleCircleButton extends StatelessWidget {
         padding: MaterialStateProperty.all(EdgeInsets.zero),
         side: MaterialStateProperty.all(side),
       ),
-      child: Row(
-        children: [
-          Expanded(child: text),
-          icon != null ? Icon(icon, color: primary) : SizedBox(),
-        ],
-      ),
+      child: icon != null
+          ? Row(
+              children: [Expanded(child: text), Icon(icon, color: primary)],
+            )
+          : text,
     );
 
     return Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rdg/widgets/index.dart';
 
 import '../widgets/icon_circle_button.dart';
 import '../widgets/rectangle_circle_button.dart';
@@ -110,24 +111,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                   const SizedBox(width: 8),
                   const Text("模式名称", style: style16),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: SizedBox(
-                      height: 36,
-                      child: TextField(
-                        controller: _controller,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(left: 8),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                            borderSide: BorderSide(color: primary),
-                          ),
-                          filled: true,
-                          fillColor: secondary,
-                          hintText: '请输入模式名称',
-                        ),
-                      ),
-                    ),
-                  ),
+                  Expanded(child: TextFieldBox("请输入模式名称", _controller)),
                 ],
               ),
               const SizedBox(height: 4),

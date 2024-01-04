@@ -14,6 +14,8 @@ class AutoPage extends StatefulWidget {
 
 class _StateAutoPage extends State<AutoPage> {
   final TextEditingController _issueController = TextEditingController();
+  final TextEditingController _minController = TextEditingController();
+  final TextEditingController _maxController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,22 +69,7 @@ class _StateAutoPage extends State<AutoPage> {
                   labelFn("自动期数"),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: SizedBox(
-                      height: 36,
-                      child: TextField(
-                        controller: _issueController,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(left: 8),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                            borderSide: BorderSide(color: primary),
-                          ),
-                          filled: true,
-                          fillColor: secondary,
-                          hintText: '达到自动期数时，将停止运行',
-                        ),
-                      ),
-                    ),
+                    child: TextFieldBox("达到自动期数时，将停止运行", _issueController),
                   ),
                 ],
               ),
@@ -92,22 +79,7 @@ class _StateAutoPage extends State<AutoPage> {
                   labelFn("最小值"),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: SizedBox(
-                      height: 36,
-                      child: TextField(
-                        controller: _issueController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 8),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                            borderSide: BorderSide(color: primary),
-                          ),
-                          filled: true,
-                          fillColor: secondary,
-                          hintText: '低于最小值时，将停止运行',
-                        ),
-                      ),
-                    ),
+                    child: TextFieldBox("低于最小值时，将停止运行", _minController),
                   ),
                 ],
               ),
@@ -117,22 +89,7 @@ class _StateAutoPage extends State<AutoPage> {
                   labelFn("最大值"),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: SizedBox(
-                      height: 36,
-                      child: TextField(
-                        controller: _issueController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 8),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                            borderSide: BorderSide(color: primary),
-                          ),
-                          filled: true,
-                          fillColor: secondary,
-                          hintText: '高于最大值时，将停止运行（0 - 不限制）',
-                        ),
-                      ),
-                    ),
+                    child: TextFieldBox("高于最大值时，将停止运行（0：不限制）", _maxController),
                   ),
                 ],
               ),
