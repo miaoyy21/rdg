@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Digital extends StatelessWidget {
+class DigitalDisplay extends StatelessWidget {
   final int? digital;
   final double? fontSize;
   final double? width;
   final double? height;
 
-  const Digital(this.digital,
+  const DigitalDisplay(this.digital,
       {super.key, this.fontSize = 20, this.width, this.height});
 
   @override
@@ -16,7 +16,7 @@ class Digital extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      padding: EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: secondary,
         borderRadius: BorderRadius.circular(4.0),

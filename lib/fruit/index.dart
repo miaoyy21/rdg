@@ -43,12 +43,12 @@ class _FruitPageState extends State<FruitPage>
                 children: [
                   ConstrainedBox(
                     constraints: const BoxConstraints(minWidth: 88),
-                    child: Digital(bonus, fontSize: 24),
+                    child: DigitalDisplay(bonus, fontSize: 24),
                   ),
                   const Expanded(child: SizedBox()),
                   ConstrainedBox(
                     constraints: const BoxConstraints(minWidth: 88),
-                    child: Digital(total, fontSize: 24),
+                    child: DigitalDisplay(total, fontSize: 24),
                   ),
                 ],
               ),
@@ -61,7 +61,7 @@ class _FruitPageState extends State<FruitPage>
                   const FruitGridView(),
                   Center(
                     child:
-                        Digital(digital, fontSize: 48, width: 80, height: 72),
+                        DigitalDisplay(digital, fontSize: 48, width: 80, height: 72),
                   ),
                 ],
               ),
@@ -111,7 +111,7 @@ class _FruitPageState extends State<FruitPage>
 
                   return Column(
                     children: [
-                      Digital(
+                      DigitalDisplay(
                         betting.putIfAbsent(category, () => 0),
                         width: width,
                       ),

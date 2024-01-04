@@ -20,8 +20,6 @@ class _StateAutoPage extends State<AutoPage> {
   @override
   Widget build(BuildContext context) {
     const style16 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
-    final primary = Theme.of(context).primaryColor;
-    final secondary = Theme.of(context).secondaryHeaderColor;
 
     labelFn(String label) {
       return SizedBox(
@@ -97,7 +95,7 @@ class _StateAutoPage extends State<AutoPage> {
               labelFn("设定规则"),
               ...widget.modes.map(
                 (mode) => Container(
-                  margin: EdgeInsets.symmetric(vertical: 2),
+                  margin: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
                     children: [
                       labelFn(mode.name),

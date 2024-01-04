@@ -4,7 +4,7 @@ class TextFieldBox extends StatelessWidget {
   final String placeholder;
   final TextEditingController controller;
 
-  const TextFieldBox(this.placeholder, this.controller);
+  const TextFieldBox(this.placeholder, this.controller, {super.key});
 
   @override
   Widget build(BuildContext context) {
