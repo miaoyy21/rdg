@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
 import '../fruit/categories.dart';
 import '../widgets/index.dart';
-
 import 'fruit_betting.dart';
 import 'fruit_grid_view.dart';
 
@@ -60,8 +60,8 @@ class _FruitPageState extends State<FruitPage>
                 children: [
                   const FruitGridView(),
                   Center(
-                    child:
-                        DigitalDisplay(digital, fontSize: 48, width: 80, height: 72),
+                    child: DigitalDisplay(digital,
+                        fontSize: 48, width: 80, height: 72),
                   ),
                 ],
               ),

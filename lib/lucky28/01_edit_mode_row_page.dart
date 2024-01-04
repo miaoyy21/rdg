@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rdg/widgets/index.dart';
 
-import '../widgets/icon_circle_button.dart';
-import '../widgets/rectangle_circle_button.dart';
+import '../widgets/index.dart';
 
 class EditModeRowPage extends StatefulWidget {
   final EditModeRowAction action;
@@ -68,7 +66,6 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
     const style16 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
     const style24 = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
     final primary = Theme.of(context).primaryColor;
-    final secondary = Theme.of(context).secondaryHeaderColor;
 
     late String title = "新增模式";
     if (widget.action == EditModeRowAction.edit) {

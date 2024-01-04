@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '01_edit_mode_page.dart';
 import '02_auto_page.dart';
 import '03_select_mode_sheet.dart';
 import '04_mine_page.dart';
 import 'circle_number.dart';
 import 'histories.dart';
-
 import '../widgets/index.dart';
 import 'circle_painter.dart';
 

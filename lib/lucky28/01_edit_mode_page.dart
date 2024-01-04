@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '01_edit_mode_row_page.dart';
 
+import '01_edit_mode_row_page.dart';
 import '../widgets/index.dart';
 
 class EditModePage extends StatefulWidget {
