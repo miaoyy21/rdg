@@ -36,7 +36,7 @@ class RectangleCircleButton extends StatelessWidget {
     if (onPressed == null) {
       primary = Colors.black54;
       secondary = Theme.of(context).scaffoldBackgroundColor;
-    } else if (label.contains("删除")) {
+    } else if (label.contains("删除") || label.contains("关闭")) {
       primary = Colors.red;
     }
 
@@ -73,7 +73,7 @@ class RectangleCircleButton extends StatelessWidget {
         padding: MaterialStateProperty.all(EdgeInsets.zero),
         side: MaterialStateProperty.all(side),
       ),
-      child: icon != null
+      child: icon != null && onPressed != null
           ? Row(
               children: [Expanded(child: text), Icon(icon, color: primary)],
             )

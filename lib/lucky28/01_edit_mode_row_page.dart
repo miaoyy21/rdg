@@ -75,184 +75,187 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
       title = name;
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        centerTitle: true,
-        actions: [
-          IconCircleButton(Icons.save, onPressed: onSave),
-        ],
-      ),
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Flex(
-            direction: Axis.vertical,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  const SizedBox(width: 8),
-                  const Text("投注总额", style: style16),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      total,
-                      style: style16.copyWith(color: primary),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const SizedBox(width: 8),
-                  const Text("模式名称", style: style16),
-                  const SizedBox(width: 8),
-                  Expanded(child: TextFieldBox("请输入模式名称", _controller)),
-                ],
-              ),
-              const SizedBox(height: 4),
-              const Row(
-                children: [
-                  SizedBox(width: 8),
-                  Text("模式", style: style16),
-                  Expanded(child: SizedBox()),
-                ],
-              ),
-              Flexible(
-                fit: FlexFit.loose,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...modes.map(
-                        (mode) => RectangleCircleButton(
-                          label: mode.name,
-                          elevation: 0,
-                          fontSize: 14,
-                          height: 32,
-                          onPressed: () => onMode(mode),
-                        ),
+    return GestureDetector(
+      onTap: FocusScope.of(context).unfocus,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          centerTitle: true,
+          actions: [
+            IconCircleButton(Icons.save, onPressed: onSave),
+          ],
+        ),
+        body: Container(
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Flex(
+              direction: Axis.vertical,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(width: 8),
+                    const Text("投注总额", style: style16),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        total,
+                        style: style16.copyWith(color: primary),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 4),
-              const Row(
-                children: [
-                  SizedBox(width: 8),
-                  Text("倍率", style: style16),
-                  Expanded(child: SizedBox()),
-                ],
-              ),
-              Flexible(
-                fit: FlexFit.loose,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...rates.map(
-                        (rate) => RectangleCircleButton(
-                          label: "${rate < 1 ? rate : rate.toInt()}",
-                          elevation: 0,
-                          fontSize: 14,
-                          height: 32,
-                          onPressed: () => onRate(rate),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Row(
-                children: [
-                  SizedBox(width: 8),
-                  Text("明细", style: style16),
-                  Expanded(child: SizedBox()),
-                ],
-              ),
-              Flexible(
-                fit: FlexFit.loose,
-                child: SizedBox(
-                  height: width,
-                  child: GridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 6,
-                      crossAxisSpacing: 4,
-                      mainAxisSpacing: 4,
                     ),
-                    children: [
-                      ...List.generate(
-                        28,
-                        (i) => InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: bets.containsKey(i)
-                                  ? primary.withOpacity(0.3)
-                                  : Colors.transparent,
-                              border: Border.all(
-                                  color: bets.containsKey(i)
-                                      ? primary.withOpacity(0.3)
-                                      : Colors.black26,
-                                  width: 2),
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  format(bets.containsKey(i) ? bets[i] : 0),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text("$i", style: style24),
-                                  ),
-                                ),
-                                Text(
-                                  "${widget.stds[i]}",
-                                  style: const TextStyle(
-                                    fontSize: 9,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                )
-                              ],
-                            ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const SizedBox(width: 8),
+                    const Text("模式名称", style: style16),
+                    const SizedBox(width: 8),
+                    Expanded(child: TextFieldBox("请输入模式名称", _controller)),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                const Row(
+                  children: [
+                    SizedBox(width: 8),
+                    Text("模式", style: style16),
+                    Expanded(child: SizedBox()),
+                  ],
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...modes.map(
+                          (mode) => RectangleCircleButton(
+                            label: mode.name,
+                            elevation: 0,
+                            fontSize: 14,
+                            height: 32,
+                            onPressed: () => onMode(mode),
                           ),
-                          onTap: () => onCheck(i),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: RectangleCircleButton(
-                      label: "清空",
-                      onPressed: onClean,
+                const SizedBox(height: 4),
+                const Row(
+                  children: [
+                    SizedBox(width: 8),
+                    Text("倍率", style: style16),
+                    Expanded(child: SizedBox()),
+                  ],
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...rates.map(
+                          (rate) => RectangleCircleButton(
+                            label: "${rate < 1 ? rate : rate.toInt()}",
+                            elevation: 0,
+                            fontSize: 14,
+                            height: 32,
+                            onPressed: () => onRate(rate),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: RectangleCircleButton(
-                      label: "删除",
-                      onPressed: onDelete,
+                ),
+                const SizedBox(height: 8),
+                const Row(
+                  children: [
+                    SizedBox(width: 8),
+                    Text("明细", style: style16),
+                    Expanded(child: SizedBox()),
+                  ],
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: SizedBox(
+                    height: width,
+                    child: GridView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 6,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 4,
+                      ),
+                      children: [
+                        ...List.generate(
+                          28,
+                          (i) => InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: bets.containsKey(i)
+                                    ? primary.withOpacity(0.3)
+                                    : Colors.transparent,
+                                border: Border.all(
+                                    color: bets.containsKey(i)
+                                        ? primary.withOpacity(0.3)
+                                        : Colors.black26,
+                                    width: 2),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    format(bets.containsKey(i) ? bets[i] : 0),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                  Expanded(
+                                    child: Center(
+                                      child: Text("$i", style: style24),
+                                    ),
+                                  ),
+                                  Text(
+                                    "${widget.stds[i]}",
+                                    style: const TextStyle(
+                                      fontSize: 9,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            onTap: () => onCheck(i),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: RectangleCircleButton(
+                        label: "清空",
+                        onPressed: onClean,
+                      ),
+                    ),
+                    Expanded(
+                      child: RectangleCircleButton(
+                        label: "删除",
+                        onPressed: onDelete,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

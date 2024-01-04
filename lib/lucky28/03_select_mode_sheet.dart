@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 Future onSelectModeSheet(BuildContext context, List<Mode> modes) {
   return showModalBottomSheet(
     context: context,
-    constraints: const BoxConstraints(maxHeight: 360),
     builder: (BuildContext context) {
       return Stack(
         children: [

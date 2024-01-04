@@ -30,8 +30,8 @@ class _Lucky28PageState extends State<Lucky28Page>
   List<Mode> modes = List.generate(
     30,
     (i) => Mode(
-      "$i-${Random().nextInt(10000)}",
-      "模式 $i",
+      "${i + 1}-${Random().nextInt(10000)}",
+      "模式 ${i + 1}",
       NumberFormat("#,###").format(Random().nextInt(10000)),
     ),
   ); // 投注模式
