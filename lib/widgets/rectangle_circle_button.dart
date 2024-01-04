@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 class RectangleCircleButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String label;
+  final IconData? icon;
   final OutlinedBorder? border;
+  final double? elevation;
 
   final EdgeInsetsGeometry? margin;
   final double? fontSize;
@@ -15,7 +17,9 @@ class RectangleCircleButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.label,
+    this.icon,
     this.border = const RoundedRectangleBorder(),
+    this.elevation = 4,
     this.margin = const EdgeInsets.symmetric(horizontal: 4),
     this.fontSize = 18,
     this.width,
@@ -46,6 +50,15 @@ class RectangleCircleButton extends StatelessWidget {
     }
 
     final side = BorderSide(color: primary, width: 2);
+    final text = Text(
+      label,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: fontSize,
+        color: primary,
+        fontWeight: FontWeight.bold,
+      ),
+    );
 
     final button = ElevatedButton(
       onPressed: onPressed,
@@ -56,17 +69,15 @@ class RectangleCircleButton extends StatelessWidget {
         overlayColor: MaterialStateProperty.all(secondary),
         shadowColor: MaterialStateProperty.all(primary),
         surfaceTintColor: MaterialStateProperty.all(background),
-        elevation: MaterialStateProperty.all(4),
+        elevation: MaterialStateProperty.all(elevation),
         padding: MaterialStateProperty.all(EdgeInsets.zero),
         side: MaterialStateProperty.all(side),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: fontSize,
-          color: primary,
-          fontWeight: FontWeight.bold,
-        ),
+      child: Row(
+        children: [
+          Expanded(child: text),
+          icon != null ? Icon(icon, color: primary) : SizedBox(),
+        ],
       ),
     );
 

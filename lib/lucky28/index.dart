@@ -258,27 +258,27 @@ class _Lucky28PageState extends State<Lucky28Page>
     );
   }
 
-  // 编辑模式
+  // 1. 编辑模式
   void onEditMode() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const EditModePage()),
     );
   }
 
-  // 自动投注
+  // 2. 自动投注
   void onAuto() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const AutoPage()),
+      MaterialPageRoute(builder: (context) => AutoPage(modes)),
     );
   }
 
-  // 投注模式
+  // 3. 投注模式
   void onSelectMode() async {
     final String? id = await onSelectModeSheet(context, modes);
     debugPrint("选择的模式ID $id");
   }
 
-  // 我的投注
+  // 4. 我的投注
   void onMine() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const MinePage()),

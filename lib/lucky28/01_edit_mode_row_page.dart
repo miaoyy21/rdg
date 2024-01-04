@@ -94,10 +94,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
               Row(
                 children: [
                   const SizedBox(width: 8),
-                  const Text(
-                    "投注总额",
-                    style: style16,
-                  ),
+                  const Text("投注总额", style: style16),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -111,10 +108,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
               Row(
                 children: [
                   const SizedBox(width: 8),
-                  const Text(
-                    "模式名称",
-                    style: style16,
-                  ),
+                  const Text("模式名称", style: style16),
                   const SizedBox(width: 8),
                   Expanded(
                     child: SizedBox(
@@ -154,6 +148,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                       ...modes.map(
                         (mode) => RectangleCircleButton(
                           label: mode.name,
+                          elevation: 0,
                           fontSize: 14,
                           height: 32,
                           onPressed: () => onMode(mode),
@@ -181,6 +176,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                       ...rates.map(
                         (rate) => RectangleCircleButton(
                           label: "${rate < 1 ? rate : rate.toInt()}",
+                          elevation: 0,
                           fontSize: 14,
                           height: 32,
                           onPressed: () => onRate(rate),

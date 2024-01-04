@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/icon_circle_button.dart';
+import '../widgets/index.dart';
+import '03_select_mode_sheet.dart';
 
 class AutoPage extends StatefulWidget {
-  const AutoPage({super.key});
+  final List<Mode> modes;
+
+  const AutoPage(this.modes, {super.key});
 
   @override
   State<StatefulWidget> createState() => _StateAutoPage();
@@ -14,11 +17,20 @@ class _StateAutoPage extends State<AutoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     const style16 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
-    const style24 = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
     final primary = Theme.of(context).primaryColor;
     final secondary = Theme.of(context).secondaryHeaderColor;
+
+    labelFn(String label) {
+      return SizedBox(
+        width: 72,
+        child: Text(
+          label,
+          style: style16,
+          textAlign: TextAlign.right,
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text("自动投注"), centerTitle: true),
@@ -33,29 +45,27 @@ class _StateAutoPage extends State<AutoPage> {
             children: [
               Row(
                 children: [
-                  const SizedBox(width: 8),
-                  const Text(
-                    "投注总额",
-                    style: style16,
-                  ),
-                  const SizedBox(width: 8),
+                  labelFn("初始模式"),
+                  const SizedBox(width: 16),
                   Expanded(
-                    child: Text(
-                      "total",
-                      style: style16.copyWith(color: primary),
+                    child: RectangleCircleButton(
+                      label: "mode.name",
+                      icon: Icons.keyboard_arrow_down,
+                      elevation: 0,
+                      fontSize: 14,
+                      height: 32,
+                      onPressed: () {},
                     ),
                   ),
+                  const SizedBox(width: 16),
+                  const Expanded(child: SizedBox()),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               Row(
                 children: [
-                  const SizedBox(width: 8),
-                  const Text(
-                    "模式名称",
-                    style: style16,
-                  ),
-                  const SizedBox(width: 8),
+                  labelFn("自动期数"),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: SizedBox(
                       height: 36,
@@ -69,153 +79,116 @@ class _StateAutoPage extends State<AutoPage> {
                           ),
                           filled: true,
                           fillColor: secondary,
-                          hintText: '请输入模式名称',
+                          hintText: '达到自动期数时，将停止运行',
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
-              const Row(
+              const SizedBox(height: 8),
+              Row(
                 children: [
-                  SizedBox(width: 8),
-                  Text("模式", style: style16),
-                  Expanded(child: SizedBox()),
+                  labelFn("最小值"),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: SizedBox(
+                      height: 36,
+                      child: TextField(
+                        controller: _issueController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: BorderSide(color: primary),
+                          ),
+                          filled: true,
+                          fillColor: secondary,
+                          hintText: '低于最小值时，将停止运行',
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              // Flexible(
-              //   fit: FlexFit.loose,
-              //   child: SingleChildScrollView(
-              //     scrollDirection: Axis.horizontal,
-              //     child: Row(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         ...modes.map(
-              //           (mode) => RectangleCircleButton(
-              //             label: mode.name,
-              //             fontSize: 14,
-              //             height: 32,
-              //             onPressed: () => onMode(mode),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(height: 4),
-              // const Row(
-              //   children: [
-              //     SizedBox(width: 8),
-              //     Text("倍率", style: style16),
-              //     Expanded(child: SizedBox()),
-              //   ],
-              // ),
-              // Flexible(
-              //   fit: FlexFit.loose,
-              //   child: SingleChildScrollView(
-              //     scrollDirection: Axis.horizontal,
-              //     child: Row(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         ...rates.map(
-              //           (rate) => RectangleCircleButton(
-              //             label: "${rate < 1 ? rate : rate.toInt()}",
-              //             fontSize: 14,
-              //             height: 32,
-              //             onPressed: () => onRate(rate),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(height: 8),
-              // const Row(
-              //   children: [
-              //     SizedBox(width: 8),
-              //     Text("明细", style: style16),
-              //     Expanded(child: SizedBox()),
-              //   ],
-              // ),
-              // Flexible(
-              //   fit: FlexFit.loose,
-              //   child: SizedBox(
-              //     height: width,
-              //     child: GridView(
-              //       physics: const NeverScrollableScrollPhysics(),
-              //       gridDelegate:
-              //           const SliverGridDelegateWithFixedCrossAxisCount(
-              //         crossAxisCount: 6,
-              //         crossAxisSpacing: 4,
-              //         mainAxisSpacing: 4,
-              //       ),
-              //       children: [
-              //         ...List.generate(
-              //           28,
-              //           (i) => InkWell(
-              //             child: Container(
-              //               decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(4),
-              //                 color: bets.containsKey(i)
-              //                     ? primary.withOpacity(0.3)
-              //                     : Colors.transparent,
-              //                 border: Border.all(
-              //                     color: bets.containsKey(i)
-              //                         ? primary.withOpacity(0.3)
-              //                         : Colors.black26,
-              //                     width: 2),
-              //               ),
-              //               child: Column(
-              //                 children: [
-              //                   Text(
-              //                     format(bets.containsKey(i) ? bets[i] : 0),
-              //                     overflow: TextOverflow.ellipsis,
-              //                     style: const TextStyle(fontSize: 12),
-              //                   ),
-              //                   Expanded(
-              //                     child: Center(
-              //                       child: Text("$i", style: style24),
-              //                     ),
-              //                   ),
-              //                   Text(
-              //                     "${widget.stds[i]}",
-              //                     style: const TextStyle(
-              //                       fontSize: 9,
-              //                       fontStyle: FontStyle.italic,
-              //                     ),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //             onTap: () => onCheck(i),
-              //           ),
-              //         )
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Expanded(
-              //       child: RectangleCircleButton(
-              //         label: "清空",
-              //         onPressed: onClean,
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: RectangleCircleButton(
-              //         label: "删除",
-              //         onPressed: onDelete,
-              //       ),
-              //     ),
-              //   ],
-              // ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  labelFn("最大值"),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: SizedBox(
+                      height: 36,
+                      child: TextField(
+                        controller: _issueController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: BorderSide(color: primary),
+                          ),
+                          filled: true,
+                          fillColor: secondary,
+                          hintText: '高于最大值时，将停止运行（0 - 不限制）',
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              labelFn("设定规则"),
+              ...widget.modes.map(
+                (mode) => Container(
+                  margin: EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    children: [
+                      labelFn(mode.name),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: RectangleCircleButton(
+                          label: "Setting 1",
+                          icon: Icons.keyboard_arrow_down,
+                          elevation: 0,
+                          fontSize: 14,
+                          height: 32,
+                          onPressed: () {},
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: RectangleCircleButton(
+                          label: "Setting 2",
+                          icon: Icons.keyboard_arrow_down,
+                          elevation: 0,
+                          fontSize: 14,
+                          height: 32,
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: RectangleCircleButton(
+                      label: "开启自动投注",
+                      onPressed: onSave,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  // 开启或关闭 自动投注
+  void onSave() {}
 }
