@@ -18,7 +18,7 @@ class IconCircleButton extends StatelessWidget {
       secondary = Theme.of(context).scaffoldBackgroundColor;
     }
 
-    final side = BorderSide(color: primary, width: 2);
+    final side = BorderSide(color: primary);
 
     return IconButton.outlined(
       icon: Icon(icon),
