@@ -127,17 +127,15 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...modes.map(
-                          (mode) => RectangleCircleButton(
-                            label: mode.name,
-                            elevation: 0,
-                            fontSize: 14,
-                            height: 32,
-                            onPressed: () => onMode(mode),
-                          ),
-                        ),
-                      ],
+                      children: modes
+                          .map((mode) => RectangleCircleButton(
+                                label: mode.name,
+                                elevation: 0,
+                                fontSize: 14,
+                                height: 32,
+                                onPressed: () => onMode(mode),
+                              ))
+                          .toList(),
                     ),
                   ),
                 ),
@@ -155,17 +153,15 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...rates.map(
-                          (rate) => RectangleCircleButton(
-                            label: "${rate < 1 ? rate : rate.toInt()}",
-                            elevation: 0,
-                            fontSize: 14,
-                            height: 32,
-                            onPressed: () => onRate(rate),
-                          ),
-                        ),
-                      ],
+                      children: rates
+                          .map((rate) => RectangleCircleButton(
+                                label: "${rate < 1 ? rate : rate.toInt()}",
+                                elevation: 0,
+                                fontSize: 14,
+                                height: 32,
+                                onPressed: () => onRate(rate),
+                              ))
+                          .toList(),
                     ),
                   ),
                 ),
@@ -173,7 +169,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                 const Row(
                   children: [
                     SizedBox(width: 8),
-                    Text("明细", style: style16),
+                    Text("投注数字", style: style16),
                     Expanded(child: SizedBox()),
                   ],
                 ),
@@ -189,48 +185,10 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                         crossAxisSpacing: 4,
                         mainAxisSpacing: 4,
                       ),
-                      children: [
-                        ...List.generate(
-                          28,
-                          (i) => InkWell(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: bets.containsKey(i)
-                                    ? primary.withOpacity(0.3)
-                                    : Colors.transparent,
-                                border: Border.all(
-                                  color: bets.containsKey(i)
-                                      ? primary.withOpacity(0.3)
-                                      : Colors.black26,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    format(bets.containsKey(i) ? bets[i] : 0),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: Text("$i", style: style24),
-                                    ),
-                                  ),
-                                  Text(
-                                    "${widget.stds[i]}",
-                                    style: const TextStyle(
-                                      fontSize: 9,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            onTap: () => onCheck(i),
-                          ),
-                        )
-                      ],
+                      children: List.generate(
+                        28,
+                        (i) => builderDigital(primary, style24, i),
+                      ),
                     ),
                   ),
                 ),
@@ -256,6 +214,38 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget builderDigital(Color primary, TextStyle style24, int i) {
+    return InkWell(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: bets.containsKey(i)
+              ? primary.withOpacity(0.3)
+              : Colors.transparent,
+          border: Border.all(
+            color:
+                bets.containsKey(i) ? primary.withOpacity(0.3) : Colors.black26,
+          ),
+        ),
+        child: Column(
+          children: [
+            Text(
+              format(bets.containsKey(i) ? bets[i] : 0),
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 12),
+            ),
+            Expanded(child: Center(child: Text("$i", style: style24))),
+            Text(
+              "${widget.stds[i]}",
+              style: const TextStyle(fontSize: 9, fontStyle: FontStyle.italic),
+            )
+          ],
+        ),
+      ),
+      onTap: () => onCheck(i),
     );
   }
 
