@@ -49,7 +49,7 @@ class RectangleCircleButton extends StatelessWidget {
       throw Exception("unexpected type of ${border.runtimeType}");
     }
 
-    final side = BorderSide(color: primary, width: 2);
+    final side = BorderSide(color: primary);
     final text = Text(
       label,
       textAlign: TextAlign.center,

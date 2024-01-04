@@ -86,7 +86,6 @@ class _StateMinePage extends State<MinePage> {
                   labelFn("今日盈亏"),
                   const SizedBox(width: 8),
                   Expanded(child: textFn(win1, win1)),
-                  const Expanded(child: SizedBox()),
                   labelFn("今日胜率"),
                   const SizedBox(width: 8),
                   Expanded(
@@ -102,7 +101,6 @@ class _StateMinePage extends State<MinePage> {
                   labelFn("本周盈亏"),
                   const SizedBox(width: 8),
                   Expanded(child: textFn(win7, win7)),
-                  const Expanded(child: SizedBox()),
                   labelFn("当月盈亏"),
                   const SizedBox(width: 8),
                   Expanded(
@@ -113,13 +111,13 @@ class _StateMinePage extends State<MinePage> {
             ),
             Expanded(
               child: Container(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+                padding: const EdgeInsets.fromLTRB(8, 16, 8, 24),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Table(
-                      border: TableBorder.all(width: 2, color: Colors.black26),
+                      border: TableBorder.all(color: Colors.black26),
                       columnWidths: {
                         ...cells.asMap().map((k, cell) =>
                             MapEntry(k, FixedColumnWidth(cell.width))),

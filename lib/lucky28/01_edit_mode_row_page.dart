@@ -200,10 +200,10 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                                     ? primary.withOpacity(0.3)
                                     : Colors.transparent,
                                 border: Border.all(
-                                    color: bets.containsKey(i)
-                                        ? primary.withOpacity(0.3)
-                                        : Colors.black26,
-                                    width: 2),
+                                  color: bets.containsKey(i)
+                                      ? primary.withOpacity(0.3)
+                                      : Colors.black26,
+                                ),
                               ),
                               child: Column(
                                 children: [

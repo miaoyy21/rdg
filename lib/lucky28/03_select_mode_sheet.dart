@@ -18,7 +18,7 @@ Future onSelectModeSheet(BuildContext context, List<Mode> modes) {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black, width: 2),
+                border: Border.all(color: Colors.black),
               ),
               child: ListView.separated(
                 itemCount: modes.length,
