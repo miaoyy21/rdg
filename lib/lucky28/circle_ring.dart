@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:rdg/lucky28/circle_number.dart';
 
 class CircleRing extends StatelessWidget {
   final bool isRunning;
@@ -12,11 +13,10 @@ class CircleRing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final width = MediaQuery.of(context).size.width;
-    double width = 400;
+    final width = MediaQuery.of(context).size.width;
 
     return Center(
-      child: Container(
+      child: SizedBox(
         width: width,
         height: width,
         child: Stack(
@@ -29,37 +29,27 @@ class CircleRing extends StatelessWidget {
   List<Widget> _buildNumberCircles(double width) {
     final List<Widget> circles = [];
 
-    final double radius = (width - 48) / 2;
+    final double radius = (width) / 2 - 24;
     final double centerX = width / 2;
     final double centerY = width / 2;
     final double angle = 2 * pi / numbers.length;
 
     for (int i = 0; i < numbers.length; i++) {
-      final double x = centerX + radius * cos(i * angle);
-      final double y = centerY + radius * sin(i * angle);
+      final double x = centerX + radius * cos(-pi / 2 + i * angle);
+      final double y = centerY + radius * sin(-pi / 2 + i * angle);
 
       circles.add(
         Positioned(
-          left: x - 18.0,
-          top: y - 18.0,
+          left: x - 22,
+          top: y - 18,
           child: InkWell(
             onTap: () {
-              _onNumberTap(numbers[i]);
+              _onNumberTap(i);
             },
             overlayColor: MaterialStateProperty.all(Colors.transparent),
-            child: Container(
-              width: 36.0,
-              height: 36.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.blue, width: 2.0),
-              ),
-              child: Center(
-                child: Text(
-                  '${numbers[i]}',
-                  style: TextStyle(fontSize: 18.0),
-                ),
-              ),
+            child: CircleNumber(
+              i,
+              background: selected == i ? Colors.purple : Colors.white,
             ),
           ),
         ),
@@ -70,6 +60,6 @@ class CircleRing extends StatelessWidget {
   }
 
   void _onNumberTap(int number) {
-    print('Clicked number: $number');
+    debugPrint('Clicked number: $number');
   }
 }

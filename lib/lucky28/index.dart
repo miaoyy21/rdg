@@ -12,7 +12,6 @@ import '04_mine_page.dart';
 import 'circle_number.dart';
 import 'histories.dart';
 import '../widgets/index.dart';
-import 'circle_painter.dart';
 
 class Lucky28Page extends StatefulWidget {
   const Lucky28Page({super.key});
@@ -64,9 +63,6 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   @override
   Widget build(BuildContext context) {
-    final double size = min(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
-
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
       body: Padding(
@@ -89,16 +85,6 @@ class _Lucky28PageState extends State<Lucky28Page>
                   ),
                 ],
               ),
-              // SizedBox(
-              //   width: size,
-              //   height: size,
-              //   child: CustomPaint(
-              //     painter: CirclePainter(
-              //       selected: selected,
-              //       isRunning: isRunning,
-              //     ),
-              //   ),
-              // ),
               CircleRing(selected: selected, isRunning: isRunning),
               autoIssue > 0
                   ? Container(
