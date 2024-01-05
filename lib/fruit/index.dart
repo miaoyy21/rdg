@@ -139,6 +139,7 @@ class _FruitPageState extends State<FruitPage>
                     children: [
                       DigitalDisplay(
                         bets.putIfAbsent(category, () => 0),
+                        background: bets[category]! > 0 ? light : null,
                         width: width,
                       ),
                       const SizedBox(height: 4),

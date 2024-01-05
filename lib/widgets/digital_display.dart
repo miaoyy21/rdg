@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
 class DigitalDisplay extends StatelessWidget {
-  final int? digital;
+  final int digital;
+  final Color? background;
   final double? fontSize;
   final double? width;
   final double? height;
 
   const DigitalDisplay(this.digital,
-      {super.key, this.fontSize = 20, this.width, this.height});
+      {super.key,
+      this.background,
+      this.fontSize = 20,
+      this.width,
+      this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class DigitalDisplay extends StatelessWidget {
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
-        color: secondary,
+        color: background ?? secondary,
         borderRadius: BorderRadius.circular(4.0),
         border: Border.all(color: Colors.black),
       ),
