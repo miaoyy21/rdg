@@ -24,6 +24,7 @@ class _FruitPageState extends State<FruitPage>
 
   late int bonus = 0; // 奖金
   late int total = 10000; // 持有总额
+  late List<Categories> opened; // 最新8期开奖结果
   late int digital = 0; // 提示数字
   late bool enable = true; // 是否可操作
 
@@ -40,6 +41,10 @@ class _FruitPageState extends State<FruitPage>
   void initState() {
     super.initState();
 
+    // 最新开奖结果
+    final vs = Categories.values.where((v) => v != Categories.invalid).toList();
+    opened = List.generate(10, (i) => vs[Random().nextInt(vs.length)]);
+
     _player = AudioPlayer();
     _source = AssetSource("dong.wav");
 
@@ -53,10 +58,7 @@ class _FruitPageState extends State<FruitPage>
   @override
   Widget build(BuildContext context) {
     final light = Colors.orange.withOpacity(0.8);
-    final double size = min(
-      MediaQuery.of(context).size.width,
-      MediaQuery.of(context).size.height,
-    );
+    final double size = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(title: const Text('水果机'), centerTitle: true),
@@ -86,6 +88,34 @@ class _FruitPageState extends State<FruitPage>
               child: Stack(
                 children: [
                   FruitGridView(selected, light),
+                  Positioned(
+                    top: size / 6,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: opened
+                          .take(8)
+                          .map(
+                            (v) => Container(
+                              width: 30,
+                              height: 30,
+                              margin: const EdgeInsets.only(left: 2),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: Colors.black54),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  v.name,
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
                   Center(
                     child: DigitalDisplay(digital,
                         fontSize: 48, width: 80, height: 72),
