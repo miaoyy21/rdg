@@ -40,7 +40,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   late int base = 500; // 投注基数
 
   late int latest = 1234567890; // 本期累计
-  late int recently = 7890; // 你的花费
+  late int recently = 67890; // 你的花费
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -80,7 +80,9 @@ class _Lucky28PageState extends State<Lucky28Page>
         centerTitle: true,
         actions: [
           labelFn("持有"),
-          RectangleText(format(total)),
+          const SizedBox(width: 4),
+          Text(format(total)),
+          const SizedBox(width: 8),
         ],
       ),
       body: Padding(
@@ -88,21 +90,17 @@ class _Lucky28PageState extends State<Lucky28Page>
         child: Center(
           child: ListView(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    labelFn("本期累计"),
-                    recently > 0
-                        ? Expanded(child: RectangleText(format(latest)))
-                        : RectangleText(format(latest)),
-                    recently > 0 ? labelFn("你的花费") : const SizedBox(),
-                    recently > 0
-                        ? Expanded(child: RectangleText(format(recently)))
-                        : const SizedBox(),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  labelFn("本期累计"),
+                  const SizedBox(width: 4),
+                  Text(format(latest)),
+                  const SizedBox(width: 16),
+                  recently > 0 ? labelFn("你的花费") : const SizedBox(),
+                  const SizedBox(width: 4),
+                  recently > 0 ? Text(format(recently)) : const SizedBox(),
+                ],
               ),
               const SizedBox(height: 8),
               Row(
