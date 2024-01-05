@@ -40,7 +40,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   late int base = 500; // 投注基数
 
   late int latest = 1234567890; // 本期累计
-  late int recently = 0; // 你的花费
+  late int recently = 7890; // 你的花费
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -66,10 +66,23 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   @override
   Widget build(BuildContext context) {
-    final style16 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    labelFn(String label) {
+      return Text(
+        label,
+        textAlign: TextAlign.right,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      );
+    }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("幸运28"),
+        centerTitle: true,
+        actions: [
+          labelFn("持有"),
+          RectangleText(format(total)),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Center(
@@ -80,26 +93,14 @@ class _Lucky28PageState extends State<Lucky28Page>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "本期累计",
-                      textAlign: TextAlign.right,
-                      style: style16,
-                    ),
-                    const SizedBox(width: 8),
+                    labelFn("本期累计"),
                     recently > 0
-                        ? Expanded(child: Text(format(latest)))
-                        : Text(format(latest)),
+                        ? Expanded(child: RectangleText(format(latest)))
+                        : RectangleText(format(latest)),
+                    recently > 0 ? labelFn("你的花费") : const SizedBox(),
                     recently > 0
-                        ? Text(
-                            "你的花费",
-                            textAlign: TextAlign.right,
-                            style: style16,
-                          )
-                        : SizedBox(),
-                    const SizedBox(width: 8),
-                    recently > 0
-                        ? Expanded(child: Text(format(recently)))
-                        : SizedBox(),
+                        ? Expanded(child: RectangleText(format(recently)))
+                        : const SizedBox(),
                   ],
                 ),
               ),
