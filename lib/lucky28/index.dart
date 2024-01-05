@@ -40,7 +40,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   late int base = 500; // 投注基数
 
   late int latest = 1234567890; // 本期累计
-  late int recently = 67890; // 你的花费
+  late int recently = 0; // 你的花费
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -79,34 +79,31 @@ class _Lucky28PageState extends State<Lucky28Page>
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: recently > 0
-                      ? [
-                          Text(
-                            "本期累计",
-                            textAlign: TextAlign.right,
-                            style: style16,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(child: Text(format(latest))),
-                          Text(
+                  children: [
+                    Text(
+                      "本期累计",
+                      textAlign: TextAlign.right,
+                      style: style16,
+                    ),
+                    const SizedBox(width: 8),
+                    recently > 0
+                        ? Expanded(child: Text(format(latest)))
+                        : Text(format(latest)),
+                    recently > 0
+                        ? Text(
                             "你的花费",
                             textAlign: TextAlign.right,
                             style: style16,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(child: Text(format(recently))),
-                        ]
-                      : [
-                          Text(
-                            "本期累计",
-                            textAlign: TextAlign.right,
-                            style: style16,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(format(latest))
-                        ],
+                          )
+                        : SizedBox(),
+                    const SizedBox(width: 8),
+                    recently > 0
+                        ? Expanded(child: Text(format(recently)))
+                        : SizedBox(),
+                  ],
                 ),
               ),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
