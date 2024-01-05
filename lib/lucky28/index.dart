@@ -42,19 +42,20 @@ class _Lucky28PageState extends State<Lucky28Page>
   late int latest = 1234567890; // 本期累计
   late int recently = 67890; // 你的花费
 
-  static const double initial = 8;
-  static const double acceleration = -7.75;
-
   late AssetSource _source;
   late AudioPlayer _player;
+
+  static const double initial = 7;
+  static const double acceleration = -6.75;
   late AnimationController _controller;
+
   final format = NumberFormat("#,###").format;
 
   @override
   void initState() {
     super.initState();
 
-    _player = AudioPlayer()..setPlaybackRate(2.0);
+    _player = AudioPlayer()..setPlaybackRate(2);
     _source = AssetSource("dong.wav");
 
     const duration = Duration(seconds: 6);

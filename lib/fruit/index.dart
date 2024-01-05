@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
-import '../fruit/categories.dart';
 import '../widgets/index.dart';
+import 'fruit.dart';
+import 'categories.dart';
 import 'fruit_betting.dart';
 import 'fruit_grid_view.dart';
 
@@ -17,12 +19,36 @@ class FruitPage extends StatefulWidget {
 
 class _FruitPageState extends State<FruitPage>
     with SingleTickerProviderStateMixin {
-  late int bonus = 0;
-  late int total = 10000;
-  late int digital = 0;
-  late bool enable = true;
+  int result = -1; // 目标随机数字
+  int selected = -1; // 转轮选中数字
+
+  late int bonus = 0; // 奖金
+  late int total = 10000; // 持有总额
+  late int digital = 0; // 提示数字
+  late bool enable = true; // 是否可操作
 
   final Map<Categories, int> betting = {};
+
+  late AssetSource _source;
+  late AudioPlayer _player;
+
+  static const double initial = 7;
+  static const double acceleration = -6.75;
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _player = AudioPlayer();
+    _source = AssetSource("dong.wav");
+
+    const duration = Duration(seconds: 6);
+
+    _controller = AnimationController(vsync: this, duration: duration);
+    _controller.addListener(onStartListener);
+    _controller.addStatusListener(onStartStatusListener);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +84,7 @@ class _FruitPageState extends State<FruitPage>
               height: size,
               child: Stack(
                 children: [
-                  const FruitGridView(),
+                  FruitGridView(selected),
                   Center(
                     child: DigitalDisplay(digital,
                         fontSize: 48, width: 80, height: 72),
@@ -81,16 +107,16 @@ class _FruitPageState extends State<FruitPage>
                 ),
                 const Expanded(child: SizedBox()),
                 RectangleCircleButton(
-                  label: "大",
+                  label: "8-14",
                   onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
                 ),
                 RectangleCircleButton(
-                  label: "小",
+                  label: "1-7",
                   onPressed: enable && bonus > 0 ? () => onGuess(false) : null,
                 ),
                 const Expanded(child: SizedBox()),
                 RectangleCircleButton(
-                  label: "开始",
+                  label: "Go",
                   border: const CircleBorder(),
                   fontSize: 24,
                   width: 64,
@@ -130,6 +156,14 @@ class _FruitPageState extends State<FruitPage>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    _controller.dispose();
+
+    super.dispose();
   }
 
   // 调整奖金
@@ -204,7 +238,7 @@ class _FruitPageState extends State<FruitPage>
   }
 
   // 开始押注
-  void onStart() {
+  void onStart() async {
     if (bonus > 0) {
       setState(() {
         total = total + bonus;
@@ -212,7 +246,40 @@ class _FruitPageState extends State<FruitPage>
       });
     }
 
-    // TODO HTTP
-    debugPrint('Button 开始 Pressed');
+    result = fruits[Random().nextInt(fruits.length)].index;
+    debugPrint("Random Target Value is $result");
+
+    _controller.reset();
+    await _controller.forward();
+  }
+
+  // 开奖
+  void onStartListener() {
+    final distance = initial * _controller.value +
+        0.5 * acceleration * _controller.value * _controller.value;
+
+    final target = fruits.indexWhere((fruit) => fruit.index == result);
+
+    final newSelected = distance *
+        (24 * 3 + target.toDouble()) ~/
+        (initial + 0.5 * acceleration) %
+        24;
+    if (fruits[newSelected].index != selected) {
+      _player.play(_source);
+      setState(() {
+        selected = fruits[newSelected].index;
+        enable = false;
+      });
+    }
+  }
+
+  // 开奖结束
+  void onStartStatusListener(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      setState(() {
+        selected = result;
+        enable = true;
+      });
+    }
   }
 }

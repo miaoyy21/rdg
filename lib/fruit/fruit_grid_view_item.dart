@@ -4,11 +4,13 @@ import 'fruit.dart';
 
 class FruitGridViewItem extends StatelessWidget {
   final Fruit fruit;
+  final Color? shadow;
 
-  const FruitGridViewItem(this.fruit, {super.key});
+  const FruitGridViewItem(this.fruit, {super.key, this.shadow});
 
   @override
   Widget build(BuildContext context) {
+    final primary = Theme.of(context).primaryColor;
     if (!fruit.isValid) {
       return Container(color: Colors.transparent);
     }
@@ -17,6 +19,15 @@ class FruitGridViewItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         border: Border.all(color: Colors.black),
+        boxShadow: shadow != null
+            ? [
+                BoxShadow(
+                  color: shadow!.withOpacity(0.5),
+                  spreadRadius: 4,
+                  blurRadius: 8,
+                )
+              ]
+            : null,
       ),
       child: Center(
         child: fruit.isLarge || fruit.rate <= 0
