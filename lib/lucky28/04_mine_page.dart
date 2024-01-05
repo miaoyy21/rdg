@@ -71,7 +71,10 @@ class _StateMinePage extends State<MinePage> {
     textFn(String text, int value) {
       return Text(
         text,
-        style: style16.copyWith(color: value > 0 ? Colors.red : Colors.green),
+        style: TextStyle(
+          fontSize: 16,
+          color: value > 0 ? Colors.red : Colors.green,
+        ),
       );
     }
 

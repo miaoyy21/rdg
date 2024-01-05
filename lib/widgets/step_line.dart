@@ -14,8 +14,6 @@ class StepLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const style18 = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -31,7 +29,9 @@ class StepLine extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.black26),
           ),
-          child: Center(child: Text(format(num), style: style18)),
+          child: Center(
+            child: Text(format(num), style: const TextStyle(fontSize: 18)),
+          ),
         ),
         IconCircleButton(
           Icons.add,

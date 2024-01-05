@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rdg/lucky28/circle_ring.dart';
 
 import '01_edit_mode_page.dart';
@@ -35,8 +36,11 @@ class _Lucky28PageState extends State<Lucky28Page>
     ),
   ); // 投注模式
 
-  late int total = 1234567; // 总金额
+  late int total = 1234567; // 用户持有额
   late int base = 500; // 投注基数
+
+  late int latest = 1234567890; // 本期累计
+  late int recently = 67890; // 你的花费
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -44,6 +48,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   late AssetSource _source;
   late AudioPlayer _player;
   late AnimationController _controller;
+  final format = NumberFormat("#,###").format;
 
   @override
   void initState() {
@@ -61,6 +66,8 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   @override
   Widget build(BuildContext context) {
+    final style16 = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
       body: Padding(
@@ -68,6 +75,38 @@ class _Lucky28PageState extends State<Lucky28Page>
         child: Center(
           child: ListView(
             children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: recently > 0
+                      ? [
+                          Text(
+                            "本期累计",
+                            textAlign: TextAlign.right,
+                            style: style16,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(child: Text(format(latest))),
+                          Text(
+                            "你的花费",
+                            textAlign: TextAlign.right,
+                            style: style16,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(child: Text(format(recently))),
+                        ]
+                      : [
+                          Text(
+                            "本期累计",
+                            textAlign: TextAlign.right,
+                            style: style16,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(format(latest))
+                        ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -92,7 +131,8 @@ class _Lucky28PageState extends State<Lucky28Page>
                         onPressed: onCancelAutoIssue,
                       ),
                     )
-                  : StepLine(base, StepLineSteps().lucky28, onBase),
+                  : const SizedBox(),
+              StepLine(base, StepLineSteps().lucky28, onBase),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
