@@ -20,23 +20,29 @@ class CircleRing extends StatelessWidget {
         width: width,
         height: width,
         child: Stack(
-          children: _buildNumberCircles(width),
+          children: _buildNumberCircles(context, width),
         ),
       ),
     );
   }
 
-  List<Widget> _buildNumberCircles(double width) {
+  List<Widget> _buildNumberCircles(BuildContext context, double width) {
     final List<Widget> circles = [];
 
     final double radius = (width) / 2 - 24;
     final double centerX = width / 2;
     final double centerY = width / 2;
     final double angle = 2 * pi / numbers.length;
+    final primary = Theme.of(context).primaryColor;
 
     for (int i = 0; i < numbers.length; i++) {
       final double x = centerX + radius * cos(-pi / 2 + i * angle);
       final double y = centerY + radius * sin(-pi / 2 + i * angle);
+
+      final Color background = selected == i ? primary : Colors.white;
+      final Color border = selected == i ? primary : Colors.black;
+      final Color color = selected == i ? Colors.white : Colors.black;
+      final Color? shadow = selected == i ? primary : null;
 
       circles.add(
         Positioned(
@@ -49,7 +55,10 @@ class CircleRing extends StatelessWidget {
             overlayColor: MaterialStateProperty.all(Colors.transparent),
             child: CircleNumber(
               i,
-              background: selected == i ? Colors.purple : Colors.white,
+              background: background,
+              border: border,
+              color: color,
+              shadow: shadow,
             ),
           ),
         ),
