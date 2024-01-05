@@ -96,8 +96,12 @@ class _FruitPageState extends State<FruitPage>
                     child: Histories(opened.take(8).toList()),
                   ),
                   Center(
-                    child: DigitalDisplay(digital,
-                        fontSize: 48, width: 80, height: 72),
+                    child: DigitalDisplay(
+                      digital,
+                      fontSize: 48,
+                      width: 80,
+                      height: 72,
+                    ),
                   ),
                 ],
               ),
