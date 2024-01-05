@@ -11,6 +11,7 @@ class DigitalDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color primary = Theme.of(context).primaryColor;
     Color secondary = Theme.of(context).secondaryHeaderColor;
 
     return Container(
@@ -26,6 +27,7 @@ class DigitalDisplay extends StatelessWidget {
         child: Text(
           "$digital",
           style: TextStyle(
+            color: primary,
             fontFamily: "Digital",
             fontSize: fontSize,
           ),
