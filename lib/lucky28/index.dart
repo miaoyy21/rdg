@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rdg/lucky28/circle_ring.dart';
 
 import '01_edit_mode_page.dart';
 import '02_auto_page.dart';
@@ -88,16 +89,17 @@ class _Lucky28PageState extends State<Lucky28Page>
                   ),
                 ],
               ),
-              SizedBox(
-                width: size,
-                height: size,
-                child: CustomPaint(
-                  painter: CirclePainter(
-                    selected: selected,
-                    isRunning: isRunning,
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   width: size,
+              //   height: size,
+              //   child: CustomPaint(
+              //     painter: CirclePainter(
+              //       selected: selected,
+              //       isRunning: isRunning,
+              //     ),
+              //   ),
+              // ),
+              CircleRing(selected: selected, isRunning: isRunning),
               autoIssue > 0
                   ? Container(
                       margin: const EdgeInsets.symmetric(vertical: 8),
