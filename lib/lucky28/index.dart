@@ -117,30 +117,30 @@ class _Lucky28PageState extends State<Lucky28Page>
                         onPressed: onCancelAutoIssue,
                       ),
                     )
-                  : const SizedBox(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconCircleButton(
-                    Icons.remove,
-                    onPressed: () => onBase(false),
-                  ),
-                  Container(
-                    width: 128,
-                    height: 40,
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.black26),
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconCircleButton(
+                          Icons.remove,
+                          onPressed: () => onBase(false),
+                        ),
+                        Container(
+                          width: 128,
+                          height: 40,
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.black26),
+                          ),
+                          child:
+                              Center(child: Text(format(base), style: style18)),
+                        ),
+                        IconCircleButton(
+                          Icons.add,
+                          onPressed: () => onBase(true),
+                        ),
+                      ],
                     ),
-                    child: Center(child: Text(format(base), style: style18)),
-                  ),
-                  IconCircleButton(
-                    Icons.add,
-                    onPressed: () => onBase(true),
-                  ),
-                ],
-              ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
