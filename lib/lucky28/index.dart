@@ -144,17 +144,6 @@ class _Lucky28PageState extends State<Lucky28Page>
     super.dispose();
   }
 
-  // 虚拟开始开奖
-  void onStart() async {
-    result = Random().nextInt(28);
-    debugPrint("Random Target Value is $result");
-
-    _controller.reset();
-    await _controller.forward();
-
-    total -= 67890;
-  }
-
   // 调整投注基数
   void onBase(int num) {
     base = num;
@@ -166,6 +155,17 @@ class _Lucky28PageState extends State<Lucky28Page>
     setState(() {
       autoIssue = 0;
     });
+  }
+
+  // 虚拟开始开奖
+  void onStart() async {
+    result = Random().nextInt(28);
+    debugPrint("Random Target Value is $result");
+
+    _controller.reset();
+    await _controller.forward();
+
+    total -= 67890;
   }
 
   // 开奖
