@@ -33,14 +33,14 @@ class FruitGridViewItem extends StatelessWidget {
         child: fruit.isLarge || fruit.rate <= 0
             ? Text(
                 fruit.name,
-                style: TextStyle(fontSize: fruit.isLarge ? 40 : 30),
+                style: TextStyle(fontSize: fruit.isLarge ? 36 : 24),
               )
             : Column(
                 children: [
                   Expanded(
                     child: Text(
                       fruit.name,
-                      style: const TextStyle(fontSize: 30),
+                      style: const TextStyle(fontSize: 24),
                     ),
                   ),
                   Text(

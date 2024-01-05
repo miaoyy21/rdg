@@ -25,7 +25,7 @@ class _FruitPageState extends State<FruitPage>
 
   late int bonus = 0; // 奖金
   late int total = 10000; // 持有总额
-  late List<Categories> opened; // 最新8期开奖结果
+  late List<int> opened; // 最新8期开奖结果
   late int digital = 0; // 提示数字
   late bool enable = true; // 是否可操作
 
@@ -43,8 +43,10 @@ class _FruitPageState extends State<FruitPage>
     super.initState();
 
     // 最新开奖结果
-    final vs = Categories.values.where((v) => v != Categories.invalid).toList();
-    opened = List.generate(20, (i) => vs[Random().nextInt(vs.length)]);
+    opened = List.generate(
+      20,
+      (i) => fruits[Random().nextInt(fruits.length)].index,
+    );
 
     _player = AudioPlayer();
     _source = AssetSource("dong.wav");
@@ -277,7 +279,7 @@ class _FruitPageState extends State<FruitPage>
     _controller.reset();
     await _controller.forward();
 
-    opened.insert(0, fruit.category);
+    opened.insert(0, fruit.index);
     setState(() {});
   }
 
