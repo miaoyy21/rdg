@@ -9,7 +9,7 @@ class EditModeRowPage extends StatefulWidget {
   final String? id;
 
   final String? name;
-  final String? total;
+  final int? total;
   final Map<int, int>? bets;
 
   const EditModeRowPage(
@@ -28,8 +28,8 @@ class EditModeRowPage extends StatefulWidget {
 
 class _StateEditModeRowPage extends State<EditModeRowPage> {
   late String name = "";
-  late String total = "0";
-  late Map<int, int> bets = {};
+  late int total;
+  late Map<int, int> bets;
 
   final TextEditingController _controller = TextEditingController();
   late List<EditModeDefinedMode> modes;
@@ -54,7 +54,8 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
     if (widget.action == EditModeRowAction.edit) {
       name = widget.name!;
       total = widget.total!;
-      bets = widget.bets!;
+
+      bets = widget.bets!.map((k, v) => MapEntry(k, v));
     }
 
     _controller.text = name;
@@ -98,7 +99,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        total,
+                        format(total),
                         style: style16.copyWith(color: primary),
                       ),
                     ),
@@ -251,9 +252,8 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
 
   // 模式
   void onMode(EditModeDefinedMode mode) {
-    var summary = int.parse(total.replaceAll(",", ""));
-    if ((summary + 1000) > 1 << 52) {
-      debugPrint("$summary + 1000 超过设定上限，不进行处理");
+    if ((total + 1000) > 1 << 31) {
+      debugPrint("$total + 1000 超过设定上限，不进行处理");
       return;
     }
 
@@ -266,27 +266,21 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
       bets.update(i, (v) => v + std, ifAbsent: () => std);
     });
 
-    total = format(bets.values.reduce((v, e) => v + e));
+    total = bets.values.reduce((v, e) => v + e);
     setState(() {});
   }
 
   // 倍率
   void onRate(double rate) {
-    var summary = int.parse(total.replaceAll(",", ""));
-    if ((summary * rate) > 1 << 52) {
-      debugPrint("$summary * $rate 超过设定上限，不进行处理");
+    if ((total * rate) > 1 << 31) {
+      debugPrint("$total * $rate 超过设定上限，不进行处理");
       return;
     }
 
     bets.updateAll((k, v) => (v * rate).floor());
     bets.removeWhere((k, v) => v == 0); // 倍数小于1时，可能产生0
 
-    summary = 0;
-    if (bets.values.isNotEmpty) {
-      summary = bets.values.reduce((v, e) => v + e);
-    }
-
-    total = format(summary);
+    total = bets.values.isNotEmpty ? bets.values.reduce((v, e) => v + e) : 0;
     setState(() {});
   }
 
@@ -295,23 +289,16 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
     if (bets.containsKey(i)) {
       // 取消选择
       bets.remove(i);
-
-      var summary = 0;
-      if (bets.values.isNotEmpty) {
-        summary = bets.values.reduce((v, e) => v + e);
-      }
-
-      total = format(summary);
+      total = bets.values.isNotEmpty ? bets.values.reduce((v, e) => v + e) : 0;
     } else {
       // 选中数字
-      var summary = int.parse(total.replaceAll(",", ""));
-      if ((summary + 1000) > 1 << 52) {
-        debugPrint("$summary + 1000 超过设定上限，不进行处理");
+      if ((total + 1000) > 1 << 52) {
+        debugPrint("$total + 1000 超过设定上限，不进行处理");
         return;
       }
 
       bets[i] = widget.stds[i]!;
-      total = format(bets.values.reduce((v, e) => v + e));
+      total = bets.values.reduce((v, e) => v + e);
     }
 
     setState(() {});
@@ -320,7 +307,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
   // 清空
   void onClean() {
     bets.clear();
-    total = "0";
+    total = 0;
     setState(() {});
   }
 

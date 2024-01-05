@@ -37,8 +37,28 @@ class _Lucky28PageState extends State<Lucky28Page>
   ); // 投注模式
 
   late int total = 1234567; // 总金额
-  double radixPercent = 0; // 投注百分比
-  int radix = 0; // 投注金额
+  late int base = 500; // 投注基数
+  final List<int> bases = [
+    500,
+    1000,
+    2000,
+    5000,
+    10000,
+    20000,
+    50000,
+    100000,
+    200000,
+    500000,
+    1000000,
+    2000000,
+    5000000,
+    10000000,
+    20000000,
+    50000000,
+    100000000,
+    200000000,
+    500000000,
+  ];
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -46,6 +66,7 @@ class _Lucky28PageState extends State<Lucky28Page>
   late AssetSource _source;
   late AudioPlayer _player;
   late AnimationController _controller;
+  final format = NumberFormat("#,###").format;
 
   @override
   void initState() {
@@ -63,6 +84,8 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   @override
   Widget build(BuildContext context) {
+    const style18 = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
       body: Padding(
@@ -98,41 +121,24 @@ class _Lucky28PageState extends State<Lucky28Page>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    width: 88,
-                    child: Text(
-                      "投注占比",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 18),
-                    ),
+                  IconCircleButton(
+                    Icons.remove,
+                    onPressed: () => onBase(false),
                   ),
-                  Expanded(
-                    child: Slider(
-                      value: radixPercent,
-                      activeColor: Colors.black,
-                      inactiveColor: Colors.black38,
-                      onChanged: onRadixPercentChange,
+                  Container(
+                    width: 128,
+                    height: 40,
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.black26),
                     ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: 88,
-                    child: Text(
-                      "投注金额",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    child: Center(child: Text(format(base), style: style18)),
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Text(radix <= 0
-                        ? "0"
-                        : "${(radixPercent * 100).toStringAsFixed(2)}% ⇰ $radix"),
-                  )
+                  IconCircleButton(
+                    Icons.add,
+                    onPressed: () => onBase(true),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -165,6 +171,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
               RectangleCircleButton(
                 label: "开始",
                 onPressed: onStart,
@@ -193,15 +200,27 @@ class _Lucky28PageState extends State<Lucky28Page>
     await _controller.forward();
 
     total -= 67890;
-    onRadixPercentChange(radixPercent);
   }
 
-  // 修改投注占比
-  void onRadixPercentChange(double value) {
-    setState(() {
-      radixPercent = value;
-      radix = ((radixPercent * total) ~/ 1000) * 1000;
-    });
+  // 调整投注基数
+  void onBase(bool flag) {
+    final index = bases.indexWhere((n) => n == base);
+    if (index < 0) {
+      throw FlutterError("$base 不在投注基数列表中");
+    }
+
+    // [true] 增加；[false]减少
+    if (flag) {
+      if (index + 1 < bases.length) {
+        base = bases[index + 1];
+      }
+    } else {
+      if (index - 1 >= 0) {
+        base = bases[index - 1];
+      }
+    }
+
+    setState(() {});
   }
 
   // 取消自动投注

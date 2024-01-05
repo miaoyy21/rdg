@@ -17,6 +17,8 @@ class _StateEditPage extends State<EditModePage> {
   late Map<int, int> stds = {}; // 1000次 对应数字出现的次数
   late List<ModeRow> rows;
 
+  final format = NumberFormat("#,###").format;
+
   @override
   void initState() {
     super.initState();
@@ -52,7 +54,7 @@ class _StateEditPage extends State<EditModePage> {
         return ModeRow(
           "$index-${Random().nextInt(10000)}",
           "模式 $index",
-          NumberFormat("#,###").format(total),
+          total,
           bets,
         );
       },
@@ -89,7 +91,10 @@ class _StateEditPage extends State<EditModePage> {
                         SizedBox(width: 36, child: Text("${index + 1}")),
                         Expanded(child: Text(row.name)),
                         Expanded(
-                          child: Text(row.total, textAlign: TextAlign.right),
+                          child: Text(
+                            format(row.total),
+                            textAlign: TextAlign.right,
+                          ),
                         ),
                       ],
                     ),
@@ -144,7 +149,7 @@ class _StateEditPage extends State<EditModePage> {
 class ModeRow {
   final String id;
   final String name;
-  final String total;
+  final int total;
   final Map<int, int> bets;
 
   ModeRow(this.id, this.name, this.total, this.bets);
