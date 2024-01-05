@@ -38,27 +38,6 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   late int total = 1234567; // 总金额
   late int base = 500; // 投注基数
-  final List<int> bases = [
-    500,
-    1000,
-    2000,
-    5000,
-    10000,
-    20000,
-    50000,
-    100000,
-    200000,
-    500000,
-    1000000,
-    2000000,
-    5000000,
-    10000000,
-    20000000,
-    50000000,
-    100000000,
-    200000000,
-    500000000,
-  ];
 
   static const double initial = 8;
   static const double acceleration = -7.75;
@@ -66,7 +45,6 @@ class _Lucky28PageState extends State<Lucky28Page>
   late AssetSource _source;
   late AudioPlayer _player;
   late AnimationController _controller;
-  final format = NumberFormat("#,###").format;
 
   @override
   void initState() {
@@ -84,8 +62,6 @@ class _Lucky28PageState extends State<Lucky28Page>
 
   @override
   Widget build(BuildContext context) {
-    const style18 = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-
     return Scaffold(
       appBar: AppBar(title: const Text("幸运28"), centerTitle: true),
       body: Padding(
@@ -117,30 +93,7 @@ class _Lucky28PageState extends State<Lucky28Page>
                         onPressed: onCancelAutoIssue,
                       ),
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconCircleButton(
-                          Icons.remove,
-                          onPressed: () => onBase(false),
-                        ),
-                        Container(
-                          width: 128,
-                          height: 40,
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.black26),
-                          ),
-                          child:
-                              Center(child: Text(format(base), style: style18)),
-                        ),
-                        IconCircleButton(
-                          Icons.add,
-                          onPressed: () => onBase(true),
-                        ),
-                      ],
-                    ),
+                  : StepLine(base, StepLineSteps().lucky28, onBase),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -203,23 +156,8 @@ class _Lucky28PageState extends State<Lucky28Page>
   }
 
   // 调整投注基数
-  void onBase(bool flag) {
-    final index = bases.indexWhere((n) => n == base);
-    if (index < 0) {
-      throw FlutterError("$base 不在投注基数列表中");
-    }
-
-    // [true] 增加；[false]减少
-    if (flag) {
-      if (index + 1 < bases.length) {
-        base = bases[index + 1];
-      }
-    } else {
-      if (index - 1 >= 0) {
-        base = bases[index - 1];
-      }
-    }
-
+  void onBase(int num) {
+    base = num;
     setState(() {});
   }
 
