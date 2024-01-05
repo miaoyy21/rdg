@@ -36,8 +36,8 @@ class _StateHistoriesPage extends State<HistoriesPage> {
       (index) => HistoriesRow(
         "${300000000 - index}",
         Random().nextInt(10) + Random().nextInt(10) + Random().nextInt(10),
-        format(Random().nextInt(100000000) + 100000000),
-        format(Random().nextInt(100) + 100),
+        Random().nextInt(100000000) + 100000000,
+        Random().nextInt(100) + 100,
       ),
     );
   }
@@ -165,7 +165,7 @@ class _StateHistoriesPage extends State<HistoriesPage> {
                                 height: 26,
                                 padding: padding,
                                 child: Text(
-                                  row.total,
+                                  format(row.total),
                                   textAlign: TextAlign.right,
                                   style: style1,
                                 ),
@@ -176,7 +176,7 @@ class _StateHistoriesPage extends State<HistoriesPage> {
                                 height: 26,
                                 padding: padding,
                                 child: Text(
-                                  row.wins,
+                                  format(row.wins),
                                   textAlign: TextAlign.right,
                                   style: style1,
                                 ),
@@ -200,8 +200,8 @@ class _StateHistoriesPage extends State<HistoriesPage> {
 class HistoriesRow {
   final String issue;
   final int result;
-  final String total;
-  final String wins;
+  final int total;
+  final int wins;
 
   HistoriesRow(this.issue, this.result, this.total, this.wins);
 }

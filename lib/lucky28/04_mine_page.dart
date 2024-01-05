@@ -14,25 +14,26 @@ class _StateMinePage extends State<MinePage> {
   late List<MineCell> cells;
   late List<MineRow> rows;
 
-  late String win1;
+  late int win1;
   late double rate1;
-  late String win7;
-  late String win31;
+  late int win7;
+  late int win31;
   final format = NumberFormat("#,###").format;
 
   @override
   void initState() {
     super.initState();
 
-    colorFn(row) => row.win.startsWith("-") ? Colors.green : Colors.red;
+    colorFn(row) => row.win > 0 ? Colors.red : Colors.green;
 
     cells = [
       MineCell("期号", 96, TextAlign.center, (row) => "${row.issue}"),
       MineCell("开奖", 56, TextAlign.center, (row) => "${row.result}"),
-      MineCell("盈亏", 112, TextAlign.right, (row) => row.win, colorFn: colorFn),
-      MineCell("获得", 112, TextAlign.right, (row) => row.total,
+      MineCell("盈亏", 112, TextAlign.right, (row) => format(row.win),
           colorFn: colorFn),
-      MineCell("花费", 112, TextAlign.right, (row) => row.cost),
+      MineCell("获得", 112, TextAlign.right, (row) => format(row.total),
+          colorFn: colorFn),
+      MineCell("花费", 112, TextAlign.right, (row) => format(row.cost)),
     ];
 
     rows = List.generate(
@@ -40,16 +41,16 @@ class _StateMinePage extends State<MinePage> {
       (index) => MineRow(
         300000000 - index,
         Random().nextInt(10) + Random().nextInt(10) + Random().nextInt(10),
-        format(Random().nextInt(100000000) - 50000000),
-        format(Random().nextInt(100000000) + 50000000),
-        format(Random().nextInt(100000000) + 100000000),
+        Random().nextInt(100000000) - 50000000,
+        Random().nextInt(100000000) + 50000000,
+        Random().nextInt(100000000) + 100000000,
       ),
     );
 
-    win1 = format(Random().nextInt(100000000) - 50000000);
+    win1 = Random().nextInt(100000000) - 50000000;
     rate1 = Random().nextDouble();
-    win7 = format(Random().nextInt(100000000) - 50000000);
-    win31 = format(Random().nextInt(1000000000) - 500000000);
+    win7 = Random().nextInt(100000000) - 50000000;
+    win31 = Random().nextInt(1000000000) - 500000000;
   }
 
   @override
@@ -67,11 +68,10 @@ class _StateMinePage extends State<MinePage> {
       );
     }
 
-    textFn(String text, String value) {
+    textFn(String text, int value) {
       return Text(
         text,
-        style: style16.copyWith(
-            color: value.startsWith("-") ? Colors.green : Colors.red),
+        style: style16.copyWith(color: value > 0 ? Colors.red : Colors.green),
       );
     }
 
@@ -85,7 +85,7 @@ class _StateMinePage extends State<MinePage> {
                 children: [
                   labelFn("今日盈亏"),
                   const SizedBox(width: 8),
-                  Expanded(child: textFn(win1, win1)),
+                  Expanded(child: textFn(format(win1), win1)),
                   labelFn("今日胜率"),
                   const SizedBox(width: 8),
                   Expanded(
@@ -100,11 +100,11 @@ class _StateMinePage extends State<MinePage> {
                 children: [
                   labelFn("本周盈亏"),
                   const SizedBox(width: 8),
-                  Expanded(child: textFn(win7, win7)),
+                  Expanded(child: textFn(format(win7), win7)),
                   labelFn("当月盈亏"),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: textFn(win31, win31),
+                    child: textFn(format(win31), win31),
                   )
                 ],
               ),
@@ -177,9 +177,9 @@ class _StateMinePage extends State<MinePage> {
 class MineRow {
   final int issue;
   final int result;
-  final String win;
-  final String total;
-  final String cost;
+  final int win;
+  final int total;
+  final int cost;
 
   MineRow(this.issue, this.result, this.win, this.total, this.cost);
 }

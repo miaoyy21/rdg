@@ -32,7 +32,7 @@ class _Lucky28PageState extends State<Lucky28Page>
     (i) => Mode(
       "${i + 1}-${Random().nextInt(10000)}",
       "模式 ${i + 1}",
-      NumberFormat("#,###").format(Random().nextInt(10000)),
+      Random().nextInt(100000),
     ),
   ); // 投注模式
 

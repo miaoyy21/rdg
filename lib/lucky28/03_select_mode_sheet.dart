@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Future onSelectModeSheet(BuildContext context, List<Mode> modes) {
+  final format = NumberFormat("#,###").format;
+
   return showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -32,8 +35,8 @@ Future onSelectModeSheet(BuildContext context, List<Mode> modes) {
                         SizedBox(width: 36, child: Text("${index + 1}")),
                         Expanded(child: Text(mode.name)),
                         Expanded(
-                            child:
-                                Text(mode.total, textAlign: TextAlign.right)),
+                            child: Text(format(mode.total),
+                                textAlign: TextAlign.right)),
                       ],
                     ),
                     splashColor: Theme.of(context).primaryColor,
@@ -53,7 +56,7 @@ Future onSelectModeSheet(BuildContext context, List<Mode> modes) {
 class Mode {
   final String id;
   final String name;
-  final String total;
+  final int total;
 
   Mode(this.id, this.name, this.total);
 }
