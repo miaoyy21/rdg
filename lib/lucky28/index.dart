@@ -102,7 +102,6 @@ class _Lucky28PageState extends State<Lucky28Page>
                   recently > 0 ? Text(format(recently)) : const SizedBox(),
                 ],
               ),
-              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
