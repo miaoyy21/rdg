@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'categories.dart';
 
-class FruitBetting extends StatelessWidget {
+class FruitBet extends StatelessWidget {
   final Categories category;
   final double width;
   final Color? background;
   final Function(Categories)? onBetting;
 
-  const FruitBetting(this.category, this.width, this.onBetting,
+  const FruitBet(this.category, this.width, this.onBetting,
       {super.key, this.background});
 
   @override

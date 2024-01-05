@@ -3,11 +3,12 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:rdg/fruit/histories.dart';
 
 import '../widgets/index.dart';
 import 'fruit.dart';
 import 'categories.dart';
-import 'fruit_betting.dart';
+import 'fruit_bet.dart';
 import 'fruit_grid_view.dart';
 
 class FruitPage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _FruitPageState extends State<FruitPage>
 
     // 最新开奖结果
     final vs = Categories.values.where((v) => v != Categories.invalid).toList();
-    opened = List.generate(10, (i) => vs[Random().nextInt(vs.length)]);
+    opened = List.generate(20, (i) => vs[Random().nextInt(vs.length)]);
 
     _player = AudioPlayer();
     _source = AssetSource("dong.wav");
@@ -89,32 +90,10 @@ class _FruitPageState extends State<FruitPage>
                 children: [
                   FruitGridView(selected, light),
                   Positioned(
-                    top: size / 6,
+                    top: (size + 88) / 7,
                     left: 0,
                     right: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: opened
-                          .take(8)
-                          .map(
-                            (v) => Container(
-                              width: 30,
-                              height: 30,
-                              margin: const EdgeInsets.only(left: 2),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: Colors.black54),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  v.name,
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
+                    child: Histories(opened.take(8).toList()),
                   ),
                   Center(
                     child: DigitalDisplay(digital,
@@ -173,7 +152,7 @@ class _FruitPageState extends State<FruitPage>
                         width: width,
                       ),
                       const SizedBox(height: 4),
-                      FruitBetting(
+                      FruitBet(
                         category,
                         width,
                         enable ? onBetting : null,
@@ -287,11 +266,15 @@ class _FruitPageState extends State<FruitPage>
       });
     }
 
-    result = fruits[Random().nextInt(fruits.length)].index;
+    final fruit = fruits[Random().nextInt(fruits.length)];
+    result = fruit.index;
     debugPrint("Random Target Value is $result");
 
     _controller.reset();
     await _controller.forward();
+
+    opened.insert(0, fruit.category);
+    setState(() {});
   }
 
   // 开奖
