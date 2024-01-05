@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rdg/lucky28/circle_ring.dart';
 
 import '01_edit_mode_page.dart';
