@@ -22,7 +22,7 @@ class FruitGridViewItem extends StatelessWidget {
         boxShadow: shadow != null
             ? [
                 BoxShadow(
-                  color: shadow!.withOpacity(0.5),
+                  color: shadow!,
                   spreadRadius: 4,
                   blurRadius: 8,
                 )

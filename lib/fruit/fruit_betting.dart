@@ -5,9 +5,11 @@ import 'categories.dart';
 class FruitBetting extends StatelessWidget {
   final Categories category;
   final double width;
+  final Color? background;
   final Function(Categories)? onBetting;
 
-  const FruitBetting(this.category, this.width, this.onBetting, {super.key});
+  const FruitBetting(this.category, this.width, this.onBetting,
+      {super.key, this.background});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class FruitBetting extends StatelessWidget {
           height: width + 32,
           margin: const EdgeInsets.symmetric(horizontal: 2),
           decoration: BoxDecoration(
+            color: background,
             borderRadius: BorderRadius.circular(4.0),
             border: Border.all(color: color),
           ),

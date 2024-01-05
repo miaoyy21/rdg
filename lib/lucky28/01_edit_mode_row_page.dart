@@ -28,8 +28,8 @@ class EditModeRowPage extends StatefulWidget {
 
 class _StateEditModeRowPage extends State<EditModeRowPage> {
   late String name = "";
-  late int total;
-  late Map<int, int> bets;
+  late int total = 0;
+  late Map<int, int> bets = {};
 
   final TextEditingController _controller = TextEditingController();
   late List<EditModeDefinedMode> modes;
@@ -55,6 +55,7 @@ class _StateEditModeRowPage extends State<EditModeRowPage> {
       name = widget.name!;
       total = widget.total!;
 
+      // 这边需要进行完全拷贝
       bets = widget.bets!.map((k, v) => MapEntry(k, v));
     }
 

@@ -5,13 +5,12 @@ import 'fruit_grid_view_item.dart';
 
 class FruitGridView extends StatelessWidget {
   final int selected;
+  final Color light;
 
-  const FruitGridView(this.selected, {super.key});
+  const FruitGridView(this.selected, this.light, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final primary = Theme.of(context).primaryColor;
-
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -24,7 +23,7 @@ class FruitGridView extends StatelessWidget {
           (ele) => ele.index == index,
           orElse: () => Fruit.invalid(),
         ),
-        shadow: selected == index ? primary : null,
+        shadow: selected == index ? light : null,
       ),
       itemCount: 49,
       padding: const EdgeInsets.all(8),

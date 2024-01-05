@@ -27,7 +27,7 @@ class _FruitPageState extends State<FruitPage>
   late int digital = 0; // 提示数字
   late bool enable = true; // 是否可操作
 
-  final Map<Categories, int> betting = {};
+  final Map<Categories, int> bets = {};
 
   late AssetSource _source;
   late AudioPlayer _player;
@@ -52,6 +52,7 @@ class _FruitPageState extends State<FruitPage>
 
   @override
   Widget build(BuildContext context) {
+    final light = Colors.orange.withOpacity(0.8);
     final double size = min(
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
@@ -84,7 +85,7 @@ class _FruitPageState extends State<FruitPage>
               height: size,
               child: Stack(
                 children: [
-                  FruitGridView(selected),
+                  FruitGridView(selected, light),
                   Center(
                     child: DigitalDisplay(digital,
                         fontSize: 48, width: 80, height: 72),
@@ -107,12 +108,12 @@ class _FruitPageState extends State<FruitPage>
                 ),
                 const Expanded(child: SizedBox()),
                 RectangleCircleButton(
-                  label: "8-14",
-                  onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
-                ),
-                RectangleCircleButton(
                   label: "1-7",
                   onPressed: enable && bonus > 0 ? () => onGuess(false) : null,
+                ),
+                RectangleCircleButton(
+                  label: "8-14",
+                  onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
                 ),
                 const Expanded(child: SizedBox()),
                 RectangleCircleButton(
@@ -121,9 +122,8 @@ class _FruitPageState extends State<FruitPage>
                   fontSize: 24,
                   width: 64,
                   height: 64,
-                  onPressed: enable && betting.values.any((v) => v > 0)
-                      ? onStart
-                      : null,
+                  onPressed:
+                      enable && bets.values.any((v) => v > 0) ? onStart : null,
                 ),
                 const SizedBox(width: 4),
               ],
@@ -138,7 +138,7 @@ class _FruitPageState extends State<FruitPage>
                   return Column(
                     children: [
                       DigitalDisplay(
-                        betting.putIfAbsent(category, () => 0),
+                        bets.putIfAbsent(category, () => 0),
                         width: width,
                       ),
                       const SizedBox(height: 4),
@@ -146,6 +146,7 @@ class _FruitPageState extends State<FruitPage>
                         category,
                         width,
                         enable ? onBetting : null,
+                        background: bets[category]! > 0 ? light : null,
                       ),
                     ],
                   );
@@ -174,6 +175,9 @@ class _FruitPageState extends State<FruitPage>
     }
 
     setState(() {
+      result = -1;
+      selected = -1;
+
       bonus = newBonus;
       total = newTotal;
     });
@@ -187,8 +191,11 @@ class _FruitPageState extends State<FruitPage>
     }
 
     setState(() {
+      result = -1;
+      selected = -1;
+
       total = newTotal;
-      betting.update(category, (value) => value + 1);
+      bets.update(category, (value) => value + 1);
     });
   }
 
@@ -201,13 +208,17 @@ class _FruitPageState extends State<FruitPage>
     debugPrint("你猜测的是：${large ? "大" : "小"}");
 
     // TODO HTTP
-    final result = Random().nextBool();
-    debugPrint("随机结果是：${result ? "大" : "小"}");
+    var target = Random().nextBool();
+    debugPrint("随机结果是：${target ? "大" : "小"}");
 
+    result = -1;
+    selected = -1;
     enable = false;
+    setState(() {});
+
     await onGuessEffect();
     setState(() {
-      if (result) {
+      if (target) {
         digital = 8 + Random().nextInt(7);
       } else {
         digital = 1 + Random().nextInt(7);
@@ -216,7 +227,7 @@ class _FruitPageState extends State<FruitPage>
       enable = true;
     });
 
-    if (result == large) {
+    if (target == large) {
       debugPrint("猜测正确 >>>");
     } else {
       debugPrint("猜测错误 <<<");
@@ -228,9 +239,8 @@ class _FruitPageState extends State<FruitPage>
     final timer = Timer.periodic(
       const Duration(milliseconds: 255),
       (Timer timer) {
-        setState(() {
-          digital = Random().nextInt(14) + 1;
-        });
+        digital = Random().nextInt(14) + 1;
+        setState(() {});
       },
     );
 
