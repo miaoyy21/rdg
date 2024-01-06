@@ -283,7 +283,7 @@ class _FruitPageState extends State<FruitPage>
     enable = false;
     setState(() {});
 
-    callback(Timer t) {
+    callback() {
       digital = Random().nextInt(14) + 1;
       setState(() {});
     }
@@ -316,7 +316,28 @@ class _FruitPageState extends State<FruitPage>
 
     final fruit = fruits[Random().nextInt(fruits.length)];
     result = fruit.index;
+
     debugPrint("Random Target Value is $result");
+
+    // 如果是【龙王：🐲】，提前进行爆灯，并且播放音效
+    result = 3;
+    if (result == 2 || result == 3) {
+      int times = 0;
+      callback() {
+        times++;
+
+        if (times % 2 == 1) {
+          debugPrint("结果为🐲 => 播放音效");
+          selected.addAll(fruits.map((fruit) => fruit.index));
+        } else {
+          selected.clear();
+        }
+        setState(() {});
+      }
+
+      callback();
+      await onDelayed(500, 2750, callback: callback);
+    }
 
     _controller.reset();
     await _controller.forward();
@@ -369,12 +390,13 @@ class _FruitPageState extends State<FruitPage>
   }
 
   // 延迟执行
-  Future onDelayed(int periodic, int delayed,
-      {Function(Timer timer)? callback}) async {
-    final timer =
-        Timer.periodic(Duration(milliseconds: periodic), callback ?? (_) {});
+  Future onDelayed(int periodic, int delayed, {VoidCallback? callback}) async {
+    final timer = Timer.periodic(Duration(milliseconds: periodic),
+        (_) => callback != null ? callback() : {});
 
     return Future.delayed(
         Duration(milliseconds: delayed), () => timer.cancel());
   }
+
+// 送灯
 }
