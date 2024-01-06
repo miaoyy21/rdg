@@ -169,6 +169,40 @@ class _FruitPageState extends State<FruitPage>
                 },
               ).toList(),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 4),
+                RectangleCircleButton(
+                  label: "⇦",
+                  onPressed: enable && total > 0 ? () => onBonus(1) : null,
+                ),
+                RectangleCircleButton(
+                  label: "⇨",
+                  onPressed: enable && bonus > 0 ? () => onBonus(-1) : null,
+                ),
+                const Expanded(child: SizedBox()),
+                RectangleCircleButton(
+                  label: "1-7",
+                  onPressed: enable && bonus > 0 ? () => onGuess(false) : null,
+                ),
+                RectangleCircleButton(
+                  label: "8-14",
+                  onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
+                ),
+                const Expanded(child: SizedBox()),
+                RectangleCircleButton(
+                  label: "Go",
+                  border: const CircleBorder(),
+                  fontSize: 24,
+                  width: 64,
+                  height: 64,
+                  onPressed:
+                      enable && bets.values.any((v) => v > 0) ? onStart : null,
+                ),
+                const SizedBox(width: 4),
+              ],
+            ),
           ],
         ),
       ),
