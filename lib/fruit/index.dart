@@ -323,8 +323,10 @@ class _FruitPageState extends State<FruitPage>
     List<int> extra = [];
     if (result == 21 || result == 27) {
       effect = Effects.values[Random().nextInt(Effects.values.length)];
-      effect = Effects.songDeng; // TODO
+      effect = Effects.daManGuan; // TODO
       extra = Effects.invalid.getExtra(effect);
+
+      debugPrint("大奖【${effect.name}】，赠送小奖【${extra.join(",")}】");
     }
 
     // 服务端返回 {result:int, effect:Effects, extra:[1,2,3,...]}
@@ -332,13 +334,15 @@ class _FruitPageState extends State<FruitPage>
 
     // 如果是【龙王：🐲】，提前进行爆灯，并且播放音效
     if (result == 2 || result == 3) {
+      final fs = fruits.map((fruit) => fruit.index);
+
       int times = 0;
       callback() {
         times++;
-
         if (times % 2 == 1) {
           debugPrint("结果为🐲 => 播放音效");
-          selected.addAll(fruits.map((fruit) => fruit.index));
+          _player.play(_source);
+          selected.addAll(fs);
         } else {
           selected.clear();
         }
@@ -356,14 +360,12 @@ class _FruitPageState extends State<FruitPage>
       opened.insert(0, result);
     });
 
-    int ms = 1500;
-
     // 存在大奖
     if (effect != Effects.invalid) {
-      ms = 2500;
-      debugPrint("大奖【${effect.name}】，赠送小奖$extra");
+      await onDelayed(1000, 1000);
 
       if (effect == Effects.songDeng) {
+        // 送灯
         final fs = fruits.reversed.map((f) => f.index).toList();
         final f2s = List.generate(fs.length * 2, (i) => fs[i % fs.length]);
 
@@ -376,7 +378,7 @@ class _FruitPageState extends State<FruitPage>
 
           var index = extra.indexOf(target);
           if (index >= 0) {
-            if (!extra.contains(selected.last) && selected.last != result) {
+            if (!extra.contains(selected.last)) {
               selected.removeLast();
             }
 
@@ -384,28 +386,127 @@ class _FruitPageState extends State<FruitPage>
             selected.add(target);
             surplus--;
           } else {
-            if (extra.contains(selected.last) || selected.last == result) {
+            if (extra.contains(selected.last)) {
               selected.add(target);
             } else {
               selected.last = target;
             }
           }
+
+          if (!selected.contains(result)) {
+            selected.insert(0, result);
+          }
           setState(() {});
 
           await onDelayed(200, 200);
         }
-      } else {
+      } else if ([Effects.daSanYuan, Effects.xiaoSanYuan, Effects.daSiXi]
+          .contains(effect)) {
         debugPrint("大奖【${effect.name}】 => 播放音效");
+
+        for (var target in extra) {
+          _player.play(_source);
+          setState(() {
+            selected.add(target);
+          });
+
+          await onDelayed(1000, 1000);
+        }
+      } else if ([
+        Effects.zengHengSiHai,
+        Effects.xianNvSanHua,
+        Effects.tianLongBaBu,
+        Effects.jiuBaoLianDeng
+      ].contains(effect)) {
+        debugPrint("大奖【${effect.name}】 => 播放音效");
+        await onSplashEffect();
+
+        setState(() {
+          selected.clear();
+        });
+
+        for (var target in extra) {
+          _player.play(_source);
+          setState(() {
+            selected.add(target);
+          });
+
+          await onDelayed(1250, 1250);
+        }
+      } else if (effect == Effects.kaiHuoChe) {
+        debugPrint("大奖【${effect.name}】 => 播放音效");
+      } else if (effect == Effects.daManGuan) {
+        debugPrint("大奖【${effect.name}】 => 播放音效");
+        final fs = fruits.map((fruit) => fruit.index);
+
+        int times = 0;
+        callback() {
+          times++;
+          if (times % 2 == 1) {
+            _player.play(_source);
+            selected.addAll(fs);
+          } else {
+            selected.clear();
+          }
+          setState(() {});
+        }
+
+        callback();
+        await onDelayed(750, 750 * 12, callback: callback);
+
+        selected.clear();
+
+        for (var index = 0; index < extra.length; index++) {
+          if (index == 5 || index == 17) {
+            if (index == 5) {
+              selected.add(27);
+            } else if (index == 17) {
+              selected.add(21);
+            }
+
+            _player.play(_source);
+            setState(() {});
+            debugPrint("抽奖 => 播放音效");
+
+            await onDelayed(1000, 1000);
+          }
+
+          _player.play(_source);
+          setState(() {
+            selected.add(extra[index]);
+          });
+
+          await onDelayed(1500, 1500);
+        }
       }
     }
 
-    await onDelayed(ms, ms);
+    await onDelayed(1500, 1500);
     setState(() {
       debugPrint("执行结束");
       result = -1;
       selected.clear();
       enable = true;
     });
+  }
+
+  Future onSplashEffect() {
+    final Map<int, List<int>> splash = {
+      0: [3, 27, 45, 21, 0, 6, 48, 42],
+      1: [4, 34, 44, 14, 1, 13, 47, 35],
+      2: [5, 41, 43, 7, 2, 20, 46, 28],
+    };
+
+    int times = 0;
+    callback() {
+      selected = splash[times % splash.length]!;
+      setState(() {});
+
+      times++;
+    }
+
+    callback();
+    return onDelayed(750, 750 * 8, callback: callback);
   }
 
   // 开奖
