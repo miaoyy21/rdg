@@ -288,7 +288,7 @@ class _FruitPageState extends State<FruitPage>
       setState(() {});
     }
 
-    await onDelayed(255, 3, callback);
+    await onDelayed(255, 3000, callback: callback);
 
     enable = true;
     if (target) {
@@ -321,8 +321,15 @@ class _FruitPageState extends State<FruitPage>
     _controller.reset();
     await _controller.forward();
 
-    opened.insert(0, fruit.index);
-    setState(() {});
+    setState(() {
+      opened.insert(0, fruit.index);
+    });
+
+    await onDelayed(255, 1500);
+    setState(() {
+      result = -1;
+      selected.clear();
+    });
   }
 
   // 开奖
@@ -362,9 +369,12 @@ class _FruitPageState extends State<FruitPage>
   }
 
   // 延迟执行
-  Future onDelayed(int ms, int s, Function(Timer timer) callback) {
-    final timer = Timer.periodic(Duration(milliseconds: ms), callback);
+  Future onDelayed(int periodic, int delayed,
+      {Function(Timer timer)? callback}) async {
+    final timer =
+        Timer.periodic(Duration(milliseconds: periodic), callback ?? (_) {});
 
-    return Future.delayed(Duration(seconds: s), () => timer.cancel());
+    return Future.delayed(
+        Duration(milliseconds: delayed), () => timer.cancel());
   }
 }
