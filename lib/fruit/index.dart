@@ -169,39 +169,56 @@ class _FruitPageState extends State<FruitPage>
                 },
               ).toList(),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(width: 4),
-                RectangleCircleButton(
-                  label: "⇦",
-                  onPressed: enable && total > 0 ? () => onBonus(1) : null,
-                ),
-                RectangleCircleButton(
-                  label: "⇨",
-                  onPressed: enable && bonus > 0 ? () => onBonus(-1) : null,
-                ),
-                const Expanded(child: SizedBox()),
-                RectangleCircleButton(
-                  label: "1-7",
-                  onPressed: enable && bonus > 0 ? () => onGuess(false) : null,
-                ),
-                RectangleCircleButton(
-                  label: "8-14",
-                  onPressed: enable && bonus > 0 ? () => onGuess(true) : null,
-                ),
-                const Expanded(child: SizedBox()),
-                RectangleCircleButton(
-                  label: "Go",
-                  border: const CircleBorder(),
-                  fontSize: 24,
-                  width: 64,
-                  height: 64,
-                  onPressed:
-                      enable && bets.values.any((v) => v > 0) ? onStart : null,
-                ),
-                const SizedBox(width: 4),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  RectangleCircleButton(
+                    label: "送灯",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "大三元",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "大三元",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "大四喜",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "小四喜",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "纵横四海",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "仙女散花",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "天龙八部",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "九莲宝灯",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "开火车",
+                    onPressed: () {},
+                  ),
+                  RectangleCircleButton(
+                    label: "大满贯",
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
           ],
         ),
