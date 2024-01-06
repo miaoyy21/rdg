@@ -266,21 +266,20 @@ class _FruitPageState extends State<FruitPage>
     enable = false;
     setState(() {});
 
-    await onDelayed(
-      3,
-      (_) => setState(() {
-        digital = Random().nextInt(14) + 1;
-      }),
-    );
-    setState(() {
-      if (target) {
-        digital = 8 + Random().nextInt(7);
-      } else {
-        digital = 1 + Random().nextInt(7);
-      }
+    callback(Timer t) {
+      digital = Random().nextInt(14) + 1;
+      setState(() {});
+    }
 
-      enable = true;
-    });
+    await onDelayed(255, 3, callback);
+
+    enable = true;
+    if (target) {
+      digital = 8 + Random().nextInt(7);
+    } else {
+      digital = 1 + Random().nextInt(7);
+    }
+    setState(() {});
 
     if (target == large) {
       debugPrint("猜测正确 >>>");
@@ -340,9 +339,9 @@ class _FruitPageState extends State<FruitPage>
   }
 
   // 延迟执行
-  Future onDelayed(int seconds, Function(Timer timer) callback) {
-    final timer = Timer.periodic(const Duration(milliseconds: 255), callback);
+  Future onDelayed(int ms, int s, Function(Timer timer) callback) {
+    final timer = Timer.periodic(Duration(milliseconds: ms), callback);
 
-    return Future.delayed(Duration(seconds: seconds), () => timer.cancel());
+    return Future.delayed(Duration(seconds: s), () => timer.cancel());
   }
 }
