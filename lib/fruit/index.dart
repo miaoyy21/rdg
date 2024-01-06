@@ -232,7 +232,12 @@ class _FruitPageState extends State<FruitPage>
     enable = false;
     setState(() {});
 
-    await onGuessEffect();
+    await onDelayed(
+      3,
+      (_) => setState(() {
+        digital = Random().nextInt(14) + 1;
+      }),
+    );
     setState(() {
       if (target) {
         digital = 8 + Random().nextInt(7);
@@ -248,19 +253,6 @@ class _FruitPageState extends State<FruitPage>
     } else {
       debugPrint("猜测错误 <<<");
     }
-  }
-
-  // 猜测特效
-  Future onGuessEffect() {
-    final timer = Timer.periodic(
-      const Duration(milliseconds: 255),
-      (Timer timer) {
-        digital = Random().nextInt(14) + 1;
-        setState(() {});
-      },
-    );
-
-    return Future.delayed(const Duration(seconds: 3), () => timer.cancel());
   }
 
   // 开始押注
@@ -311,5 +303,12 @@ class _FruitPageState extends State<FruitPage>
         enable = true;
       });
     }
+  }
+
+  // 延迟执行
+  Future onDelayed(int seconds, Function(Timer timer) callback) {
+    final timer = Timer.periodic(const Duration(milliseconds: 255), callback);
+
+    return Future.delayed(Duration(seconds: seconds), () => timer.cancel());
   }
 }

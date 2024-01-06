@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'categories.dart';
 import 'fruit.dart';
 
 class Histories extends StatelessWidget {
