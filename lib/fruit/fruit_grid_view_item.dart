@@ -10,7 +10,6 @@ class FruitGridViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = Theme.of(context).primaryColor;
     if (!fruit.isValid) {
       return Container(color: Colors.transparent);
     }

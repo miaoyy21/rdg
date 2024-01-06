@@ -4,7 +4,7 @@ import 'fruit.dart';
 import 'fruit_grid_view_item.dart';
 
 class FruitGridView extends StatelessWidget {
-  final int selected;
+  final List<int> selected;
   final Color light;
 
   const FruitGridView(this.selected, this.light, {super.key});
@@ -23,7 +23,7 @@ class FruitGridView extends StatelessWidget {
           (ele) => ele.index == index,
           orElse: () => Fruit.invalid(),
         ),
-        shadow: selected == index ? light : null,
+        shadow: selected.contains(index) ? light : null,
       ),
       itemCount: 49,
       padding: const EdgeInsets.all(8),

@@ -21,7 +21,7 @@ class FruitPage extends StatefulWidget {
 class _FruitPageState extends State<FruitPage>
     with SingleTickerProviderStateMixin {
   int result = -1; // 目标随机数字
-  int selected = -1; // 转轮选中数字
+  List<int> selected = []; // 转轮选中数字
 
   late int bonus = 0; // 奖金
   late int total = 10000; // 持有总额
@@ -226,7 +226,7 @@ class _FruitPageState extends State<FruitPage>
 
     setState(() {
       result = -1;
-      selected = -1;
+      selected.clear();
 
       bonus = newBonus;
       total = newTotal;
@@ -242,7 +242,7 @@ class _FruitPageState extends State<FruitPage>
 
     setState(() {
       result = -1;
-      selected = -1;
+      selected.clear();
 
       total = newTotal;
       bets.update(category, (value) => value + 1);
@@ -262,7 +262,7 @@ class _FruitPageState extends State<FruitPage>
     debugPrint("随机结果是：${target ? "大" : "小"}");
 
     result = -1;
-    selected = -1;
+    selected.clear();
     enable = false;
     setState(() {});
 
@@ -319,10 +319,14 @@ class _FruitPageState extends State<FruitPage>
         (24 * 3 + target.toDouble()) ~/
         (initial + 0.5 * acceleration) %
         24;
-    if (fruits[newSelected].index != selected) {
+
+    final newIndex = fruits[newSelected].index;
+    if (selected.isEmpty || newIndex != selected.first) {
       _player.play(_source);
       setState(() {
-        selected = fruits[newSelected].index;
+        selected
+          ..clear()
+          ..add(newIndex);
         enable = false;
       });
     }
@@ -332,7 +336,9 @@ class _FruitPageState extends State<FruitPage>
   void onStartStatusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
       setState(() {
-        selected = result;
+        selected
+          ..clear()
+          ..add(result);
         enable = true;
       });
     }
