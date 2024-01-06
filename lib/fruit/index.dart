@@ -3,10 +3,11 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:rdg/fruit/histories.dart';
 
 import '../widgets/index.dart';
 import 'fruit.dart';
+import 'effects.dart';
+import 'histories.dart';
 import 'categories.dart';
 import 'fruit_bet.dart';
 import 'fruit_grid_view.dart';
@@ -316,11 +317,20 @@ class _FruitPageState extends State<FruitPage>
 
     final fruit = fruits[Random().nextInt(fruits.length)];
     result = fruit.index;
+    result = 3; // TODO
 
+    // 如果是【糖果：🍬】，那么需要再随机给一个大奖
+    Effects effect = Effects.invalid;
+    List<int> extra = [];
+    if (result == 21 || result == 27) {
+      effect = Effects.values[Random().nextInt(Effects.values.length)];
+      extra = Effects.invalid.getExtra(effect);
+    }
+
+    // 服务端返回 {result:int, effect:Effects, extra:[1,2,3,...]}
     debugPrint("Random Target Value is $result");
 
     // 如果是【龙王：🐲】，提前进行爆灯，并且播放音效
-    result = 3;
     if (result == 2 || result == 3) {
       int times = 0;
       callback() {
@@ -343,14 +353,18 @@ class _FruitPageState extends State<FruitPage>
     await _controller.forward();
 
     setState(() {
-      opened.insert(0, fruit.index);
+      opened.insert(0, result);
     });
 
-    await onDelayed(255, 1500);
-    setState(() {
-      result = -1;
-      selected.clear();
-    });
+    if (effect == Effects.invalid) {
+      await onDelayed(255, 1500);
+      setState(() {
+        result = -1;
+        selected.clear();
+      });
+    } else {
+
+    }
   }
 
   // 开奖
