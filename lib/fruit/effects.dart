@@ -63,7 +63,7 @@ extension EffectsExtension on Effects {
         return [];
       case Effects.songDeng:
         // 送灯：随机选择1个～3个
-        final n = Random().nextInt(3);
+        final n = Random().nextInt(3) + 1;
         return randFn(fs.map((f) => f.index).toList(), n);
       case Effects.daSanYuan:
         // 大三元：固定3个大奖：大🍉、大🥗，大🍔

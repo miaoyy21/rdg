@@ -28,30 +28,42 @@ class FruitGridViewItem extends StatelessWidget {
               ]
             : null,
       ),
-      child: Center(
-        child: fruit.isLarge || fruit.rate <= 0
-            ? Text(
-                fruit.name,
-                style: TextStyle(fontSize: fruit.isLarge ? 36 : 24),
-              )
-            : Column(
-                children: [
-                  Expanded(
-                    child: Text(
-                      fruit.name,
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                  ),
-                  Text(
-                    "×${fruit.rate}",
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                    ),
+      child: Stack(
+        children: [
+          Center(
+            child: fruit.isLarge || fruit.rate <= 0
+                ? Text(
+                    fruit.name,
+                    style: TextStyle(fontSize: fruit.isLarge ? 36 : 24),
                   )
-                ],
-              ),
+                : Column(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          fruit.name,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ),
+                      Text(
+                        "×${fruit.rate}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      )
+                    ],
+                  ),
+          ),
+          Positioned(
+            top: 0,
+            right: 2,
+            child: Text(
+              "${fruit.index}",
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
+          )
+        ],
       ),
     );
   }

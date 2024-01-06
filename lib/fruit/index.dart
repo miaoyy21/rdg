@@ -315,15 +315,15 @@ class _FruitPageState extends State<FruitPage>
       });
     }
 
-    final fruit = fruits[Random().nextInt(fruits.length)];
-    result = fruit.index;
-    result = 3; // TODO
+    result = fruits[Random().nextInt(fruits.length)].index;
+    result = 21; // TODO
 
     // 如果是【糖果：🍬】，那么需要再随机给一个大奖
     Effects effect = Effects.invalid;
     List<int> extra = [];
     if (result == 21 || result == 27) {
       effect = Effects.values[Random().nextInt(Effects.values.length)];
+      effect = Effects.songDeng; // TODO
       extra = Effects.invalid.getExtra(effect);
     }
 
@@ -356,15 +356,56 @@ class _FruitPageState extends State<FruitPage>
       opened.insert(0, result);
     });
 
-    if (effect == Effects.invalid) {
-      await onDelayed(255, 1500);
-      setState(() {
-        result = -1;
-        selected.clear();
-      });
-    } else {
+    int ms = 1500;
 
+    // 存在大奖
+    if (effect != Effects.invalid) {
+      ms = 2500;
+      debugPrint("大奖【${effect.name}】，赠送小奖$extra");
+
+      if (effect == Effects.songDeng) {
+        final fs = fruits.reversed.map((f) => f.index).toList();
+        final f2s = List.generate(fs.length * 2, (i) => fs[i % fs.length]);
+
+        int startIndex = f2s.indexOf(result, 0);
+        int surplus = extra.length;
+        for (var target in f2s.getRange(startIndex, f2s.length)) {
+          if (surplus <= 0) {
+            break;
+          }
+
+          var index = extra.indexOf(target);
+          if (index >= 0) {
+            if (!extra.contains(selected.last) && selected.last != result) {
+              selected.removeLast();
+            }
+
+            _player.play(_source);
+            selected.add(target);
+            surplus--;
+          } else {
+            if (extra.contains(selected.last) || selected.last == result) {
+              selected.add(target);
+            } else {
+              selected.last = target;
+            }
+          }
+          setState(() {});
+
+          await onDelayed(200, 200);
+        }
+      } else {
+        debugPrint("大奖【${effect.name}】 => 播放音效");
+      }
     }
+
+    await onDelayed(ms, ms);
+    setState(() {
+      debugPrint("执行结束");
+      result = -1;
+      selected.clear();
+      enable = true;
+    });
   }
 
   // 开奖
@@ -381,8 +422,8 @@ class _FruitPageState extends State<FruitPage>
 
     final newIndex = fruits[newSelected].index;
     if (selected.isEmpty || newIndex != selected.first) {
-      _player.play(_source);
       setState(() {
+        _player.play(_source);
         selected
           ..clear()
           ..add(newIndex);
@@ -398,7 +439,6 @@ class _FruitPageState extends State<FruitPage>
         selected
           ..clear()
           ..add(result);
-        enable = true;
       });
     }
   }
@@ -411,6 +451,4 @@ class _FruitPageState extends State<FruitPage>
     return Future.delayed(
         Duration(milliseconds: delayed), () => timer.cancel());
   }
-
-// 送灯
 }
