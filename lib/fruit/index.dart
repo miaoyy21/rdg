@@ -32,7 +32,9 @@ class _FruitPageState extends State<FruitPage>
 
   final Map<Categories, int> bets = {};
 
-  late AssetSource _source;
+  late AssetSource _source1; // 转动音效
+  late AssetSource _source2; // 大奖音效
+  late AssetSource _source9; // 爆炸音效
   late AudioPlayer _player;
 
   static const double initial = 7;
@@ -50,7 +52,9 @@ class _FruitPageState extends State<FruitPage>
     );
 
     _player = AudioPlayer();
-    _source = AssetSource("dong.wav");
+    _source1 = AssetSource("audio/dong.wav");
+    _source2 = AssetSource("audio/ling.m4a");
+    _source9 = AssetSource("audio/bom.wav");
 
     const duration = Duration(seconds: 6);
 
@@ -288,18 +292,18 @@ class _FruitPageState extends State<FruitPage>
       int times = 0;
       callback() {
         times++;
-        if (times % 2 == 1) {
+        if (times % 3 == 1) {
           debugPrint("结果为🐲 => 播放音效");
-          _player.play(_source);
+          _player.play(_source9);
           selected.addAll(fs);
-        } else {
+        } else if (times % 3 == 0) {
           selected.clear();
         }
         setState(() {});
       }
 
       callback();
-      await onDelayed(500, 2750, callback: callback);
+      await onDelayed(2500 ~/ 3, 2500 * 3, callback: callback);
     }
 
     _controller.reset();
@@ -331,7 +335,7 @@ class _FruitPageState extends State<FruitPage>
               selected.removeLast();
             }
 
-            _player.play(_source);
+            _player.play(_source1);
             selected.add(target);
             surplus--;
           } else {
@@ -354,7 +358,7 @@ class _FruitPageState extends State<FruitPage>
         debugPrint("大奖【${effect.name}】 => 播放音效");
 
         for (var target in extra) {
-          _player.play(_source);
+          _player.play(_source1);
           setState(() {
             selected.add(target);
           });
@@ -370,12 +374,14 @@ class _FruitPageState extends State<FruitPage>
         debugPrint("大奖【${effect.name}】 => 播放音效");
         await onSplashEffect();
 
+        await onDelayed(500, 500);
         setState(() {
           selected.clear();
         });
 
+        await onDelayed(750, 750);
         for (var target in extra) {
-          _player.play(_source);
+          _player.play(_source1);
           setState(() {
             selected.add(target);
           });
@@ -388,45 +394,57 @@ class _FruitPageState extends State<FruitPage>
         debugPrint("大奖【${effect.name}】 => 播放音效");
         final fs = fruits.map((fruit) => fruit.index);
 
+        /*
+        times++;
+        if (times % 3 == 1) {
+          debugPrint("结果为🐲 => 播放音效");
+          _player.play(_source9);
+          selected.addAll(fs);
+        } else if (times % 3 == 0) {
+          selected.clear();
+        }
+        setState(() {});
+      }
+
+      callback();
+      await onDelayed(1000, 8750, callback: callback);
+      * */
         int times = 0;
         callback() {
           times++;
-          if (times % 2 == 1) {
-            _player.play(_source);
+          if (times % 3 == 1) {
+            _player.play(_source9);
             selected.addAll(fs);
-          } else {
+          } else if (times % 3 == 0) {
             selected.clear();
           }
           setState(() {});
         }
 
         callback();
-        await onDelayed(750, 750 * 12, callback: callback);
+        await onDelayed(2500 ~/ 3, 2500 * 6, callback: callback);
 
         selected.clear();
-
         for (var i = 0; i < extra.length; i++) {
           if (i == 5 || i == 17) {
+            _player.play(_source9);
             if (i == 5) {
               selected.add(27);
             } else if (i == 17) {
               selected.add(21);
             }
-
-            _player.play(_source);
             setState(() {});
-            debugPrint("抽奖 => 播放音效");
 
-            await onDelayed(1000, 1000);
+            await onDelayed(2500, 2500);
           }
 
-          _player.play(_source);
+          _player.play(_source9);
           setState(() {
             selected.add(extra[i]);
             debugPrint("你获得了${fruitsByIndex[extra[i]]?.category.name}");
           });
 
-          await onDelayed(1500, 1500);
+          await onDelayed(2500, 2500);
         }
       }
     }
@@ -456,6 +474,7 @@ class _FruitPageState extends State<FruitPage>
     }
 
     callback();
+    _player.play(_source2);
     return onDelayed(750, 750 * 8, callback: callback);
   }
 
@@ -474,7 +493,7 @@ class _FruitPageState extends State<FruitPage>
     final newIndex = fruits[newSelected].index;
     if (selected.isEmpty || newIndex != selected.first) {
       setState(() {
-        _player.play(_source);
+        _player.play(_source1);
         selected
           ..clear()
           ..add(newIndex);

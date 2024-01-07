@@ -56,7 +56,7 @@ class _Lucky28PageState extends State<Lucky28Page>
     super.initState();
 
     _player = AudioPlayer()..setPlaybackRate(2);
-    _source = AssetSource("dong.wav");
+    _source = AssetSource("audio/dong.wav");
 
     const duration = Duration(seconds: 6);
 
