@@ -262,11 +262,12 @@ class _FruitPageState extends State<FruitPage>
   // 开始押注
   void onStart() async {
     if (bonus > 0) {
-      setState(() {
-        total = total + bonus;
-        bonus = 0;
-      });
+      total = total + bonus;
+      bonus = 0;
     }
+
+    enable = false;
+    setState(() {});
 
     result = fruits[Random().nextInt(fruits.length)].index;
     result = 3; // TODO
@@ -488,7 +489,6 @@ class _FruitPageState extends State<FruitPage>
         selected
           ..clear()
           ..add(newIndex);
-        enable = false;
       });
     }
   }
