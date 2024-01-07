@@ -304,9 +304,6 @@ class _FruitPageState extends State<FruitPage>
 
       callback();
       await onDelayed(2500 ~/ 3, 2500 * 3 - 100, callback: callback);
-
-      _controller.reset();
-      await _controller.forward();
     }
 
     _controller.reset();
