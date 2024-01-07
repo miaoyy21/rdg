@@ -33,7 +33,9 @@ class _FruitPageState extends State<FruitPage>
   final Map<Categories, int> bets = {};
 
   late AssetSource _source1; // 转动音效
-  late AssetSource _source2; // 大奖音效
+  late AssetSource _source2; // 一般大奖音效
+  late AssetSource _source3; // 特殊大奖音效
+  late AssetSource _source4; // 火车音效
   late AssetSource _source9; // 爆炸音效
   late AudioPlayer _player;
 
@@ -53,7 +55,9 @@ class _FruitPageState extends State<FruitPage>
 
     _player = AudioPlayer();
     _source1 = AssetSource("audio/dong.wav");
-    _source2 = AssetSource("audio/ling.m4a");
+    _source2 = AssetSource("audio/ding.wav");
+    _source3 = AssetSource("audio/ling.wav");
+    _source4 = AssetSource("audio/huoche.wav");
     _source9 = AssetSource("audio/bom.wav");
 
     const duration = Duration(seconds: 6);
@@ -270,14 +274,14 @@ class _FruitPageState extends State<FruitPage>
     setState(() {});
 
     result = fruits[Random().nextInt(fruits.length)].index;
-    result = 3; // TODO
+    result = 21; // TODO
 
     // 如果是【糖果：🍬】，那么需要再随机给一个大奖
     Effects effect = Effects.invalid;
     List<int> extra = [];
     if (result == 21 || result == 27) {
       effect = Effects.values[Random().nextInt(Effects.values.length)];
-      effect = Effects.daManGuan; // TODO
+      effect = Effects.kaiHuoChe; // TODO
       extra = Effects.invalid.getExtra(effect);
 
       debugPrint("大奖【${effect.name}】，赠送小奖【${extra.join(",")}】");
@@ -363,23 +367,7 @@ class _FruitPageState extends State<FruitPage>
       } else if ([Effects.daSanYuan, Effects.xiaoSanYuan, Effects.daSiXi]
           .contains(effect)) {
         debugPrint("大奖【${effect.name}】 => 播放音效");
-
-        for (var target in extra) {
-          _player.play(_source1);
-          setState(() {
-            selected.add(target);
-          });
-
-          await onDelayed(1000, 1000);
-        }
-      } else if ([
-        Effects.zengHengSiHai,
-        Effects.xianNvSanHua,
-        Effects.tianLongBaBu,
-        Effects.jiuBaoLianDeng
-      ].contains(effect)) {
-        debugPrint("大奖【${effect.name}】 => 播放音效");
-        await onSplashEffect();
+        await onSplashEffect2();
 
         await onDelayed(500, 500);
         setState(() {
@@ -388,15 +376,42 @@ class _FruitPageState extends State<FruitPage>
 
         await onDelayed(750, 750);
         for (var target in extra) {
-          _player.play(_source1);
+          _player.play(_source9);
           setState(() {
             selected.add(target);
           });
 
-          await onDelayed(1250, 1250);
+          await onDelayed(2500, 2500);
+        }
+      } else if ([
+        Effects.zengHengSiHai,
+        Effects.xianNvSanHua,
+        Effects.tianLongBaBu,
+        Effects.jiuBaoLianDeng
+      ].contains(effect)) {
+        debugPrint("大奖【${effect.name}】 => 播放音效");
+        await onSplashEffect3();
+
+        await onDelayed(500, 500);
+        setState(() {
+          selected.clear();
+        });
+
+        await onDelayed(750, 750);
+        for (var target in extra) {
+          _player.play(_source9);
+          setState(() {
+            selected.add(target);
+          });
+
+          await onDelayed(2500, 2500);
         }
       } else if (effect == Effects.kaiHuoChe) {
         debugPrint("大奖【${effect.name}】 => 播放音效");
+        _player.play(_source4);
+        await onDelayed(3000, 3000);
+
+        debugPrint("TODO");
       } else if (effect == Effects.daManGuan) {
         debugPrint("大奖【${effect.name}】 => 播放音效");
         final fs = fruits.map((fruit) => fruit.index);
@@ -450,7 +465,26 @@ class _FruitPageState extends State<FruitPage>
     });
   }
 
-  Future onSplashEffect() {
+  Future onSplashEffect2() {
+    final Map<int, List<int>> splash = {
+      0: [3, 27, 45, 21],
+      1: [0, 6, 48, 42],
+    };
+
+    int times = 0;
+    callback() {
+      selected = splash[times % 2]!;
+      setState(() {});
+
+      times++;
+    }
+
+    _player.play(_source2);
+    callback();
+    return onDelayed(750, 3750, callback: callback);
+  }
+
+  Future onSplashEffect3() {
     final Map<int, List<int>> splash = {
       0: [3, 27, 45, 21, 0, 6, 48, 42],
       1: [4, 34, 44, 14, 1, 13, 47, 35],
@@ -466,7 +500,7 @@ class _FruitPageState extends State<FruitPage>
     }
 
     callback();
-    _player.play(_source2);
+    _player.play(_source3);
     return onDelayed(750, 750 * 8, callback: callback);
   }
 

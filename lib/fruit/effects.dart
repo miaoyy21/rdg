@@ -67,7 +67,7 @@ extension EffectsExtension on Effects {
         return randFn(fs.map((f) => f.index).toList(), n);
       case Effects.daSanYuan:
         // 大三元：固定3个大奖：大🍉、大🥗，大🍔
-        return [13, 35, 45];
+        return [13, 28, 45];
       case Effects.xiaoSanYuan:
         // 小三元：固定3个小奖：大🍊、大🫐，大🍇
         final fs1 = fs

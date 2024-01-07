@@ -68,7 +68,9 @@ flutter:
 
   assets:
     - assets/audio/dong.wav
-    - assets/audio/ling.m4a
+    - assets/audio/ding.wav
+    - assets/audio/ling.wav
+    - assets/audio/huoche.wav
     - assets/audio/bom.wav
 
   # An image asset can refer to one or more resolution-specific "variants", see
