@@ -307,12 +307,14 @@ class _FruitPageState extends State<FruitPage>
 
       _controller.reset();
       await _controller.forward();
+    }
 
+    _controller.reset();
+    await _controller.forward();
+
+    if (result == 2 || result == 3) {
       _player.play(_source9);
       await onDelayed(2000, 2000);
-    } else {
-      _controller.reset();
-      await _controller.forward();
     }
 
     setState(() {
