@@ -269,7 +269,7 @@ class _FruitPageState extends State<FruitPage>
     }
 
     result = fruits[Random().nextInt(fruits.length)].index;
-    result = 21; // TODO
+    result = 3; // TODO
 
     // 如果是【糖果：🍬】，那么需要再随机给一个大奖
     Effects effect = Effects.invalid;
@@ -303,11 +303,17 @@ class _FruitPageState extends State<FruitPage>
       }
 
       callback();
-      await onDelayed(2500 ~/ 3, 2500 * 3, callback: callback);
-    }
+      await onDelayed(2500 ~/ 3, 2500 * 3 - 100, callback: callback);
 
-    _controller.reset();
-    await _controller.forward();
+      _controller.reset();
+      await _controller.forward();
+
+      _player.play(_source9);
+      await onDelayed(2000, 2000);
+    } else {
+      _controller.reset();
+      await _controller.forward();
+    }
 
     setState(() {
       opened.insert(0, result);
@@ -394,21 +400,6 @@ class _FruitPageState extends State<FruitPage>
         debugPrint("大奖【${effect.name}】 => 播放音效");
         final fs = fruits.map((fruit) => fruit.index);
 
-        /*
-        times++;
-        if (times % 3 == 1) {
-          debugPrint("结果为🐲 => 播放音效");
-          _player.play(_source9);
-          selected.addAll(fs);
-        } else if (times % 3 == 0) {
-          selected.clear();
-        }
-        setState(() {});
-      }
-
-      callback();
-      await onDelayed(1000, 8750, callback: callback);
-      * */
         int times = 0;
         callback() {
           times++;
@@ -422,7 +413,7 @@ class _FruitPageState extends State<FruitPage>
         }
 
         callback();
-        await onDelayed(2500 ~/ 3, 2500 * 6, callback: callback);
+        await onDelayed(2500 ~/ 3, 2500 * 6 - 100, callback: callback);
 
         selected.clear();
         for (var i = 0; i < extra.length; i++) {
