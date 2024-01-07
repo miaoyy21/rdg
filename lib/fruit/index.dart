@@ -170,57 +170,6 @@ class _FruitPageState extends State<FruitPage>
                 },
               ).toList(),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  RectangleCircleButton(
-                    label: "送灯",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "大三元",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "大三元",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "大四喜",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "小四喜",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "纵横四海",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "仙女散花",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "天龙八部",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "九莲宝灯",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "开火车",
-                    onPressed: () {},
-                  ),
-                  RectangleCircleButton(
-                    label: "大满贯",
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -456,11 +405,11 @@ class _FruitPageState extends State<FruitPage>
 
         selected.clear();
 
-        for (var index = 0; index < extra.length; index++) {
-          if (index == 5 || index == 17) {
-            if (index == 5) {
+        for (var i = 0; i < extra.length; i++) {
+          if (i == 5 || i == 17) {
+            if (i == 5) {
               selected.add(27);
-            } else if (index == 17) {
+            } else if (i == 17) {
               selected.add(21);
             }
 
@@ -473,7 +422,8 @@ class _FruitPageState extends State<FruitPage>
 
           _player.play(_source);
           setState(() {
-            selected.add(extra[index]);
+            selected.add(extra[i]);
+            debugPrint("你获得了${fruitsByIndex[extra[i]]?.category.name}");
           });
 
           await onDelayed(1500, 1500);

@@ -54,3 +54,5 @@ List<Fruit> fruits = [
   Fruit(index: 1, category: Categories.grape, isLarge: true),
   Fruit(index: 2, category: Categories.king, isLarge: false),
 ];
+
+final fruitsByIndex = fruits.asMap().map((_, v) => MapEntry(v.index, v));
