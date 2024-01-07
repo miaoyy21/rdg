@@ -309,6 +309,7 @@ class _FruitPageState extends State<FruitPage>
     _controller.reset();
     await _controller.forward();
 
+    // 如果是【龙王：🐲】，旋转结束时，播放特效
     if (result == 2 || result == 3) {
       _player.play(_source9);
       await onDelayed(2000, 2000);
