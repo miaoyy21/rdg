@@ -210,16 +210,16 @@ class _FruitPageState extends State<FruitPage>
 
   // 水果押注
   void onBetting(Categories category) {
-    final newTotal = total - 1;
-    if (newTotal < 0) {
+    int betTotal = 0;
+    if (bets.isNotEmpty) {
+      betTotal = bets.values.reduce((v, e) => v + e);
+    }
+
+    if (betTotal + 1 > total) {
       return;
     }
 
     setState(() {
-      result = -1;
-      selected.clear();
-
-      total = newTotal;
       bets.update(category, (value) => value + 1);
     });
   }
@@ -241,12 +241,14 @@ class _FruitPageState extends State<FruitPage>
     enable = false;
     setState(() {});
 
+    onSplashEffect2();
     callback() {
       digital = Random().nextInt(14) + 1;
       setState(() {});
     }
 
-    await onDelayed(255, 3000, callback: callback);
+    callback();
+    await onDelayed(250, 3750, callback: callback);
 
     enable = true;
     if (target) {
@@ -254,37 +256,60 @@ class _FruitPageState extends State<FruitPage>
     } else {
       digital = 1 + Random().nextInt(7);
     }
-    setState(() {});
 
+    selected.clear();
     if (target == large) {
-      debugPrint("猜测正确 >>>");
+      bonus += bonus;
+      debugPrint("猜测【正确】 >>>>>>");
     } else {
-      debugPrint("猜测错误 <<<");
+      bonus = 0;
+      debugPrint("猜测【错误】 <<<<<<");
     }
+    setState(() {});
+  }
+
+  // target 为fruit的index
+  int bonusFn(int target) {
+    final fruit = fruits.firstWhere((f) => f.index == target);
+    if (fruit.category == Categories.candy) {
+      return 0;
+    }
+
+    return fruit.rate * bets[fruit.category]!;
   }
 
   // 开始押注
   void onStart() async {
     if (bonus > 0) {
-      total = total + bonus;
-      bonus = 0;
+      setState(() {
+        total = total + bonus;
+        bonus = 0;
+      });
+
+      return;
     }
 
+    int betTotal = 0;
+    if (bets.isNotEmpty) {
+      betTotal = bets.values.reduce((v, e) => v + e);
+    }
+
+    total -= betTotal;
     enable = false;
     setState(() {});
 
     result = fruits[Random().nextInt(fruits.length)].index;
-    result = 21; // TODO
+    // result = 3; // TODO
 
     // 如果是【糖果：🍬】，那么需要再随机给一个大奖
     Effects effect = Effects.invalid;
     List<int> extra = [];
     if (result == 21 || result == 27) {
       effect = Effects.values[Random().nextInt(Effects.values.length)];
-      effect = Effects.kaiHuoChe; // TODO
+      // effect = Effects.daManGuan; // TODO
       extra = Effects.invalid.getExtra(effect);
 
-      debugPrint("大奖【${effect.name}】，赠送小奖【${extra.join(",")}】");
+      debugPrint("大奖【${effect.name}】，赠送奖【${extra.join(",")}】");
     }
 
     // 服务端返回 {result:int, effect:Effects, extra:[1,2,3,...]}
@@ -317,7 +342,13 @@ class _FruitPageState extends State<FruitPage>
     // 如果是【龙王：🐲】，旋转结束时，播放特效
     if (result == 2 || result == 3) {
       _player.play(_source9);
-      await onDelayed(2000, 2000);
+      setState(() {
+        bonus += bonusFn(result);
+      });
+
+      await onDelayed(2500, 2500);
+    } else {
+      bonus += bonusFn(result);
     }
 
     setState(() {
@@ -346,6 +377,7 @@ class _FruitPageState extends State<FruitPage>
               selected.removeLast();
             }
 
+            bonus += bonusFn(target);
             _player.play(_source1);
             selected.add(target);
             surplus--;
@@ -362,8 +394,10 @@ class _FruitPageState extends State<FruitPage>
           }
           setState(() {});
 
-          await onDelayed(200, 200);
+          await onDelayed(300, 300);
         }
+
+        await onDelayed(2200, 2200);
       } else if ([Effects.daSanYuan, Effects.xiaoSanYuan, Effects.daSiXi]
           .contains(effect)) {
         debugPrint("大奖【${effect.name}】 => 播放音效");
@@ -378,6 +412,7 @@ class _FruitPageState extends State<FruitPage>
         for (var target in extra) {
           _player.play(_source9);
           setState(() {
+            bonus += bonusFn(target);
             selected.add(target);
           });
 
@@ -401,6 +436,7 @@ class _FruitPageState extends State<FruitPage>
         for (var target in extra) {
           _player.play(_source9);
           setState(() {
+            bonus += bonusFn(target);
             selected.add(target);
           });
 
@@ -411,7 +447,32 @@ class _FruitPageState extends State<FruitPage>
         _player.play(_source4);
         await onDelayed(3000, 3000);
 
-        debugPrint("TODO");
+        // 跑火车
+        final fs = fruits.reversed.map((f) => f.index).toList();
+        final f2s = List.generate(fs.length * 2, (i) => fs[i % fs.length]);
+
+        int startIndex = f2s.indexOf(result, 0);
+        final endIndex = f2s.indexOf(extra.last, 0);
+
+        for (var index = startIndex; index <= endIndex + 24; index++) {
+          _player.play(_source1);
+          setState(() {
+            selected
+              ..clear()
+              ..addAll(f2s.getRange(index, index + extra.length));
+          });
+
+          await onDelayed(350, 350);
+        }
+
+        for (var target in extra) {
+          _player.play(_source9);
+          setState(() {
+            bonus += bonusFn(target);
+          });
+
+          await onDelayed(2500, 2500);
+        }
       } else if (effect == Effects.daManGuan) {
         debugPrint("大奖【${effect.name}】 => 播放音效");
         final fs = fruits.map((fruit) => fruit.index);
@@ -447,6 +508,7 @@ class _FruitPageState extends State<FruitPage>
 
           _player.play(_source9);
           setState(() {
+            bonus += bonusFn(extra[i]);
             selected.add(extra[i]);
             debugPrint("你获得了${fruitsByIndex[extra[i]]?.category.name}");
           });
@@ -454,9 +516,10 @@ class _FruitPageState extends State<FruitPage>
           await onDelayed(2500, 2500);
         }
       }
+    } else if (result != 2 && result != 3) {
+      await onDelayed(1500, 1500);
     }
 
-    await onDelayed(1500, 1500);
     setState(() {
       debugPrint("执行结束");
       result = -1;
@@ -512,7 +575,7 @@ class _FruitPageState extends State<FruitPage>
     final target = fruits.indexWhere((fruit) => fruit.index == result);
 
     final newSelected = distance *
-        (24 * 3 + target.toDouble()) ~/
+        (24 * 2 + target.toDouble()) ~/
         (initial + 0.5 * acceleration) %
         24;
 
